@@ -1,0 +1,7 @@
+.next
+node_modules
+public
+playwright-report
+test-results
+src/content/capability-art.ts
+design

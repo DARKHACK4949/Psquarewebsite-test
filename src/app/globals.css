@@ -1,0 +1,262 @@
+@import "../styles/theme.css";
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: clip;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--plum);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--plum);
+  outline-offset: 3px;
+}
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+}
+
+::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+::selection {
+  background: oklch(0.9 0.06 318);
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Word-reveal pieces (see components/ui/SplitWords). Hidden only once JS is ready. */
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.04em 0.14em;
+  margin: 0 -0.04em -0.14em;
+}
+.split-word > span {
+  display: inline-block;
+  transform-origin: 0 100%;
+}
+
+@keyframes psqA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(14vw, 10vh, 0) scale(1.12);
+  }
+  66% {
+    transform: translate3d(-6vw, 18vh, 0) scale(0.94);
+  }
+}
+@keyframes psqB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(-16vw, -8vh, 0) scale(1.08);
+  }
+  75% {
+    transform: translate3d(-4vw, 12vh, 0) scale(0.92);
+  }
+}
+@keyframes psqC {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(10vw, -14vh, 0) scale(1.15);
+  }
+}
+
+/* Custom properties the capability illustrations interpolate. */
+@property --on {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --o {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --f {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --b {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --k {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --ty {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@keyframes sc_flow {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+@keyframes sc_navhop {
+  0%,
+  22% {
+    top: 26px;
+  }
+  25%,
+  47% {
+    top: 52px;
+  }
+  50%,
+  72% {
+    top: 78px;
+  }
+  75%,
+  97% {
+    top: 0;
+  }
+  100% {
+    top: 26px;
+  }
+}
+@keyframes sc_blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes sc_pkt {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 6px);
+    opacity: 0;
+  }
+}
+@keyframes sc_pulse {
+  50% {
+    box-shadow: 0 0 0 4px rgba(51, 1, 82, 0.14);
+  }
+}
+@keyframes sc_scan {
+  to {
+    top: 204px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bg-blob] {
+    animation: none !important;
+  }
+  [data-sc] * {
+    animation: none !important;
+    transition-duration: 0.25s !important;
+    transition-delay: 0s !important;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: -80px;
+  z-index: 1000;
+  padding: 12px 20px;
+  border-radius: var(--r-pill);
+  background: var(--plum);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: top var(--t-color) ease;
+}
+.skip-link:focus,
+.skip-link:hover {
+  top: 16px;
+  color: #fff;
+}
+
+main:focus {
+  outline: none;
+}

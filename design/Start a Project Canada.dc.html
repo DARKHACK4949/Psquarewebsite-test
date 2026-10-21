@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Get in touch | PSQUARE COMPANY Canada</title>
+<meta name="description" content="Book a product demo, start a bespoke build or get software consultancy from PSQUARE COMPANY.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&amp;family=Funnel+Sans:wght@300..800&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#fafaf8;color:#0f0e13;font-family:'Funnel Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+*{box-sizing:border-box}
+a{color:#0f0e13;text-decoration:none}
+a:hover{color:#330152}
+button,input,textarea,select{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid #330152;outline-offset:3px}
+input:focus-visible,textarea:focus-visible{outline:none}
+::placeholder{color:#6a6870;opacity:1}
+::selection{background:oklch(0.9 0.06 318)}
+@media (prefers-reduced-motion: reduce){*{transition-duration:.01ms !important}}
+</style>
+</helmet>
+
+<dc-import name="SiteNav" current="none" hint-size="100%,0px"></dc-import>
+
+<section data-screen-label="01 Hero" style="position:relative;overflow:hidden">
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:{{ auroraOp }};transition:opacity 2.4s ease">
+    <div style="position:absolute;right:-18vw;top:-38vw;width:max(90vw,900px);aspect-ratio:1.25;border-radius:50%;background:radial-gradient(closest-side,oklch(0.93 0.035 318 / 0.55),oklch(0.95 0.025 318 / 0.22) 50%,oklch(0.97 0.012 318 / 0) 100%);filter:blur(40px)"></div>
+  </div>
+  <div style="position:relative;z-index:1;max-width:1680px;margin:0 auto;padding:calc(80px + clamp(48px,7vw,112px)) clamp(20px,3.2vw,56px) clamp(64px,7vw,104px);display:grid;grid-template-columns:{{ cols }};column-gap:clamp(32px,7.5vw,128px);row-gap:clamp(28px,4vw,40px);align-items:end;justify-content:space-between">
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#330152;opacity:{{ fade }};transition:opacity .6s ease">Get in touch</span>
+      <h1 style="margin:0;font-family:'Funnel Display',sans-serif;font-weight:400;font-size:clamp(40px,4.6vw,80px);line-height:1.04;letter-spacing:-.045em;text-wrap:balance;max-width:14ch"><span style="display:inline-block;opacity:{{ wordO }};transform:{{ wordT }};transition:opacity .6s cubic-bezier(.25,.1,.25,1) .05s,transform .65s cubic-bezier(.16,1,.3,1) .05s">Tell us how your</span> <span style="display:inline-block;color:#330152;opacity:{{ wordO }};transform:{{ wordT }};transition:opacity .6s cubic-bezier(.25,.1,.25,1) .12s,transform .65s cubic-bezier(.16,1,.3,1) .12s">business works.</span></h1>
+    </div>
+    <p style="margin:0;width:100%;max-width:clamp(320px,30vw,440px);font-size:clamp(18px,1.4vw,21px);line-height:1.46;letter-spacing:-.01em;color:#4b4a52;text-wrap:pretty;opacity:{{ fade }};transform:{{ fadeT }};transition:opacity .6s ease .3s,transform .65s cubic-bezier(.16,1,.3,1) .3s">See a product, start a custom build or get a second opinion. Every enquiry is read by a person.</p>
+  </div>
+</section>
+
+<main data-screen-label="02 Form" style="max-width:1680px;margin:0 auto;padding:0 clamp(20px,3.2vw,56px) clamp(120px,14vw,208px);opacity:{{ fade }};transition:opacity .8s ease .45s">
+  <div style="display:grid;grid-template-columns:{{ cols }};column-gap:clamp(32px,7.5vw,128px);row-gap:64px;justify-content:space-between">
+
+    <div style="width:100%;min-width:0;padding:clamp(28px,3.6vw,64px);border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06);box-shadow:0 30px 60px -36px rgba(51,1,82,.24)">
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="display:flex;flex-direction:column;gap:24px;max-width:640px">
+          <span aria-hidden="true" style="width:48px;height:48px;border-radius:999px;background:oklch(0.95 0.02 318);color:#330152;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+          <h2 style="margin:0;font-family:'Funnel Display',sans-serif;font-weight:400;font-size:clamp(36px,4vw,64px);line-height:1.05;letter-spacing:-.045em;text-wrap:balance">Thanks, {{ firstName }}. <span style="color:#330152">We’ve got it.</span></h2>
+          <p style="margin:0;font-size:clamp(18px,1.4vw,21px);line-height:1.46;color:#4b4a52;max-width:44ch;text-wrap:pretty">We’ll reply to {{ f.email }} {{ sentNext }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;margin-top:8px">
+            <a href="PSquare Homepage Canada.dc.html" style="display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 24px 0 26px;border-radius:999px;background:#330152;color:#fff;font-size:16px;font-weight:500;letter-spacing:-.01em;white-space:nowrap;transition:box-shadow .4s ease,transform .5s cubic-bezier(.16,1,.3,1)" style-hover="color:#fff;transform:translateY(-1px);box-shadow:0 12px 28px rgba(51,1,82,.24)" style-active="transform:scale(.98)">Back to home <span aria-hidden="true">→</span></a>
+            <button type="button" onClick="{{ reset }}" style="font-size:16px;font-weight:500;padding:8px 0;border-bottom:1px solid rgba(15,14,19,.14);transition:color .25s ease,border-color .25s ease" style-hover="color:#330152;border-bottom-color:#330152">Send another</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ submit }}" novalidate="" style="display:flex;flex-direction:column;gap:48px">
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <span id="type-l" style="font-size:14px;font-weight:500;color:#0f0e13">I’m interested in</span>
+            <div role="radiogroup" aria-labelledby="type-l" onKeyDown="{{ typeKey }}" style="position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:min(100%,600px);padding:4px;border-radius:999px;background:#efedf2">
+              <span aria-hidden="true" style="position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px) / 3);border-radius:999px;background:#0f0e13;box-shadow:0 6px 16px -8px rgba(15,14,19,.5);transform:{{ knob }};transition:transform .5s cubic-bezier(.16,1,.3,1)"></span>
+              <sc-for list="{{ types }}" as="t" hint-placeholder-count="3">
+                <button type="button" role="radio" aria-checked="{{ t.checked }}" tabIndex="{{ t.ti }}" onClick="{{ t.pick }}" style="position:relative;height:44px;padding:0 8px;border-radius:999px;font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ t.fg }};transition:color .25s ease" style-active="transform:scale(.97)">{{ t.label }}</button>
+              </sc-for>
+            </div>
+            <span style="font-size:14px;line-height:1.5;color:#6a6870;text-wrap:pretty">{{ typeHint }}</span>
+          </div>
+
+          <sc-if value="{{ isBespoke }}" hint-placeholder-val="{{ true }}">
+            <div role="radiogroup" aria-labelledby="ind-l" style="display:flex;flex-direction:column;gap:12px">
+              <span id="ind-l" style="font-size:14px;font-weight:500;color:#0f0e13">Your industry <span style="font-weight:400;color:#6a6870">(optional)</span></span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ inds }}" as="z" hint-placeholder-count="4">
+                  <button type="button" role="radio" aria-checked="{{ z.checked }}" onClick="{{ z.pick }}" style="height:40px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:500;background:{{ z.bg }};color:{{ z.fg }};box-shadow:inset 0 0 0 1px {{ z.ring }};transition:background-color .25s ease,color .25s ease,box-shadow .25s ease" style-active="transform:scale(.97)">{{ z.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:28px">
+              <div role="group" aria-labelledby="prod-l" style="display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:4px 16px"><span id="prod-l" style="font-size:14px;font-weight:500;color:#0f0e13">Which product?</span><span style="font-size:14px;color:#6a6870">Pick one or more</span></div>
+                <div style="display:grid;grid-template-columns:{{ prodCols }};gap:12px">
+                  <sc-for list="{{ prods }}" as="p" hint-placeholder-count="3">
+                    <button type="button" role="checkbox" aria-checked="{{ p.checked }}" onClick="{{ p.toggle }}" style="display:flex;flex-direction:column;align-items:stretch;gap:16px;height:100%;padding:20px;border-radius:12px;text-align:left;background:{{ p.bg }};box-shadow:inset 0 0 0 {{ p.ring }};transition:background-color .25s ease,box-shadow .25s ease,transform .5s cubic-bezier(.16,1,.3,1)" style-hover="transform:translateY(-1px)" style-active="transform:scale(.98)">
+                      <span style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:{{ p.indFg }};transition:color .25s ease">{{ p.ind }}</span><span aria-hidden="true" style="flex:none;width:22px;height:22px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:{{ p.dotBg }};box-shadow:inset 0 0 0 1.5px {{ p.dotRing }};color:#fff;transition:background-color .25s ease,box-shadow .25s ease"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ p.tick }};transform:scale({{ p.tickS }});transition:opacity .25s ease,transform .5s cubic-bezier(.16,1,.3,1)"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span></span>
+                      <span style="display:flex;flex-direction:column;gap:6px"><span style="font-family:'Funnel Display',sans-serif;font-size:22px;line-height:1.15;letter-spacing:-.02em;color:#0f0e13">{{ p.name }}</span><span style="font-size:14px;line-height:1.45;color:#4b4a52;text-wrap:pretty">{{ p.d }}</span></span>
+                    </button>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ err.prod }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#330152">Pick at least one product so we can prepare the right demo.</span></sc-if>
+              </div>
+              <div role="radiogroup" aria-labelledby="size-l" style="display:flex;flex-direction:column;gap:12px">
+                <span id="size-l" style="font-size:14px;font-weight:500;color:#0f0e13">Team size <span style="font-weight:400;color:#6a6870">(optional)</span></span>
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ sizes }}" as="z" hint-placeholder-count="4">
+                    <button type="button" role="radio" aria-checked="{{ z.checked }}" onClick="{{ z.pick }}" style="height:40px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;background:{{ z.bg }};color:{{ z.fg }};box-shadow:inset 0 0 0 1px {{ z.ring }};transition:background-color .25s ease,color .25s ease,box-shadow .25s ease" style-active="transform:scale(.97)">{{ z.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:40px 32px">
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:500;color:#0f0e13">Full name</span><input type="text" name="name" autocomplete="name" required="" aria-invalid="{{ inv.name }}" value="{{ f.name }}" onChange="{{ on.name }}" placeholder="Your full name" style="width:100%;height:52px;padding:0;border:0;border-radius:0;border-bottom:1px solid {{ bd.name }};background:transparent;font-size:18px;color:#0f0e13;transition:border-color .25s ease,box-shadow .25s ease" style-focus="border-bottom-color:#330152;box-shadow:0 1px 0 #330152"><sc-if value="{{ err.name }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#330152">Please add your name.</span></sc-if></label>
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:500;color:#0f0e13">Work email</span><input type="email" name="email" autocomplete="email" required="" aria-invalid="{{ inv.email }}" value="{{ f.email }}" onChange="{{ on.email }}" placeholder="you@company.com" style="width:100%;height:52px;padding:0;border:0;border-radius:0;border-bottom:1px solid {{ bd.email }};background:transparent;font-size:18px;color:#0f0e13;transition:border-color .25s ease,box-shadow .25s ease" style-focus="border-bottom-color:#330152;box-shadow:0 1px 0 #330152"><sc-if value="{{ err.email }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#330152">Please add a valid email.</span></sc-if></label>
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:500;color:#0f0e13">Company <span style="font-weight:400;color:#6a6870">(optional)</span></span><input type="text" name="company" autocomplete="organization" value="{{ f.company }}" onChange="{{ on.company }}" placeholder="Company name" style="width:100%;height:52px;padding:0;border:0;border-radius:0;border-bottom:1px solid rgba(15,14,19,.14);background:transparent;font-size:18px;color:#0f0e13;transition:border-color .25s ease,box-shadow .25s ease" style-focus="border-bottom-color:#330152;box-shadow:0 1px 0 #330152"></label>
+            <div style="display:flex;flex-direction:column;gap:8px"><span id="ph-l" style="font-size:14px;font-weight:500;color:#0f0e13">Phone <span style="font-weight:400;color:#6a6870">(optional)</span></span>
+              <div style="display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px">
+                <label style="position:relative;display:block"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Country code</span><select name="dial" value="{{ f.dial }}" onChange="{{ on.dial }}" style="appearance:none;-webkit-appearance:none;width:100%;height:52px;padding:0 20px 0 0;border:0;border-radius:0;border-bottom:1px solid rgba(15,14,19,.14);background:transparent;font-size:18px;color:#0f0e13;cursor:pointer;transition:border-color .25s ease,box-shadow .25s ease" style-focus="border-bottom-color:#330152;box-shadow:0 1px 0 #330152;outline:none"><option value="+1">+1</option><option value="+44">+44</option><option value="+61">+61</option><option value="+91">+91</option><option value="+971">+971</option></select><span aria-hidden="true" style="position:absolute;right:4px;top:50%;width:7px;height:7px;border-right:1.5px solid #4b4a52;border-bottom:1.5px solid #4b4a52;transform:translateY(-70%) rotate(45deg);pointer-events:none"></span></label>
+                <input type="tel" name="phone" aria-labelledby="ph-l" autocomplete="tel-national" value="{{ f.phone }}" onChange="{{ on.phone }}" placeholder="416 555 0142" style="width:100%;height:52px;padding:0;border:0;border-radius:0;border-bottom:1px solid rgba(15,14,19,.14);background:transparent;font-size:18px;color:#0f0e13;transition:border-color .25s ease,box-shadow .25s ease" style-focus="border-bottom-color:#330152;box-shadow:0 1px 0 #330152">
+              </div>
+            </div>
+          </div>
+
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:500;color:#0f0e13">{{ msgLabel }} <sc-if value="{{ msgOptional }}" hint-placeholder-val="{{ false }}"><span style="font-weight:400;color:#6a6870">(optional)</span></sc-if></span><textarea name="message" rows="4" aria-invalid="{{ inv.message }}" value="{{ f.message }}" onChange="{{ on.message }}" placeholder="{{ msgPh }}" style="width:100%;min-height:120px;padding:14px 0;border:0;border-radius:0;border-bottom:1px solid {{ bd.message }};background:transparent;font-size:18px;line-height:1.5;color:#0f0e13;resize:vertical;transition:border-color .25s ease,box-shadow .25s ease" style-focus="border-bottom-color:#330152;box-shadow:0 1px 0 #330152"></textarea><sc-if value="{{ err.message }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#330152">A sentence or two helps us prepare.</span></sc-if></label>
+
+          <sc-if value="{{ showFile }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <span style="font-size:14px;font-weight:500;color:#0f0e13">Attachment <span style="font-weight:400;color:#6a6870">(optional)</span></span>
+              <input ref="{{ fileRef }}" type="file" name="brief" accept=".pdf,.doc,.docx,.ppt,.pptx,.key,.png,.jpg" onChange="{{ onFile }}" style="display:none">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px">
+                <sc-if value="{{ noFile }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ pickFile }}" style="height:40px;padding:0 18px;border-radius:999px;border:1px dashed rgba(15,14,19,.14);display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#0f0e13;transition:border-color .25s ease,color .25s ease,background-color .25s ease" style-hover="border-color:#330152;color:#330152;background-color:oklch(0.95 0.02 318)" style-active="transform:scale(.97)"><span aria-hidden="true" style="font-size:18px;line-height:1">+</span> Add a brief</button></sc-if>
+                <sc-if value="{{ hasFile }}" hint-placeholder-val="{{ false }}"><span style="height:40px;padding:0 8px 0 18px;border-radius:999px;background:oklch(0.95 0.02 318);color:#330152;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;max-width:100%"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:280px">{{ fileName }}</span><button type="button" aria-label="Remove file" onClick="{{ clearFile }}" style="width:28px;height:28px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;line-height:1;color:#330152;transition:background-color .25s ease" style-hover="background-color:rgba(51,1,82,.08)">×</button></span></sc-if>
+                <span style="font-size:14px;color:#6a6870">PDF, deck or doc. Up to 10 MB.</span>
+              </div>
+              <sc-if value="{{ err.file }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:14px;color:#330152">That file is over 10 MB. Try a smaller one or email it to us.</span></sc-if>
+            </div>
+          </sc-if>
+
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px;padding-top:32px;border-top:1px solid rgba(15,14,19,.1)">
+            <span style="font-size:14px;line-height:1.5;color:#6a6870;max-width:40ch">We only use your details to reply. <a href="https://psquarecompany.com/privacy-policy-2" style="color:#4b4a52;text-decoration:underline;text-underline-offset:3px">Privacy policy</a></span>
+            <button type="submit" onMouseEnter="{{ subIn }}" onMouseLeave="{{ subOut }}" style="display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px 0 26px;border-radius:999px;background:#330152;color:#fff;font-size:16px;font-weight:500;letter-spacing:-.01em;white-space:nowrap;opacity:{{ subOp }};transition:box-shadow .4s ease,transform .5s cubic-bezier(.16,1,.3,1),opacity .25s ease" style-hover="transform:translateY(-1px);box-shadow:0 12px 28px rgba(51,1,82,.24)" style-active="transform:scale(.98)">{{ subLabel }} <span aria-hidden="true" style="display:inline-block;transform:{{ subArrow }};transition:transform .5s cubic-bezier(.16,1,.3,1)">→</span></button>
+          </div>
+        </form>
+      </sc-if>
+    </div>
+
+    <aside style="position:{{ asidePos }};top:120px;align-self:start;width:100%;max-width:clamp(320px,30vw,440px);padding-top:{{ asidePad }};display:flex;flex-direction:column;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:14px;color:#6a6870">What happens next</span>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:#4b4a52;text-wrap:pretty">{{ asideNext }}</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding-top:32px;border-top:1px solid rgba(15,14,19,.1)">
+        <span style="font-size:14px;color:#6a6870">Prefer email?</span>
+        <a href="mailto:info@psquarecompany.com" style="align-self:flex-start;padding:6px 0;font-size:18px;font-weight:500;border-bottom:1px solid rgba(15,14,19,.14);transition:color .25s ease,border-color .25s ease" style-hover="color:#330152;border-bottom-color:#330152">info@psquarecompany.com</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<dc-import name="SiteFooter" hint-size="100%,480px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  T = [
+    { k: 'bespoke', name: 'Bespoke development', short: 'Bespoke', hint: 'Custom software built around how your business runs.', msg: 'What do you need built?', ph: 'We track site requests in spreadsheets and approvals take days.', next: 'to set up a first consultation.', sub: 'Send enquiry', aside: 'A member of our team reads every enquiry and replies personally. On the first call we map how your operation runs today and where it slows down. Then we send a clear proposal.', req: true, file: true },
+    { k: 'products', name: 'Our products', short: 'Products', hint: 'See one of our platforms running on a workflow like yours.', msg: 'Anything we should know before the demo?', ph: 'We dispatch technicians by phone and track visits on paper.', next: 'to schedule your demo.', sub: 'Book a demo', aside: 'We set up a live walkthrough shaped around how your team works today, then answer questions on setup, migration and pricing.', req: false, file: false },
+    { k: 'consulting', name: 'Software consultancy', short: 'Consultancy', hint: 'Independent advice on systems, architecture and what to build next.', msg: 'What should we help you think through?', ph: 'We are deciding between extending our ERP and building a field app.', next: 'to arrange a consultation.', sub: 'Request a consultation', aside: 'A senior consultant reviews your note, then meets you to work through the question, the options and the trade-offs.', req: true, file: true }
+  ];
+  P = [
+    { k: 'sline-sales', name: 'Sline Sales', ind: 'Sales', d: 'Leads, quotes and orders for elevator companies.' },
+    { k: 'arcgrow', name: 'ArcGrow', ind: 'Studios', d: 'Projects, teams and deadlines for design studios.' },
+    { k: 'sline-services', name: 'Sline Services', ind: 'Service', d: 'Breakdowns, dispatch and visits for elevator service.' }
+  ];
+  SIZES = ['1-10', '11-50', '51-200', '200+'];
+  INDS = ['Field service management', 'Architecture', 'Realtors & real estate', 'Something else'];
+  fromHash() {
+    const h = (window.location.hash || '').slice(1);
+    if (this.P.some(p => p.k === h)) return { type: 'products', products: [h] };
+    if (this.T.some(t => t.k === h)) return { type: h, products: [] };
+    return { type: 'bespoke', products: [] };
+  }
+  blank = () => Object.assign({ name: '', email: '', dial: '+1', phone: '', company: '', message: '', size: '', industry: '', file: null }, this.fromHash());
+  fileRef = React.createRef();
+  state = { f: this.blank(), vw: window.innerWidth, shown: false, tried: false, sent: false, sending: false };
+  componentDidMount() {
+    this.onRs = () => this.setState({ vw: window.innerWidth }); window.addEventListener('resize', this.onRs);
+    this.onHash = () => { const h = this.fromHash(); this.setState(s => ({ f: { ...s.f, type: h.type, products: h.products.length ? h.products : s.f.products } })); }; window.addEventListener('hashchange', this.onHash);
+    this.showT = setTimeout(() => this.setState({ shown: true }), 60);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onRs); window.removeEventListener('hashchange', this.onHash); clearTimeout(this.showT); clearTimeout(this.sendT); }
+  set(k, v) { this.setState(s => ({ f: { ...s.f, [k]: v } })); }
+  pickType(k) { this.setState({ tried: false }); this.set('type', k); try { history.replaceState(null, '', k === 'bespoke' ? window.location.pathname : '#' + k); } catch (e) {} }
+  cur() { return this.T.find(t => t.k === this.state.f.type) || this.T[0]; }
+  errors() {
+    const f = this.state.f, t = this.cur();
+    return { name: !f.name.trim(), email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim()), message: t.req && f.message.trim().length < 8, prod: f.type === 'products' && !f.products.length };
+  }
+  renderVals() {
+    const s = this.state, f = s.f, vw = s.vw || 1440, sh = s.shown;
+    const idx = Math.max(0, this.T.findIndex(t => t.k === f.type)), t = this.T[idx];
+    const e = this.errors(), err = { name: s.tried && e.name, email: s.tried && e.email, message: s.tried && e.message, prod: s.tried && e.prod, file: !!s.fileErr };
+    const B = 'rgba(15,14,19,.14)', bd = { name: err.name ? '#330152' : B, email: err.email ? '#330152' : B, message: err.message ? '#330152' : B };
+    const inv = { name: err.name ? 'true' : 'false', email: err.email ? 'true' : 'false', message: err.message ? 'true' : 'false' };
+    const on = {}; ['name', 'email', 'dial', 'phone', 'company', 'message'].forEach(k => { on[k] = (ev) => this.set(k, ev.target.value); });
+    const cl = (a, v, b) => Math.min(b, Math.max(a, v)); const gut = cl(20, vw * .032, 56); const card = vw < 900 ? vw - 2 * gut : vw - 2 * gut - cl(320, vw * .3, 440) - cl(32, vw * .075, 128); const inner = Math.min(card, 1680) - 2 * cl(28, vw * .036, 64); const compact = inner < 500;
+    return {
+      f, err, bd, on, inv, sent: s.sent, notSent: !s.sent, firstName: f.name.trim().split(' ')[0] || 'there',
+      auroraOp: sh ? 1 : 0, wordO: sh ? 1 : 0, wordT: sh ? 'translateY(0)' : 'translateY(0.35em)', fade: sh ? 1 : 0, fadeT: sh ? 'translateY(0)' : 'translateY(14px)',
+      cols: vw < 900 ? 'minmax(0,1fr)' : 'minmax(0,1fr) clamp(320px,30vw,440px)',
+      asidePos: vw < 900 ? 'static' : 'sticky', asidePad: vw < 900 ? '0px' : 'clamp(28px,3.6vw,64px)',
+      types: this.T.map((x, i) => ({ label: compact ? x.short : x.name, checked: i === idx ? 'true' : 'false', ti: i === idx ? 0 : -1, fg: i === idx ? '#fff' : '#4b4a52', pick: () => this.pickType(x.k) })),
+      typeKey: (ev) => { const d = ev.key === 'ArrowRight' || ev.key === 'ArrowDown' ? 1 : ev.key === 'ArrowLeft' || ev.key === 'ArrowUp' ? -1 : 0; if (!d) return; ev.preventDefault(); const n = (idx + d + this.T.length) % this.T.length; this.pickType(this.T[n].k); const btns = ev.currentTarget.querySelectorAll('[role=radio]'); if (btns[n]) btns[n].focus(); },
+      knob: 'translateX(' + (idx * 100) + '%)', typeHint: t.hint,
+      isProducts: f.type === 'products', isBespoke: f.type === 'bespoke', inds: this.INDS.map(z => { const on = f.industry === z; return { label: z, checked: on ? 'true' : 'false', bg: on ? '#0f0e13' : '#fff', fg: on ? '#fff' : '#4b4a52', ring: on ? '#0f0e13' : 'rgba(15,14,19,.14)', pick: () => this.set('industry', on ? '' : z) }; }), prodCols: inner >= 560 ? 'repeat(3,minmax(0,1fr))' : 'minmax(0,1fr)',
+      prods: this.P.map(p => { const on = f.products.includes(p.k); return { name: p.name, ind: p.ind, d: p.d, checked: on ? 'true' : 'false', bg: on ? 'oklch(0.95 0.02 318)' : '#fff', ring: on ? '1.5px #330152' : '1px rgba(15,14,19,.14)', indFg: on ? '#330152' : '#6a6870', dotBg: on ? '#330152' : '#fff', dotRing: on ? '#330152' : 'rgba(15,14,19,.24)', tick: on ? 1 : 0, tickS: on ? 1 : 0.6, toggle: () => this.set('products', on ? f.products.filter(k => k !== p.k) : f.products.concat(p.k)) }; }),
+      sizes: this.SIZES.map(z => { const on = f.size === z; return { label: z, checked: on ? 'true' : 'false', bg: on ? '#0f0e13' : '#fff', fg: on ? '#fff' : '#4b4a52', ring: on ? '#0f0e13' : 'rgba(15,14,19,.14)', pick: () => this.set('size', on ? '' : z) }; }),
+      msgLabel: t.msg, msgPh: t.ph, msgOptional: !t.req, showFile: t.file, sentNext: t.next, asideNext: t.aside,
+      fileRef: this.fileRef, hasFile: !!f.file, noFile: !f.file, fileName: f.file ? f.file.name : '',
+      pickFile: () => { const i = this.fileRef.current; if (i) i.click(); },
+      onFile: (ev) => { const fl = ev.target.files && ev.target.files[0]; if (!fl) return; if (fl.size > 10 * 1024 * 1024) { this.setState({ fileErr: true }); ev.target.value = ''; return; } this.setState({ fileErr: false }); this.set('file', fl); },
+      clearFile: () => { const i = this.fileRef.current; if (i) i.value = ''; this.setState({ fileErr: false }); this.set('file', null); },
+      subLabel: s.sending ? 'Sending…' : t.sub, subOp: s.sending ? 0.7 : 1,
+      subArrow: s.subH ? 'translateX(3px)' : 'translateX(0)', subIn: () => this.setState({ subH: true }), subOut: () => this.setState({ subH: false }),
+      submit: (ev) => {
+        ev.preventDefault();
+        if (this.state.sending) return;
+        const hp = ev.target.elements && ev.target.elements.company_website; if (hp && hp.value) return;
+        if (Object.values(this.errors()).some(Boolean)) { this.setState({ tried: true }); return; }
+        // Connect at launch: POST { ...this.state.f } (type, products[], size, contact fields) to the form endpoint.
+        this.setState({ sending: true });
+        this.sendT = setTimeout(() => { this.setState({ sending: false, sent: true }); window.scrollTo({ top: 0, behavior: 'smooth' }); }, 900);
+      },
+      reset: () => this.setState({ f: this.blank(), sent: false, tried: false, fileErr: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

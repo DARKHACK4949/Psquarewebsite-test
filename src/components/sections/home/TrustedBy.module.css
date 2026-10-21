@@ -1,0 +1,81 @@
+.section {
+  padding: var(--section) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 4vw, 56px);
+}
+.head {
+  max-width: var(--container);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px 64px;
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  max-width: 20ch;
+  text-wrap: balance;
+}
+.stage {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.set {
+  display: flex;
+  align-items: center;
+}
+.cell {
+  flex: none;
+  height: clamp(80px, 7vw, 104px);
+  padding: 0 clamp(28px, 3.4vw, 56px);
+  display: flex;
+  align-items: center;
+}
+.logo {
+  display: block;
+  width: auto;
+  filter: grayscale(1);
+  opacity: 0.62;
+  transition:
+    filter 0.4s ease,
+    opacity 0.4s ease;
+}
+.logo:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* Reduced motion: no marquee; one static, wrapping row. */
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .track {
+    width: auto;
+    justify-content: center;
+  }
+  .set {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .set[aria-hidden] {
+    display: none;
+  }
+}

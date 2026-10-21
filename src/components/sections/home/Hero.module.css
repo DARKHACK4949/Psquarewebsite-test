@@ -1,0 +1,359 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  transform-origin: 50% 40%;
+  --k: 0;
+  --vw: 100vw;
+  --vh: 100vh;
+}
+
+.aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.glowWrap {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.glow {
+  position: absolute;
+  right: -18vw;
+  top: -38vw;
+  width: max(90vw, 900px);
+  aspect-ratio: 1.25;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    oklch(0.93 0.035 318 / 0.55),
+    oklch(0.95 0.025 318 / 0.22) 50%,
+    oklch(0.97 0.012 318 / 0) 100%
+  );
+  filter: blur(40px);
+}
+.ambient {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.blobA,
+.blobB,
+.blobC {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+.blobA {
+  left: -12vw;
+  top: -18vh;
+  width: 58vw;
+  height: 58vw;
+  background: radial-gradient(closest-side, oklch(0.9 0.06 318 / 0.4), transparent);
+  animation: psqA 46s ease-in-out infinite;
+}
+.blobB {
+  right: -14vw;
+  top: 24vh;
+  width: 52vw;
+  height: 52vw;
+  background: radial-gradient(closest-side, oklch(0.92 0.05 290 / 0.4), transparent);
+  animation: psqB 58s ease-in-out infinite;
+}
+.blobC {
+  left: 18vw;
+  bottom: -20vh;
+  width: 44vw;
+  height: 44vw;
+  background: radial-gradient(closest-side, oklch(0.95 0.04 60 / 0.45), transparent);
+  animation: psqC 64s ease-in-out infinite;
+}
+
+.fogFallback,
+.fog {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 35%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 35%, #000 100%);
+}
+.fogFallback {
+  background: radial-gradient(60% 50% at 30% 70%, rgba(205, 184, 227, 0.35), transparent 70%);
+}
+.fog {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: calc(80px + clamp(16px, 3vh, 40px)) var(--gutter) 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--hero-gap);
+  row-gap: clamp(28px, 4vw, 40px);
+  align-items: end;
+  align-content: center;
+  justify-content: space-between;
+}
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: max-content var(--aside-w);
+    min-height: max(
+      380px,
+      calc(
+        100svh - 80px - clamp(16px, 3vh, 40px) - clamp(32px, 4vw, 64px) - clamp(110px, 17vh, 190px)
+      )
+    );
+    padding-bottom: max(
+      0px,
+      calc(
+        clamp(96px, 12vh, 150px) + clamp(40px, 17vh, 170px) - clamp(32px, 4vw, 64px) -
+          clamp(110px, 17vh, 190px)
+      )
+    );
+  }
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h1);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  text-wrap: balance;
+  font-feature-settings: "kern" 1;
+}
+.h1 [data-hero-word] {
+  display: inline-block;
+}
+@media (min-width: 900px) {
+  .line {
+    display: block;
+    white-space: nowrap;
+  }
+}
+.accent {
+  color: var(--plum);
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 2.2vw, 32px);
+  width: 100%;
+  max-width: var(--aside-w);
+}
+@media (min-width: 900px) {
+  .right {
+    padding-bottom: calc(clamp(40px, 4.6vw, 80px) * 0.14);
+  }
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: 1.46;
+  letter-spacing: -0.01em;
+  color: var(--body);
+  text-wrap: pretty;
+}
+.ctas {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px 32px;
+}
+@media (min-width: 560px) {
+  .ctas {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* Showreel card: grows toward full-bleed as it scrolls into view (--k: 0 → 1). */
+.reel {
+  --m1: clamp(12px, 1.6vw, 24px);
+  --w0: 0.93;
+  --wf: 0.92;
+  --r0: 18px;
+  --r1: 14px;
+  --gap: clamp(48px, 10vw, 64px);
+  --wend: min(var(--vw) - 2 * var(--m1), (var(--vh) - 2 * var(--m1)) * 16 / 9);
+  --wstart: min(var(--vw) * var(--w0), var(--wend) * var(--wf));
+  --w: calc(var(--wstart) + (var(--wend) - var(--wstart)) * var(--k));
+  position: relative;
+  width: var(--w);
+  margin-left: calc((100% - var(--w)) / 2);
+  margin-top: calc(var(--gap) * (1 - 0.45 * var(--k)));
+  aspect-ratio: 16 / 9;
+  border-radius: calc(var(--r0) + (var(--r1) - var(--r0)) * var(--k));
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 30px 60px -36px rgba(51, 1, 82, calc(0.28 * (1 - var(--k))));
+  background: var(--plum-tint);
+}
+@media (min-width: 640px) {
+  .reel {
+    --w0: 0.9;
+    --r0: 24px;
+    --r1: 18px;
+  }
+}
+@media (min-width: 900px) {
+  .reel {
+    --gap: clamp(32px, 4vw, 64px);
+  }
+}
+@media (min-width: 1024px) {
+  .reel {
+    --w0: 0.8;
+    --wf: 0.82;
+    --r0: 32px;
+    --r1: 24px;
+  }
+}
+
+.reelBtn {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) {
+  .reelBtn {
+    cursor: none;
+  }
+}
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.shade {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 45%;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(20, 4, 34, 0), rgba(20, 4, 34, 0.5));
+}
+
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  pointer-events: none;
+  will-change: transform;
+}
+.cursorPill {
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 6px 18px 6px 6px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  box-shadow:
+    0 12px 32px -10px rgba(8, 4, 20, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+}
+.cursorOn {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+.cursorPlay {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--plum);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cursorPlay span {
+  width: 0;
+  height: 0;
+  margin-left: 3px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid #fff;
+}
+
+/* Entrance: CSS-only so it starts on first paint (good LCP), paused while the intro covers the page. */
+@keyframes heroRise {
+  from {
+    opacity: 0.01;
+    transform: translateY(35%);
+  }
+}
+@keyframes heroFade {
+  from {
+    opacity: 0.01;
+    transform: translateY(14px);
+  }
+}
+@keyframes heroReel {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@keyframes heroAurora {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .h1 [data-hero-word] {
+    animation: heroRise var(--t-reveal) var(--ease) backwards;
+    animation-delay: calc(0.05s + var(--i, 0) * 0.07s);
+  }
+  .lead {
+    animation: heroFade var(--t-reveal) var(--ease) 0.3s backwards;
+  }
+  .ctas {
+    animation: heroFade var(--t-reveal) var(--ease) 0.4s backwards;
+  }
+  .reel {
+    animation: heroReel 1.4s var(--ease) 0.7s backwards;
+  }
+  .aurora {
+    animation: heroAurora 2.4s linear backwards;
+  }
+  :global(html[data-intro="run"]) .hero * {
+    animation-play-state: paused;
+  }
+}

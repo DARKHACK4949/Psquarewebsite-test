@@ -1,0 +1,91 @@
+.root {
+  display: none;
+}
+:global(html[data-intro="run"]) .root,
+:global(html[data-intro="reveal"]) .root {
+  display: block;
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--plum);
+}
+.ring {
+  position: fixed;
+  inset: 0;
+  z-index: 101;
+  background: var(--plum-tint);
+  opacity: 0;
+  clip-path: inset(50%);
+  will-change: clip-path;
+}
+.fill {
+  position: fixed;
+  inset: 0;
+  z-index: 102;
+  background: var(--plum);
+  clip-path: inset(50%);
+  will-change: clip-path;
+}
+.fg {
+  position: fixed;
+  inset: 0;
+  z-index: 105;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.lock {
+  display: flex;
+  align-items: center;
+  font-size: clamp(19px, 5vw, 34px);
+  height: 2em;
+  will-change: transform;
+}
+.tile {
+  width: 2em;
+  height: 2em;
+  flex: none;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.0714);
+  will-change: transform;
+}
+.tile img {
+  width: 64%;
+  height: 64%;
+  display: block;
+  opacity: 0;
+}
+.word {
+  display: flex;
+  padding: 0 0.7em 0 0.65em;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1em;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--plum-tint);
+  white-space: nowrap;
+}
+.clip {
+  display: inline-block;
+  overflow: hidden;
+  padding: 3px 0;
+  margin: -3px 0;
+  vertical-align: top;
+}
+.clip span {
+  display: inline-block;
+  transform: translateY(100%);
+}
+.gap {
+  display: inline-block;
+  width: 0.42em;
+}

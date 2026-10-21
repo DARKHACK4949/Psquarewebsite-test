@@ -1,0 +1,70 @@
+.banner {
+  position: fixed;
+  left: clamp(12px, 1.6vw, 24px);
+  bottom: clamp(12px, 1.6vw, 24px);
+  z-index: 90;
+  width: min(420px, calc(100vw - 24px));
+  padding: 20px 20px 16px;
+  border-radius: var(--r-card);
+  background: var(--surface);
+  border: 1px solid rgba(15, 14, 19, 0.06);
+  box-shadow:
+    var(--card-shadow),
+    0 1px 2px rgba(15, 14, 19, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.text {
+  margin: 0;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--body);
+}
+.text a {
+  color: var(--body);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.decline {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  transition:
+    color var(--t-color) ease,
+    border-color var(--t-color) ease;
+}
+.decline:hover {
+  color: var(--plum);
+  border-bottom-color: var(--plum);
+}
+
+.accept {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  background: var(--plum);
+  color: #fff;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.35s var(--ease);
+}
+.accept:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(51, 1, 82, 0.24);
+}
+.accept:active {
+  transform: scale(0.97);
+}

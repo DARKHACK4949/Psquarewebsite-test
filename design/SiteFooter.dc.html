@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&amp;family=Funnel+Sans:wght@300..800&amp;display=swap" rel="stylesheet">
+</helmet>
+<footer style="max-width:1680px;margin:0 auto;padding:0 clamp(12px,1.6vw,24px) clamp(12px,1.6vw,24px)">
+  <div style="display:flex;flex-direction:column;gap:clamp(40px,4.5vw,64px);padding:clamp(32px,4vw,64px) clamp(24px,3.6vw,64px) clamp(24px,2.4vw,32px);border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06);box-shadow:0 30px 60px -36px rgba(51,1,82,.16)">
+    <div style="display:grid;grid-template-columns:{{ topCols }};gap:48px clamp(40px,6vw,120px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:20px;max-width:440px">
+        <a href="PSquare Homepage v7.dc.html" aria-label="PSQUARE COMPANY home" style="align-self:flex-start;display:flex;align-items:center;gap:10px;font-family:'Funnel Display',sans-serif;font-weight:600;font-size:18px;letter-spacing:.02em;color:#0f0e13"><img src="assets/psquare-mark.svg" alt="" width="34" height="34" style="width:34px;height:34px;display:block">PSQUARE COMPANY</a>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:#4b4a52;text-wrap:pretty">Software, designed around how your business actually works.</p>
+        <a href="mailto:info@psquarecompany.com" style="align-self:flex-start;padding:4px 0;font-size:16px;font-weight:500;color:#0f0e13;border-bottom:1px solid rgba(15,14,19,.14);transition:color .25s ease,border-color .25s ease" style-hover="color:#330152;border-bottom-color:#330152">info@psquarecompany.com</a>
+      </div>
+      <nav aria-label="Footer" style="display:grid;grid-template-columns:{{ navCols }};gap:32px clamp(32px,4vw,72px)">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:14px;font-weight:600;color:#0f0e13;padding-bottom:8px">Explore</span>
+          <a href="Work.dc.html" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Work</a>
+          <a href="Solutions.dc.html" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Solutions</a>
+          <a href="Industries.dc.html" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Industries</a>
+          <a href="Capabilities.dc.html" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Capabilities</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:14px;font-weight:600;color:#0f0e13;padding-bottom:8px">Company</span>
+          <a href="About.dc.html" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">About</a>
+          <a href="Careers.dc.html" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Careers</a>
+          <a href="Start a Project.dc.html" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Start a project</a>
+          <a href="Start a Project.dc.html#partner" style="padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Partner with us</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:14px;font-weight:600;color:#0f0e13;padding-bottom:8px">Follow</span>
+          <a href="https://www.linkedin.com/company/psquare-company/" style="display:inline-flex;gap:6px;padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">LinkedIn</a>
+          <a href="https://www.instagram.com/psquarecompany/" style="display:inline-flex;gap:6px;padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Instagram</a>
+          <a href="https://youtube.com/@psquarecompany" style="display:inline-flex;gap:6px;padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">YouTube</a>
+          <a href="https://www.facebook.com/Psquarecompanyy/" style="display:inline-flex;gap:6px;padding:6px 0;font-size:16px;color:#4b4a52;transition:color .25s ease" style-hover="color:#330152">Facebook</a>
+        </div>
+      </nav>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 32px;padding-top:24px;border-top:1px solid rgba(15,14,19,.1);font-size:14px;color:#6a6870">
+      <span>© 2026 PSQUARE COMPANY. All rights reserved.</span>
+      <div style="display:flex;flex-wrap:wrap;gap:4px 24px">
+        <a href="https://psquarecompany.com/privacy-policy-2" style="padding:8px 0;color:#4b4a52;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(15,14,19,.14);transition:color .25s ease" style-hover="color:#330152">Privacy policy</a>
+        <a href="Terms.dc.html" style="padding:8px 0;color:#4b4a52;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(15,14,19,.14);transition:color .25s ease" style-hover="color:#330152">Terms of service</a>
+        <a href="Sitemap.dc.html" style="padding:8px 0;color:#4b4a52;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(15,14,19,.14);transition:color .25s ease" style-hover="color:#330152">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:480}}">
+class Component extends DCLogic {
+  state = { vw: window.innerWidth };
+  componentDidMount() { this.onRs = () => this.setState({ vw: window.innerWidth }); window.addEventListener('resize', this.onRs); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onRs); }
+  renderVals() {
+    const vw = this.state.vw || 1440;
+    return { topCols: vw < 960 ? 'minmax(0,1fr)' : 'minmax(0,1fr) auto', navCols: vw < 560 ? 'repeat(2,minmax(0,1fr))' : 'repeat(3,max-content)' };
+  }
+}
+</script>
+</body>
+</html>

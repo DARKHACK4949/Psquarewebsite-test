@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&amp;family=Funnel+Sans:wght@300..800&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#fafaf8;color:#0f0e13;font-family:'Funnel Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#0f0e13;text-decoration:none}
+a:hover{color:#330152}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid #330152;outline-offset:3px}
+</style>
+</helmet>
+<main style="max-width:1680px;margin:0 auto;padding:clamp(56px,6vw,96px) clamp(20px,3.2vw,56px) clamp(96px,10vw,160px);display:flex;flex-direction:column;gap:clamp(72px,8vw,120px)">
+  <header style="display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;align-items:center;gap:10px"><img src="assets/psquare-mark.svg" alt="" width="34" height="34" style="width:34px;height:34px;display:block"><span style="font-family:'Funnel Display',sans-serif;font-weight:600;font-size:18px;letter-spacing:.02em">PSQUARE COMPANY</span></div>
+    <span style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#330152">Design system</span>
+    <h1 style="margin:0;font-family:'Funnel Display',sans-serif;font-weight:400;font-size:clamp(40px,4.6vw,80px);line-height:1.04;letter-spacing:-.045em;max-width:16ch;text-wrap:balance">Everything the site is built from. <span style="color:#330152">Nothing else.</span></h1>
+    <p style="margin:0;font-size:clamp(18px,1.4vw,21px);line-height:1.46;color:#4b4a52;max-width:52ch">Extracted from the homepage, Work and Case Study pages. Every new page uses these tokens and components only.</p>
+  </header>
+
+  <section style="display:flex;flex-direction:column;gap:32px">
+    <h2 style="margin:0;padding-top:28px;border-top:1px solid rgba(15,14,19,.1);font-family:'Funnel Display',sans-serif;font-weight:400;font-size:clamp(26px,2.2vw,32px);letter-spacing:-.025em">01 Color</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px">
+      <sc-for list="{{ colors }}" as="c" hint-placeholder-count="10">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="height:112px;border-radius:16px;background:{{ c.v }};border:1px solid rgba(15,14,19,.08)"></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:500">{{ c.n }}</span><span style="font-size:14px;color:#6a6870;font-variant-numeric:tabular-nums">{{ c.v }}</span><span style="font-size:14px;color:#4b4a52">{{ c.u }}</span></div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:32px">
+    <h2 style="margin:0;padding-top:28px;border-top:1px solid rgba(15,14,19,.1);font-family:'Funnel Display',sans-serif;font-weight:400;font-size:clamp(26px,2.2vw,32px);letter-spacing:-.025em">02 Type</h2>
+    <p style="margin:0;font-size:16px;line-height:1.6;color:#4b4a52">Funnel Display for headings (weight 400). Funnel Sans for UI and body.</p>
+    <div style="display:flex;flex-direction:column">
+      <div style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(15,14,19,.1)"><span style="font-size:14px;color:#6a6870">Display H1<br>clamp(40,4.6vw,80) · 1.04 · −.045em</span><span style="font-family:'Funnel Display',sans-serif;font-size:clamp(40px,4.6vw,80px);line-height:1.04;letter-spacing:-.045em">Software, designed <span style="color:#330152">around you.</span></span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(15,14,19,.1)"><span style="font-size:14px;color:#6a6870">Section H2<br>clamp(36,4vw,64) · 1.05 · −.045em</span><span style="font-family:'Funnel Display',sans-serif;font-size:clamp(36px,4vw,64px);line-height:1.05;letter-spacing:-.045em">The work behind the work.</span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(15,14,19,.1)"><span style="font-size:14px;color:#6a6870">Card title<br>clamp(28,2.8vw,40) · −.035em</span><span style="font-family:'Funnel Display',sans-serif;font-size:clamp(28px,2.8vw,40px);line-height:1.08;letter-spacing:-.035em">Every lead. Every deal.</span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(15,14,19,.1)"><span style="font-size:14px;color:#6a6870">H3<br>clamp(26,2.2vw,32) · −.025em</span><span style="font-family:'Funnel Display',sans-serif;font-size:clamp(26px,2.2vw,32px);letter-spacing:-.025em">The problem</span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(15,14,19,.1)"><span style="font-size:14px;color:#6a6870">Lead<br>clamp(18,1.4vw,21) · 1.46</span><span style="font-size:clamp(18px,1.4vw,21px);line-height:1.46;color:#4b4a52;max-width:44ch">We turn complex business processes into clear, useful digital products.</span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(15,14,19,.1)"><span style="font-size:14px;color:#6a6870">Body / Small / Caption<br>16 · 14 · 12</span><span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:16px;line-height:1.6;color:#4b4a52">Body copy for descriptions and paragraphs.</span><span style="font-size:14px;color:#6a6870">Small labels and meta.</span><span style="font-size:12px;color:#6a6870">Caption and legal.</span></span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid rgba(15,14,19,.1)"><span style="font-size:14px;color:#6a6870">Eyebrow<br>12 · 600 · .16em · uppercase</span><span style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#330152">Industries</span></div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:32px">
+    <h2 style="margin:0;padding-top:28px;border-top:1px solid rgba(15,14,19,.1);font-family:'Funnel Display',sans-serif;font-weight:400;font-size:clamp(26px,2.2vw,32px);letter-spacing:-.025em">03 Layout, shape &amp; motion</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px">
+      <sc-for list="{{ tokens }}" as="t" hint-placeholder-count="8">
+        <div style="display:flex;flex-direction:column;gap:6px;padding:20px;border-radius:16px;background:#fff;border:1px solid rgba(15,14,19,.06)"><span style="font-size:14px;color:#6a6870">{{ t.n }}</span><span style="font-size:16px;font-weight:500;font-variant-numeric:tabular-nums">{{ t.v }}</span></div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end">
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:120px;height:56px;border-radius:999px;background:#efedf2"></div><span style="font-size:12px;color:#6a6870">Pill 999</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:120px;height:96px;border-radius:20px;background:#efedf2"></div><span style="font-size:12px;color:#6a6870">Card 20</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:120px;height:96px;border-radius:16px;background:#efedf2"></div><span style="font-size:12px;color:#6a6870">Media 16</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;align-items:center"><div style="width:120px;height:96px;border-radius:12px;background:#efedf2"></div><span style="font-size:12px;color:#6a6870">Item 12</span></div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:32px">
+    <h2 style="margin:0;padding-top:28px;border-top:1px solid rgba(15,14,19,.1);font-family:'Funnel Display',sans-serif;font-weight:400;font-size:clamp(26px,2.2vw,32px);letter-spacing:-.025em">04 Components</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">
+      <div style="display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06)">
+        <span style="font-size:14px;color:#6a6870">Primary button · 52 / 40 (nav)</span>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+          <a href="#" style="display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 24px 0 26px;border-radius:999px;background:#330152;color:#fff;font-size:16px;font-weight:500;letter-spacing:-.01em;transition:box-shadow .4s ease,transform .4s cubic-bezier(.16,1,.3,1)" style-hover="color:#fff;transform:translateY(-1px);box-shadow:0 12px 28px rgba(51,1,82,.24)" style-active="transform:scale(.98)">Start a project <span aria-hidden="true">→</span></a>
+          <a href="#" style="display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 18px;border-radius:999px;background:#330152;color:#fff;font-size:14px;font-weight:500;transition:box-shadow .35s ease,transform .35s cubic-bezier(.16,1,.3,1)" style-hover="color:#fff;box-shadow:0 8px 20px rgba(51,1,82,.24);transform:translateY(-1px)">Start a project <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06)">
+        <span style="font-size:14px;color:#6a6870">Text link · underline grows on hover</span>
+        <a href="#" style="align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:500;padding:8px 0;background-image:linear-gradient(#330152,#330152),linear-gradient(rgba(15,14,19,.14),rgba(15,14,19,.14));background-repeat:no-repeat;background-position:0 100%,0 100%;background-size:0% 1px,100% 1px;transition:background-size .5s cubic-bezier(.16,1,.3,1),color .25s ease" style-hover="color:#330152;background-size:100% 1px,100% 1px">See our work <span aria-hidden="true">→</span></a>
+        <a href="#" style="align-self:flex-start;display:inline-flex;gap:10px;font-size:14px;font-weight:500;color:#330152">Read case study <span aria-hidden="true">→</span></a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06)">
+        <span style="font-size:14px;color:#6a6870">Filter pill · 56 · active / idle</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span style="height:56px;display:inline-flex;align-items:center;gap:12px;padding:0 24px 0 22px;border-radius:999px;background:#330152;color:#fff;border:1px solid #330152"><span style="font-family:'Funnel Display',sans-serif;font-size:18px">Elevators</span><span style="min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:rgba(255,255,255,.18);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">2</span></span>
+          <span style="height:56px;display:inline-flex;align-items:center;gap:12px;padding:0 10px 0 22px;border-radius:999px;background:#fff;border:1px solid rgba(15,14,19,.1)"><span style="font-family:'Funnel Display',sans-serif;font-size:18px">Construction</span><span style="min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:rgba(15,14,19,.06);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">1</span></span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06)">
+        <span style="font-size:14px;color:#6a6870">Tag chip · 28 · icon button · 48</span>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+          <span style="height:28px;padding:0 12px;border-radius:999px;background:oklch(0.95 0.02 318);color:#330152;display:inline-flex;align-items:center;font-size:12px;font-weight:500">Elevators</span>
+          <span style="height:28px;padding:0 12px;border-radius:999px;border:1px solid rgba(15,14,19,.12);display:inline-flex;align-items:center;font-size:12px;color:#4b4a52">2024</span>
+          <span style="width:48px;height:48px;border-radius:999px;border:1px solid rgba(15,14,19,.14);display:inline-flex;align-items:center;justify-content:center;font-size:18px">→</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06)">
+        <span style="font-size:14px;color:#6a6870">Segmented toggle · ink knob</span>
+        <div style="align-self:flex-start;position:relative;display:flex;padding:4px;border-radius:999px;background:#fff;border:1px solid rgba(15,14,19,.1)"><span style="width:124px;height:40px;border-radius:999px;background:#0f0e13;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500">Desktop</span><span style="width:124px;height:40px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:#4b4a52">Mobile</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06)">
+        <span style="font-size:14px;color:#6a6870">Form field · underline</span>
+        <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:14px;font-weight:500">Email</span><span style="height:52px;display:flex;align-items:center;border-bottom:1px solid rgba(15,14,19,.14);font-size:18px;color:#6a6870">you@company.com</span></label>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;padding:28px;border-radius:20px;background:#fff;border:1px solid rgba(15,14,19,.06)">
+        <span style="font-size:14px;color:#6a6870">Shared shell</span>
+        <span style="font-size:16px;line-height:1.6;color:#4b4a52">SiteNav (current page underlined) and SiteFooter on every page. Cursor fog is reserved for the homepage hero. Inner-page heroes use the plum aurora glow with headline words revealed in sequence. Hero layout is always headline left, lead right (aligned to the bottom), stacking only below 900px.</span>
+      </div>
+    </div>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      colors: [
+        { n: 'Plum', v: '#330152', u: 'Accent, primary button, accent words' },
+        { n: 'Ink', v: '#0f0e13', u: 'Headings, primary text' },
+        { n: 'Body', v: '#4b4a52', u: 'Paragraphs, secondary text' },
+        { n: 'Muted', v: '#6a6870', u: 'Meta, labels, captions' },
+        { n: 'Paper', v: '#fafaf8', u: 'Page background' },
+        { n: 'Surface', v: '#ffffff', u: 'Cards, controls' },
+        { n: 'Chip', v: '#efedf2', u: 'Soft fills' },
+        { n: 'Plum tint', v: 'oklch(0.95 0.02 318)', u: 'Tag chips' },
+        { n: 'Line', v: 'rgba(15,14,19,.1)', u: 'Dividers, control borders' },
+        { n: 'Border', v: 'rgba(15,14,19,.14)', u: 'Buttons, link underline' }
+      ],
+      tokens: [
+        { n: 'Container', v: 'max-width 1680px' },
+        { n: 'Gutter', v: 'clamp(20px, 3.2vw, 56px)' },
+        { n: 'Section spacing', v: 'clamp(120px, 14vw, 208px)' },
+        { n: 'Nav height', v: '80px' },
+        { n: 'Ease', v: 'cubic-bezier(.16, 1, .3, 1)' },
+        { n: 'Durations', v: '.25s color · .5s move · .65s reveal' },
+        { n: 'Hover lift', v: '−1px · 0 12px 28px rgba(51,1,82,.24)' },
+        { n: 'Press', v: 'scale(.97 – .98)' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

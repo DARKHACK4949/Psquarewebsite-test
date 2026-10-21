@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&amp;family=Funnel+Sans:wght@300..800&amp;display=swap" rel="stylesheet">
+</helmet>
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;transform:{{ navTransform }};opacity:{{ navOp }};transition:transform .3s cubic-bezier(.23,1,.32,1),opacity .3s ease,background-color .25s ease,box-shadow .25s ease,backdrop-filter .25s ease;background-color:{{ navBg }};backdrop-filter:{{ navBlur }};-webkit-backdrop-filter:{{ navBlur }};box-shadow:{{ navShadow }}">
+  <nav aria-label="Primary" style="max-width:1680px;margin:0 auto;height:80px;padding:0 clamp(20px,3.2vw,56px);display:flex;align-items:center;gap:clamp(24px,3vw,44px)">
+    <a href="PSquare Homepage v7.dc.html" aria-label="PSQUARE COMPANY home" style="display:flex;align-items:center;gap:9px;flex:none;color:{{ navInk }};transition:color .25s ease;text-decoration:none">
+      <img ref="{{ navLogo }}" src="assets/psquare-mark.svg" alt="" width="34" height="34" style="width:34px;height:34px;display:block;flex:none;opacity:{{ navLogoOp }};filter:{{ navMarkF }};transition:filter .25s ease"><span style="font-family:'Funnel Display',sans-serif;font-weight:600;font-size:18px;line-height:1;letter-spacing:.02em;white-space:nowrap;padding-top:1px">PSQUARE COMPANY</span>
+    </a>
+    <span style="flex:1"></span>
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:clamp(24px,2.4vw,36px);font-size:16px;font-weight:500;letter-spacing:-.01em">
+        <a href="Work.dc.html" aria-current="{{ ac_work }}" onMouseEnter="{{ nhIn_work }}" onMouseLeave="{{ nhOut }}" style="position:relative;padding:8px 0;color:{{ nc_work }};transition:color .25s ease;text-decoration:none" style-hover="color:{{ navInk }}">Work<span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:2px;height:1.5px;border-radius:1px;background:#330152;transform-origin:{{ nhO_work }};transform:{{ nhS_work }};transition:transform .5s cubic-bezier(.16,1,.3,1)"></span></a>
+        <button type="button" onMouseEnter="{{ nhIn_sol }}" onMouseLeave="{{ nhOut }}" onClick="{{ ddTog_sol }}" data-ddt="sol" aria-expanded="{{ ddA_sol }}" style="position:relative;display:flex;align-items:center;gap:8px;padding:8px 0;margin:0;border:0;background:none;font:inherit;cursor:pointer;color:{{ ddC_sol }};transition:color .25s ease" style-hover="color:{{ navInk }}">Solutions<span aria-hidden="true" style="position:relative;width:10px;height:10px;flex:none"><span style="position:absolute;left:0;right:0;top:4.25px;height:1.5px;border-radius:1px;background:currentColor"></span><span style="position:absolute;top:0;bottom:0;left:4.25px;width:1.5px;border-radius:1px;background:currentColor;transform:{{ ddR_sol }};transition:transform .45s cubic-bezier(.16,1,.3,1)"></span></span><span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:2px;height:1.5px;border-radius:1px;background:#330152;transform-origin:{{ nhO_sol }};transform:{{ nhS_sol }};transition:transform .5s cubic-bezier(.16,1,.3,1)"></span></button>
+        <button type="button" onMouseEnter="{{ nhIn_ind }}" onMouseLeave="{{ nhOut }}" onClick="{{ ddTog_ind }}" data-ddt="ind" aria-expanded="{{ ddA_ind }}" style="position:relative;display:flex;align-items:center;gap:8px;padding:8px 0;margin:0;border:0;background:none;font:inherit;cursor:pointer;color:{{ ddC_ind }};transition:color .25s ease" style-hover="color:{{ navInk }}">Industries<span aria-hidden="true" style="position:relative;width:10px;height:10px;flex:none"><span style="position:absolute;left:0;right:0;top:4.25px;height:1.5px;border-radius:1px;background:currentColor"></span><span style="position:absolute;top:0;bottom:0;left:4.25px;width:1.5px;border-radius:1px;background:currentColor;transform:{{ ddR_ind }};transition:transform .45s cubic-bezier(.16,1,.3,1)"></span></span><span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:2px;height:1.5px;border-radius:1px;background:#330152;transform-origin:{{ nhO_ind }};transform:{{ nhS_ind }};transition:transform .5s cubic-bezier(.16,1,.3,1)"></span></button>
+        <button type="button" onMouseEnter="{{ nhIn_cap }}" onMouseLeave="{{ nhOut }}" onClick="{{ ddTog_cap }}" data-ddt="cap" aria-expanded="{{ ddA_cap }}" style="position:relative;display:flex;align-items:center;gap:8px;padding:8px 0;margin:0;border:0;background:none;font:inherit;cursor:pointer;color:{{ ddC_cap }};transition:color .25s ease" style-hover="color:{{ navInk }}">Capabilities<span aria-hidden="true" style="position:relative;width:10px;height:10px;flex:none"><span style="position:absolute;left:0;right:0;top:4.25px;height:1.5px;border-radius:1px;background:currentColor"></span><span style="position:absolute;top:0;bottom:0;left:4.25px;width:1.5px;border-radius:1px;background:currentColor;transform:{{ ddR_cap }};transition:transform .45s cubic-bezier(.16,1,.3,1)"></span></span><span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:2px;height:1.5px;border-radius:1px;background:#330152;transform-origin:{{ nhO_cap }};transform:{{ nhS_cap }};transition:transform .5s cubic-bezier(.16,1,.3,1)"></span></button>
+        <a href="About.dc.html" aria-current="{{ ac_co }}" onMouseEnter="{{ nhIn_co }}" onMouseLeave="{{ nhOut }}" style="position:relative;padding:8px 0;color:{{ nc_co }};transition:color .25s ease;text-decoration:none" style-hover="color:{{ navInk }}">Company<span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:2px;height:1.5px;border-radius:1px;background:#330152;transform-origin:{{ nhO_co }};transform:{{ nhS_co }};transition:transform .5s cubic-bezier(.16,1,.3,1)"></span></a>
+      </div>
+    </sc-if>
+    <a ref="{{ navCta }}" href="Start a Project.dc.html" onMouseEnter="{{ navCtaIn }}" onMouseLeave="{{ navCtaOut }}" style="white-space:nowrap;flex:none;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 18px;border-radius:999px;background:{{ ctaBg }};color:{{ ctaFg }};font-size:14px;font-weight:500;letter-spacing:-.01em;transition:box-shadow .35s ease,transform .35s cubic-bezier(.16,1,.3,1),background-color .25s ease,color .25s ease" style-hover="color:{{ ctaFg }};box-shadow:0 8px 20px rgba(51,1,82,.24);transform:translateY(-1px)" style-active="transform:scale(.97)">Start a project <span aria-hidden="true" style="display:inline-block;transform:{{ navArrow }};transition:transform .35s cubic-bezier(.16,1,.3,1)">→</span></a>
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-label="Menu" style="width:42px;height:42px;border-radius:999px;background:{{ burgBg }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px" style-active="transform:scale(.97)">
+        <span style="width:16px;height:1.5px;background:{{ burgInk }};border-radius:2px;transform:{{ burgerA }};transition:transform .4s cubic-bezier(.16,1,.3,1)"></span><span style="width:16px;height:1.5px;background:{{ burgInk }};border-radius:2px;transform:{{ burgerB }};transition:transform .4s cubic-bezier(.16,1,.3,1)"></span>
+      </button>
+    </sc-if>
+  </nav>
+  <div style="position:relative;height:{{ ddHgt }};overflow:hidden;box-shadow:{{ ddSh }};transition:height .5s cubic-bezier(.32,.72,0,1),box-shadow .3s ease">
+    <div ref="{{ ddInner }}" style="position:relative">
+    <div data-dd="sol" role="region" aria-label="Solutions" aria-hidden="{{ ddH_sol }}" style="position:absolute;left:0;right:0;top:0;visibility:{{ ddV_sol }};pointer-events:{{ ddPe_sol }}">
+      <div style="max-width:1680px;margin:0 auto;padding:24px clamp(20px,3.2vw,56px) 36px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:clamp(24px,3vw,48px)">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 8px">
+            <a href="Solutions.dc.html#erp" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 40ms,transform .6s cubic-bezier(.16,1,.3,1) 40ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">01</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">ERP</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Operations, finance and inventory in one system</span></span></a>
+            <a href="Solutions.dc.html#bespoke" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 75ms,transform .6s cubic-bezier(.16,1,.3,1) 75ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">02</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Bespoke software</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Built around how your business runs</span></span></a>
+            <a href="Solutions.dc.html#leads" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 110ms,transform .6s cubic-bezier(.16,1,.3,1) 110ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">03</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Lead management</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Every enquiry, followed through</span></span></a>
+            <a href="Solutions.dc.html#hr" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 145ms,transform .6s cubic-bezier(.16,1,.3,1) 145ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">04</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">HR &amp; payroll</span><span style="font-size:14px;line-height:1.4;color:#6a6870">People, attendance and pay in one place</span></span></a>
+            <a href="Solutions.dc.html#field" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 180ms,transform .6s cubic-bezier(.16,1,.3,1) 180ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">05</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Field service</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Requests, dispatch and proof of work</span></span></a>
+            <a href="Solutions.dc.html#ai" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 215ms,transform .6s cubic-bezier(.16,1,.3,1) 215ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">06</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">AI solutions</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Automation and prediction in everyday work</span></span></a>
+          </div>
+          <a href="Solutions.dc.html" onClick="{{ ddClose }}" style="align-self:flex-start;display:inline-flex;gap:8px;margin-left:16px;padding:8px 0;font-size:14px;font-weight:500;color:#330152;text-decoration:none;opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 260ms,transform .6s cubic-bezier(.16,1,.3,1) 260ms" style-hover="color:#0f0e13">All solutions <span aria-hidden="true">→</span></a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:14px 0 0 clamp(20px,2.4vw,36px);border-left:1px solid rgba(51,1,82,.1);opacity:{{ ddO_sol }};transform:{{ ddT_sol }};transition:opacity .4s ease 120ms,transform .6s cubic-bezier(.16,1,.3,1) 120ms">
+          <span style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#6a6870;padding-bottom:6px">Any industry</span>
+          <a href="Start a Project.dc.html" onClick="{{ ddClose }}" style="display:flex;flex-direction:column;gap:4px;padding:10px 0;text-decoration:none" style-hover="opacity:.7"><span style="font-size:16px;font-weight:500;color:#0f0e13">Built around your operation <span aria-hidden="true" style="color:#330152">→</span></span><span style="font-size:14px;line-height:1.45;color:#6a6870;max-width:30ch">Whatever the sector, we start by mapping how it runs.</span></a>
+        </div>
+      </div>
+    </div>
+    <div data-dd="ind" role="region" aria-label="Industries" aria-hidden="{{ ddH_ind }}" style="position:absolute;left:0;right:0;top:0;visibility:{{ ddV_ind }};pointer-events:{{ ddPe_ind }}">
+      <div style="max-width:1680px;margin:0 auto;padding:24px clamp(20px,3.2vw,56px) 36px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:clamp(24px,3vw,48px)">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 8px">
+            <a href="Industries.dc.html#construction" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_ind }};transform:{{ ddT_ind }};transition:opacity .4s ease 40ms,transform .6s cubic-bezier(.16,1,.3,1) 40ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">01</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Construction</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Projects, sites and crews in one view</span></span></a>
+            <a href="Industries.dc.html#elevator" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_ind }};transform:{{ ddT_ind }};transition:opacity .4s ease 75ms,transform .6s cubic-bezier(.16,1,.3,1) 75ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">02</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Elevator services</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Service calls, technicians and history</span></span></a>
+            <a href="Industries.dc.html#automobile" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_ind }};transform:{{ ddT_ind }};transition:opacity .4s ease 110ms,transform .6s cubic-bezier(.16,1,.3,1) 110ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">03</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Automobile service</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Vehicles, job cards and parts</span></span></a>
+            <a href="Industries.dc.html#architecture" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_ind }};transform:{{ ddT_ind }};transition:opacity .4s ease 145ms,transform .6s cubic-bezier(.16,1,.3,1) 145ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">04</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Architecture</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Projects, clients and design coordination</span></span></a>
+            <a href="Industries.dc.html#gym" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_ind }};transform:{{ ddT_ind }};transition:opacity .4s ease 180ms,transform .6s cubic-bezier(.16,1,.3,1) 180ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">05</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Gym &amp; lifestyle</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Members, training and schedules</span></span></a>
+          </div>
+          <a href="Industries.dc.html" onClick="{{ ddClose }}" style="align-self:flex-start;display:inline-flex;gap:8px;margin-left:16px;padding:8px 0;font-size:14px;font-weight:500;color:#330152;text-decoration:none;opacity:{{ ddO_ind }};transform:{{ ddT_ind }};transition:opacity .4s ease 260ms,transform .6s cubic-bezier(.16,1,.3,1) 260ms" style-hover="color:#0f0e13">All industries <span aria-hidden="true">→</span></a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:14px 0 0 clamp(20px,2.4vw,36px);border-left:1px solid rgba(51,1,82,.1);opacity:{{ ddO_ind }};transform:{{ ddT_ind }};transition:opacity .4s ease 120ms,transform .6s cubic-bezier(.16,1,.3,1) 120ms">
+          <span style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#6a6870;padding-bottom:6px">Don’t see yours?</span>
+          <a href="Start a Project.dc.html" onClick="{{ ddClose }}" style="display:flex;flex-direction:column;gap:4px;padding:10px 0;text-decoration:none" style-hover="opacity:.7"><span style="font-size:16px;font-weight:500;color:#0f0e13">Map your operation with us <span aria-hidden="true" style="color:#330152">→</span></span><span style="font-size:14px;line-height:1.45;color:#6a6870;max-width:30ch">We start by understanding how your business works.</span></a>
+        </div>
+      </div>
+    </div>
+    <div data-dd="cap" role="region" aria-label="Capabilities" aria-hidden="{{ ddH_cap }}" style="position:absolute;left:0;right:0;top:0;visibility:{{ ddV_cap }};pointer-events:{{ ddPe_cap }}">
+      <div style="max-width:1680px;margin:0 auto;padding:24px clamp(20px,3.2vw,56px) 36px;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:clamp(24px,3vw,48px)">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 8px">
+            <a href="Capabilities.dc.html#strategy" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_cap }};transform:{{ ddT_cap }};transition:opacity .4s ease 40ms,transform .6s cubic-bezier(.16,1,.3,1) 40ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">01</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Strategy &amp; consulting</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Field research, process and transformation</span></span></a>
+            <a href="Capabilities.dc.html#design" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_cap }};transform:{{ ddT_cap }};transition:opacity .4s ease 75ms,transform .6s cubic-bezier(.16,1,.3,1) 75ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">02</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Product design</span><span style="font-size:14px;line-height:1.4;color:#6a6870">UX, UI and system architecture</span></span></a>
+            <a href="Capabilities.dc.html#engineering" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_cap }};transform:{{ ddT_cap }};transition:opacity .4s ease 110ms,transform .6s cubic-bezier(.16,1,.3,1) 110ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">03</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Engineering</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Web platforms, mobile apps and testing</span></span></a>
+            <a href="Capabilities.dc.html#ai" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_cap }};transform:{{ ddT_cap }};transition:opacity .4s ease 145ms,transform .6s cubic-bezier(.16,1,.3,1) 145ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">04</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">AI &amp; automation</span><span style="font-size:14px;line-height:1.4;color:#6a6870">AI, IoT and predictive systems</span></span></a>
+            <a href="Capabilities.dc.html#brand" onClick="{{ ddClose }}" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 8px;padding:14px 16px;border-radius:12px;text-decoration:none;opacity:{{ ddO_cap }};transform:{{ ddT_cap }};transition:opacity .4s ease 180ms,transform .6s cubic-bezier(.16,1,.3,1) 180ms,background-color .25s ease" style-hover="background-color:rgba(51,1,82,.06)"><span style="font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;color:#6a6870;padding-top:4px">05</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:'Funnel Display',sans-serif;font-size:18px;font-weight:400;letter-spacing:-.015em;color:#0f0e13">Brand &amp; growth</span><span style="font-size:14px;line-height:1.4;color:#6a6870">Brand strategy, design and marketing</span></span></a>
+          </div>
+          <a href="Capabilities.dc.html" onClick="{{ ddClose }}" style="align-self:flex-start;display:inline-flex;gap:8px;margin-left:16px;padding:8px 0;font-size:14px;font-weight:500;color:#330152;text-decoration:none;opacity:{{ ddO_cap }};transform:{{ ddT_cap }};transition:opacity .4s ease 260ms,transform .6s cubic-bezier(.16,1,.3,1) 260ms" style-hover="color:#0f0e13">All capabilities <span aria-hidden="true">→</span></a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:14px 0 0 clamp(20px,2.4vw,36px);border-left:1px solid rgba(51,1,82,.1);opacity:{{ ddO_cap }};transform:{{ ddT_cap }};transition:opacity .4s ease 120ms,transform .6s cubic-bezier(.16,1,.3,1) 120ms">
+          <span style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#6a6870;padding-bottom:6px">Ways to work with us</span>
+          <a href="Start a Project.dc.html#startup" onClick="{{ ddClose }}" style="display:flex;flex-direction:column;gap:4px;padding:10px 0;text-decoration:none" style-hover="opacity:.7"><span style="font-size:16px;font-weight:500;color:#0f0e13">For startups <span aria-hidden="true" style="color:#330152">→</span></span><span style="font-size:14px;line-height:1.45;color:#6a6870;max-width:30ch">From idea to launch with PSQUARE IGNITE.</span></a>
+          <a href="Start a Project.dc.html" onClick="{{ ddClose }}" style="display:flex;flex-direction:column;gap:4px;padding:10px 0;text-decoration:none" style-hover="opacity:.7"><span style="font-size:16px;font-weight:500;color:#0f0e13">Free first consultation <span aria-hidden="true" style="color:#330152">→</span></span><span style="font-size:14px;line-height:1.45;color:#6a6870;max-width:30ch">Tell us the problem. We’ll tell you how we’d approach it.</span></a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+<div aria-hidden="true" onClick="{{ ddClose }}" style="position:fixed;inset:0;z-index:45;background:rgba(20,4,34,.12);backdrop-filter:{{ ddScrimBlur }};-webkit-backdrop-filter:{{ ddScrimBlur }};opacity:{{ ddScrim }};pointer-events:{{ ddScrimPe }};transition:opacity .4s ease"></div>
+
+<div aria-hidden="{{ menuHidden }}" style="position:fixed;inset:0;z-index:49;background:rgba(250,250,248,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:112px 24px 40px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;opacity:{{ menuOp }};pointer-events:{{ menuPe }};transition:opacity .35s ease">
+  <a href="Work.dc.html" onClick="{{ closeMenu }}" style="font-family:'Funnel Display',sans-serif;font-size:36px;font-weight:500;letter-spacing:-.03em;padding:6px 0;color:#0f0e13;text-decoration:none;transform:{{ menuItem }};transition:transform .6s cubic-bezier(.16,1,.3,1) .02s">Work</a>
+  <div style="display:flex;flex-direction:column;transform:{{ menuItem }};transition:transform .6s cubic-bezier(.16,1,.3,1) .05s">
+    <button type="button" onClick="{{ mxT_sol }}" aria-expanded="{{ mxA_sol }}" style="display:flex;justify-content:space-between;align-items:center;width:100%;margin:0;border:0;background:none;text-align:left;cursor:pointer;font-family:'Funnel Display',sans-serif;font-size:36px;font-weight:500;letter-spacing:-.03em;padding:6px 0;color:#0f0e13;text-decoration:none">Solutions<span aria-hidden="true" style="font-family:'Funnel Sans',sans-serif;font-size:24px;font-weight:400;transform:{{ mxP_sol }};transition:transform .4s cubic-bezier(.16,1,.3,1)">+</span></button>
+    <div style="display:grid;grid-template-rows:{{ mxR_sol }};transition:grid-template-rows .45s cubic-bezier(.16,1,.3,1)"><div style="overflow:hidden;display:flex;flex-direction:column">
+      <a href="Solutions.dc.html#erp" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">ERP</a>
+      <a href="Solutions.dc.html#bespoke" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Bespoke software</a>
+      <a href="Solutions.dc.html#leads" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Lead management</a>
+      <a href="Solutions.dc.html#hr" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">HR &amp; payroll</a>
+      <a href="Solutions.dc.html#field" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Field service</a>
+      <a href="Solutions.dc.html#ai" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">AI solutions</a>
+      <a href="Solutions.dc.html" onClick="{{ closeMenu }}" style="font-size:16px;font-weight:500;color:#330152;padding:8px 0 16px;text-decoration:none">All solutions →</a>
+    </div></div>
+  </div>
+  <div style="display:flex;flex-direction:column;transform:{{ menuItem }};transition:transform .6s cubic-bezier(.16,1,.3,1) .08s">
+    <button type="button" onClick="{{ mxT_ind }}" aria-expanded="{{ mxA_ind }}" style="display:flex;justify-content:space-between;align-items:center;width:100%;margin:0;border:0;background:none;text-align:left;cursor:pointer;font-family:'Funnel Display',sans-serif;font-size:36px;font-weight:500;letter-spacing:-.03em;padding:6px 0;color:#0f0e13;text-decoration:none">Industries<span aria-hidden="true" style="font-family:'Funnel Sans',sans-serif;font-size:24px;font-weight:400;transform:{{ mxP_ind }};transition:transform .4s cubic-bezier(.16,1,.3,1)">+</span></button>
+    <div style="display:grid;grid-template-rows:{{ mxR_ind }};transition:grid-template-rows .45s cubic-bezier(.16,1,.3,1)"><div style="overflow:hidden;display:flex;flex-direction:column">
+      <a href="Industries.dc.html#construction" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Construction</a>
+      <a href="Industries.dc.html#elevator" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Elevator services</a>
+      <a href="Industries.dc.html#automobile" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Automobile service</a>
+      <a href="Industries.dc.html#architecture" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Architecture</a>
+      <a href="Industries.dc.html#gym" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Gym &amp; lifestyle</a>
+      <a href="Industries.dc.html" onClick="{{ closeMenu }}" style="font-size:16px;font-weight:500;color:#330152;padding:8px 0 16px;text-decoration:none">All industries →</a>
+    </div></div>
+  </div>
+  <div style="display:flex;flex-direction:column;transform:{{ menuItem }};transition:transform .6s cubic-bezier(.16,1,.3,1) .11s">
+    <button type="button" onClick="{{ mxT_cap }}" aria-expanded="{{ mxA_cap }}" style="display:flex;justify-content:space-between;align-items:center;width:100%;margin:0;border:0;background:none;text-align:left;cursor:pointer;font-family:'Funnel Display',sans-serif;font-size:36px;font-weight:500;letter-spacing:-.03em;padding:6px 0;color:#0f0e13;text-decoration:none">Capabilities<span aria-hidden="true" style="font-family:'Funnel Sans',sans-serif;font-size:24px;font-weight:400;transform:{{ mxP_cap }};transition:transform .4s cubic-bezier(.16,1,.3,1)">+</span></button>
+    <div style="display:grid;grid-template-rows:{{ mxR_cap }};transition:grid-template-rows .45s cubic-bezier(.16,1,.3,1)"><div style="overflow:hidden;display:flex;flex-direction:column">
+      <a href="Capabilities.dc.html#strategy" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Strategy &amp; consulting</a>
+      <a href="Capabilities.dc.html#design" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Product design</a>
+      <a href="Capabilities.dc.html#engineering" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Engineering</a>
+      <a href="Capabilities.dc.html#ai" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">AI &amp; automation</a>
+      <a href="Capabilities.dc.html#brand" onClick="{{ closeMenu }}" style="font-size:18px;color:#4b4a52;padding:8px 0;text-decoration:none">Brand &amp; growth</a>
+      <a href="Capabilities.dc.html" onClick="{{ closeMenu }}" style="font-size:16px;font-weight:500;color:#330152;padding:8px 0 16px;text-decoration:none">All capabilities →</a>
+    </div></div>
+  </div>
+  <a href="About.dc.html" onClick="{{ closeMenu }}" style="font-family:'Funnel Display',sans-serif;font-size:36px;font-weight:500;letter-spacing:-.03em;padding:6px 0;color:#0f0e13;text-decoration:none;transform:{{ menuItem }};transition:transform .6s cubic-bezier(.16,1,.3,1) .14s">Company</a>
+  <span style="flex:1"></span>
+  <a href="mailto:info@psquarecompany.com" style="font-size:18px;color:#6a6870">info@psquarecompany.com</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:520},&quot;current&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;work&quot;,&quot;sol&quot;,&quot;ind&quot;,&quot;cap&quot;,&quot;co&quot;],&quot;default&quot;:&quot;work&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { vw: window.innerWidth, wide: window.innerWidth >= 1100 };
+  componentDidMount() { this.navMount(); }
+  componentWillUnmount() { this.navUnmount(); }
+  navMount() {
+    this.lastY = window.scrollY;
+    this.onNavScroll = () => { const y = window.scrollY, dy = y - this.lastY; this.lastY = y; if (this.state.dd && Math.abs(y - (this.ddY || 0)) > 24) this.setState({ dd: null });
+      const navSolid = y > 8; const navDark = Array.prototype.some.call(document.querySelectorAll('[data-nav-dark]'), el => { const r = el.getBoundingClientRect(); return r.top < 40 && r.bottom > 40; }); let navHidden = this.state.navHidden; if (y < 120) navHidden = false; else if (dy > 6) navHidden = true; else if (dy < -6) navHidden = false; if (this.state.menuOpen) navHidden = false;
+      if (navSolid !== this.state.navSolid || navHidden !== this.state.navHidden || navDark !== !!this.state.navDark) this.setState({ navSolid, navHidden, navDark }); };
+    this.onNavResize = () => this.setState({ wide: window.innerWidth >= 1100, vw: window.innerWidth });
+    this.onNavKey = (e) => { if (e.key === 'Escape' && (this.state.dd || this.state.menuOpen)) this.setState({ dd: null, menuOpen: false }); };
+    window.addEventListener('scroll', this.onNavScroll, { passive: true }); window.addEventListener('resize', this.onNavResize); window.addEventListener('keydown', this.onNavKey);
+    this.onNavResize(); this.onNavScroll(); this.navT = setTimeout(this.onNavScroll, 400);
+  }
+  navUnmount() { window.removeEventListener('scroll', this.onNavScroll); window.removeEventListener('resize', this.onNavResize); window.removeEventListener('keydown', this.onNavKey); }
+  navVals() {
+    const s = this.state, vw = s.vw || window.innerWidth || 1440, v = {
+      navLogo: this.navLogo, navCta: this.navCta, ddInner: this.ddInner, navLogoOp: 1, navOp: 1,
+      wide: s.wide !== false, narrow: s.wide === false, menuOpen: !!s.menuOpen,
+      toggleMenu: () => this.setState({ menuOpen: !this.state.menuOpen }), closeMenu: () => this.setState({ menuOpen: false }),
+      menuOp: s.menuOpen ? 1 : 0, menuPe: s.menuOpen ? 'auto' : 'none', menuHidden: !s.menuOpen, menuItem: s.menuOpen ? 'translateY(0)' : 'translateY(24px)',
+      burgerA: s.menuOpen ? 'translateY(3.25px) rotate(45deg)' : 'none', burgerB: s.menuOpen ? 'translateY(-3.25px) rotate(-45deg)' : 'none',
+      navTransform: s.navHidden ? 'translateY(-100%)' : 'translateY(0)',
+      navBg: s.navSolid || s.menuOpen ? 'rgba(250,249,251,0.5)' : 'rgba(250,249,251,0)',
+      navBlur: s.navSolid ? 'blur(40px) saturate(200%)' : 'blur(0px) saturate(100%)',
+      navShadow: s.navSolid ? '0 1px 0 rgba(15,14,19,0.06)' : '0 1px 0 rgba(15,14,19,0)',
+      navArrow: s.navH ? 'translateX(3px)' : 'translateX(0)', navCtaIn: () => this.setState({ navH: true }), navCtaOut: () => this.setState({ navH: false }),
+      ftNarrow: vw < 640, ftWide: vw >= 640,
+      ddClose: () => { if (this.state.dd) this.setState({ dd: null }); },
+      nhOut: () => { if (this.state.nh) this.setState({ nh: null }); }
+    };
+    const dd = s.dd || null;
+    ['sol', 'ind', 'cap'].forEach((k) => {
+      const o = dd === k, m = s.mx === k;
+      v['ddTog_' + k] = () => { this.ddY = window.scrollY; this.setState({ dd: this.state.dd === k ? null : k }); };
+      v['ddA_' + k] = o ? 'true' : 'false'; v['ddH_' + k] = o ? 'false' : 'true';
+      v['ddO_' + k] = o ? 1 : 0; v['ddT_' + k] = o ? 'translateY(0)' : 'translateY(-6px)'; v['ddV_' + k] = o ? 'visible' : 'hidden'; v['ddPe_' + k] = o ? 'auto' : 'none';
+      v['ddC_' + k] = o ? '#0f0e13' : '#4b4a52'; v['ddR_' + k] = o ? 'rotate(90deg)' : 'rotate(0deg)';
+      v['mxT_' + k] = () => this.setState({ mx: this.state.mx === k ? null : k }); v['mxA_' + k] = m ? 'true' : 'false';
+      v['mxP_' + k] = m ? 'rotate(45deg)' : 'rotate(0deg)'; v['mxR_' + k] = m ? '1fr' : '0fr';
+    });
+    const cur = this.props.current ?? 'work';
+    ['work', 'sol', 'ind', 'cap', 'co'].forEach((k) => {
+      const on = k === cur || s.nh === k || dd === k;
+      v['nc_' + k] = k === cur ? '#0f0e13' : '#4b4a52'; v['ac_' + k] = k === cur ? 'page' : undefined;
+      v['nhIn_' + k] = () => { if (this.state.nh !== k) this.setState({ nh: k }); };
+      v['nhS_' + k] = on ? 'scaleX(1)' : 'scaleX(0)'; v['nhO_' + k] = on ? 'left center' : 'right center';
+    });
+    const dkOn = !!s.navDark && !dd && !s.menuOpen, sub = 'oklch(0.8 0.008 300)';
+    v.navInk = dkOn ? '#fafaf8' : '#0f0e13'; v.navMarkF = dkOn ? 'brightness(0) invert(1)' : 'none';
+    v.ctaBg = dkOn ? '#fafaf8' : '#330152'; v.ctaFg = dkOn ? '#0f0e13' : '#fff';
+    v.burgBg = dkOn ? 'rgba(250,250,248,.12)' : '#efedf2'; v.burgInk = dkOn ? '#fafaf8' : '#0f0e13';
+    if (dkOn) {
+      ['work', 'sol', 'ind', 'cap', 'co'].forEach((k) => { v['nc_' + k] = k === cur ? '#fafaf8' : sub; });
+      ['sol', 'ind', 'cap'].forEach((k) => { v['ddC_' + k] = sub; });
+      v.navBg = s.navSolid ? 'rgba(15,14,19,0.5)' : 'rgba(15,14,19,0)'; v.navShadow = s.navSolid ? '0 1px 0 rgba(250,250,248,0.08)' : '0 1px 0 rgba(250,250,248,0)';
+    }
+    const inner = this.ddInner.current, act = dd && inner ? inner.querySelector('[data-dd="' + dd + '"]') : null;
+    v.ddHgt = dd ? ((act && act.offsetHeight) || 360) + 'px' : '0px';
+    v.ddSh = dd ? 'inset 0 1px 0 rgba(15,14,19,.06)' : 'inset 0 1px 0 rgba(15,14,19,0)'; v.ddScrimBlur = dd ? 'blur(6px)' : 'blur(0px)';
+    v.ddScrim = dd ? 1 : 0; v.ddScrimPe = dd ? 'auto' : 'none';
+    if (dd) { v.navBg = 'rgba(250,249,251,0.5)'; v.navBlur = 'blur(40px) saturate(200%)'; v.navShadow = '0 1px 0 rgba(15,14,19,.06), 0 40px 80px -40px rgba(51,1,82,.24)'; v.navTransform = 'translateY(0)'; }
+    return v;
+  }
+  navLogo = React.createRef(); navCta = React.createRef(); ddInner = React.createRef();
+  renderVals() { return this.navVals(); }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+/*
+ * PSQUARE COMPANY design tokens.
+ * Source of truth: design/PSquare Design System.dc.html. Use only these values.
+ */
+:root {
+  /* Color */
+  --plum: #330152;
+  --ink: #0f0e13;
+  --body: #4b4a52;
+  --muted: #6a6870;
+  --paper: #fafaf8;
+  --surface: #fff;
+  --chip: #efedf2;
+  --plum-tint: oklch(0.95 0.02 318);
+  --line: rgba(15, 14, 19, 0.1);
+  --border: rgba(15, 14, 19, 0.14);
+
+  /* Type */
+  --font-display: var(--font-funnel-display), "Funnel Display", sans-serif;
+  --font-sans: var(--font-funnel-sans), "Funnel Sans", system-ui, sans-serif;
+  --fs-h1: clamp(40px, 4.6vw, 80px);
+  --fs-h2: clamp(36px, 4vw, 64px);
+  --fs-h3: clamp(26px, 2.2vw, 32px);
+  --fs-lead: clamp(18px, 1.4vw, 21px);
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-caption: 12px;
+
+  /* Layout */
+  --container: 1680px;
+  --gutter: clamp(20px, 3.2vw, 56px);
+  --section: clamp(120px, 14vw, 208px);
+  --nav-h: 80px;
+  --hero-top: calc(80px + clamp(48px, 7vw, 112px));
+  --aside-w: clamp(320px, 30vw, 440px);
+  --hero-gap: clamp(32px, 7.5vw, 128px);
+
+  /* Shape */
+  --r-pill: 999px;
+  --r-card: 20px;
+  --r-media: 16px;
+  --r-item: 12px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-color: 0.25s;
+  --t-move: 0.5s;
+  --t-reveal: 0.65s;
+  --lift-shadow: 0 12px 28px rgba(51, 1, 82, 0.24);
+  --card-shadow: 0 30px 60px -36px rgba(51, 1, 82, 0.24);
+}

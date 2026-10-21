@@ -1,0 +1,69 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background: rgba(14, 4, 24, 0);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  transition:
+    background-color 0.6s ease,
+    backdrop-filter 0.6s ease;
+}
+.scrim[data-open] {
+  background: rgba(14, 4, 24, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.frame {
+  position: fixed;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: var(--plum);
+  transition: clip-path 0.85s var(--ease);
+  box-shadow: 0 60px 160px rgba(10, 0, 20, 0.6);
+}
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #000;
+}
+
+.close {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  opacity: 0;
+  transition:
+    opacity 0.4s ease 0.2s,
+    background-color 0.2s ease;
+}
+.scrim[data-open] .close {
+  opacity: 1;
+}
+.close:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.close:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrim,
+  .frame,
+  .close {
+    transition-duration: 0.01ms;
+  }
+}

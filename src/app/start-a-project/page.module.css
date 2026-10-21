@@ -1,0 +1,16 @@
+.body {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--section);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .body {
+    animation: fadeIn 0.8s ease 0.45s backwards;
+  }
+}
