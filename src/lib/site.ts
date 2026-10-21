@@ -26,10 +26,14 @@ export const routes = {
 } as const;
 
 export const social = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/psquare-company/" },
-  { label: "Instagram", href: "https://www.instagram.com/psquarecompany/" },
-  { label: "YouTube", href: "https://youtube.com/@psquarecompany" },
-  { label: "Facebook", href: "https://www.facebook.com/Psquarecompanyy/" },
+  {
+    label: "LinkedIn",
+    icon: "linkedin",
+    href: "https://www.linkedin.com/company/psquare-company/",
+  },
+  { label: "Instagram", icon: "instagram", href: "https://www.instagram.com/psquarecompany/" },
+  { label: "YouTube", icon: "youtube", href: "https://youtube.com/@psquarecompany" },
+  { label: "Facebook", icon: "facebook", href: "https://www.facebook.com/Psquarecompanyy/" },
 ] as const;
 
 /** Routes that exist in the current phase. Add each new page here as it ships. */

@@ -71,6 +71,7 @@ export function TrustedBy() {
       <div
         ref={stage}
         className={styles.stage}
+        data-reveal=""
         onMouseEnter={() => setSpeed(0)}
         onMouseLeave={() => setSpeed(1)}
       >

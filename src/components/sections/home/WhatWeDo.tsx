@@ -20,6 +20,8 @@ export function WhatWeDo() {
   const list = useRef<HTMLDivElement>(null);
   const [W, setW] = useState(1400);
   const [active, setActive] = useState(0);
+  // Stacked layout: the card crossing the middle of the viewport plays its illustration.
+  const [inView, setInView] = useState(0);
   const [hover, setHover] = useState(-1);
   const hoverT = useRef(0);
   const wide = W >= 820;
@@ -31,6 +33,19 @@ export function WhatWeDo() {
     setW(el.clientWidth);
     return () => ro.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (wide) return;
+    const io = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (e.isIntersecting) setInView(Number((e.target as HTMLElement).dataset.i));
+        }),
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    list.current!.querySelectorAll("[role=listitem]").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [wide]);
 
   // Active card grows; the others share the rest.
   useEffect(() => {
@@ -122,7 +137,7 @@ export function WhatWeDo() {
         style={{ "--s": s.toFixed(3), "--ew": `${Math.round(ew)}px` } as CSSProperties}
       >
         {what.cards.map((c, i) => {
-          const on = wide ? i === active : true;
+          const on = wide ? i === active : i === inView;
           const Icon = ICONS[c.icon];
           return (
             <div
@@ -131,7 +146,9 @@ export function WhatWeDo() {
               tabIndex={0}
               aria-label={c.title}
               className={styles.card}
-              style={{ "--on": on ? 1 : 0 } as CSSProperties}
+              data-i={i}
+              data-reveal=""
+              style={{ "--on": on ? 1 : 0, "--show": wide ? (on ? 1 : 0) : 1 } as CSSProperties}
               onMouseEnter={() => {
                 if (!wide) return;
                 setHover(i);

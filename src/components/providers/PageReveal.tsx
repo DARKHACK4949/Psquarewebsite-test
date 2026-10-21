@@ -38,7 +38,14 @@ export function PageReveal() {
           start: "top 90%",
           once: true,
           onEnter: (batch) =>
-            gsap.to(batch, { opacity: 1, y: 0, duration: 0.65, ease: EASE, stagger: 0.08 }),
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: EASE,
+              stagger: 0.08,
+              clearProps: "opacity,transform",
+            }),
         });
       }
     });

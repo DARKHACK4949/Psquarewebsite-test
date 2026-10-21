@@ -32,7 +32,13 @@ export function Industries() {
         </h2>
       </div>
       <div className={styles.body}>
-        <div role="tablist" aria-label="Industries" className={styles.tablist} onKeyDown={onKey}>
+        <div
+          role="tablist"
+          aria-label="Industries"
+          className={styles.tablist}
+          onKeyDown={onKey}
+          data-reveal=""
+        >
           {industries.tabs.map((t, i) => (
             <button
               key={t.label}
@@ -52,7 +58,7 @@ export function Industries() {
             </button>
           ))}
         </div>
-        <div className={styles.panels}>
+        <div className={styles.panels} data-reveal="">
           {industries.tabs.map((t, i) => {
             const on = active === i;
             return (

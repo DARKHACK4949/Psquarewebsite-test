@@ -105,6 +105,69 @@
   color: var(--plum);
 }
 
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.social {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 16px;
+  color: var(--body);
+  transition:
+    color var(--t-color) ease,
+    border-color var(--t-color) ease,
+    background-color var(--t-color) ease,
+    transform var(--t-move) var(--ease);
+}
+.social:hover {
+  color: var(--plum);
+}
+.socialIcon {
+  display: none;
+}
+
+/* Mobile: Follow becomes a full-width row of 48px icon buttons. */
+@media (max-width: 639px) {
+  .follow {
+    grid-column: 1 / -1;
+  }
+  .socials {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .social {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    justify-content: center;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--border);
+    color: var(--ink);
+  }
+  .social:hover {
+    border-color: var(--plum);
+    background-color: var(--plum-tint);
+  }
+  .social:active {
+    transform: scale(0.97);
+  }
+  .socialIcon {
+    display: block;
+  }
+  .socialLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
 .bottom {
   display: flex;
   flex-wrap: wrap;

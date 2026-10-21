@@ -38,7 +38,7 @@ export function Faq() {
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
           </p>
         </div>
-        <div ref={list} className={styles.list}>
+        <div ref={list} className={styles.list} data-reveal="">
           {faq.items.map((it, i) => {
             const on = open === i;
             return (

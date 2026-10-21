@@ -149,6 +149,32 @@ export function SelectedWork() {
         });
         apply();
       });
+      // Stacked layout: each media card scales up as it enters, its screen drifts (parallax).
+      mm.add("(max-width: 1023px), (max-height: 639px)", () => {
+        if (reduced) return;
+        el.querySelectorAll<HTMLElement>("[data-w=mcard]").forEach((card) => {
+          gsap.fromTo(
+            card,
+            { scale: 0.9, opacity: 0.4 },
+            {
+              scale: 1,
+              opacity: 1,
+              ease: "none",
+              scrollTrigger: { trigger: card, start: "top bottom", end: "top 45%", scrub: 0.6 },
+            },
+          );
+          const dev = card.querySelector("[data-w=mdevice]");
+          gsap.fromTo(
+            dev,
+            { y: 28 },
+            {
+              y: -28,
+              ease: "none",
+              scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 0.6 },
+            },
+          );
+        });
+      });
       return () => mm.revert();
     },
     { scope: root },
@@ -253,12 +279,18 @@ export function SelectedWork() {
           </h2>
           {work.items.map((it) => (
             <article key={it.key} className={styles.article}>
-              <div className={styles.mediaCard} style={{ background: it.bg }}>
-                <div className={styles.mediaDevice} style={{ aspectRatio: it.ratio }}>
+              <div data-w="mcard" className={styles.mediaCard} style={{ background: it.bg }}>
+                <div
+                  data-w="mdevice"
+                  className={styles.mediaDevice}
+                  style={{ aspectRatio: it.ratio }}
+                >
                   <Video item={it} data-w="mvid" className={styles.video} />
                 </div>
               </div>
-              <Copy item={it} />
+              <div data-reveal="">
+                <Copy item={it} />
+              </div>
             </article>
           ))}
         </div>

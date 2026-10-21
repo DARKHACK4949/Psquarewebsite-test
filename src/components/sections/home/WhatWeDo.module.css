@@ -90,8 +90,8 @@
     linear-gradient(rgba(51, 1, 82, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(51, 1, 82, 0.06) 1px, transparent 1px);
   background-size: 22px 22px;
-  opacity: var(--on);
-  transform: scale(calc(0.985 + var(--on) * 0.015));
+  opacity: var(--show);
+  transform: scale(calc(0.985 + var(--show) * 0.015));
   transform-origin: top center;
   transition:
     opacity 0.4s ease calc(var(--on) * 0.1s),
@@ -133,8 +133,8 @@
   hyphens: manual;
 }
 .more {
-  max-height: calc(var(--on) * 140px);
-  opacity: var(--on);
+  max-height: calc(var(--show) * 140px);
+  opacity: var(--show);
   overflow: hidden;
   transition:
     max-height 0.55s cubic-bezier(0.33, 1, 0.68, 1) calc(var(--on) * 0.08s),
@@ -165,8 +165,8 @@
   letter-spacing: -0.045em;
   color: var(--chip);
   pointer-events: none;
-  opacity: calc(1 - var(--on));
-  transform: translateY(calc(var(--on) * -10px));
+  opacity: calc(1 - var(--show));
+  transform: translateY(calc(var(--show) * -10px));
   transition:
     opacity 0.3s ease,
     transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);

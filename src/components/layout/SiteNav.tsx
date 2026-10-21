@@ -13,7 +13,6 @@ import {
 import { megaMenus, type MenuKey, type NavCurrent } from "@/content/nav";
 import { CONTACT_EMAIL, routes } from "@/lib/site";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
-import { ButtonLink } from "@/components/ui/Button";
 import styles from "./SiteNav.module.css";
 
 const WIDE = 1100;
@@ -331,14 +330,6 @@ export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
           Company
         </Link>
         <span className={styles.spacer} />
-        <ButtonLink
-          href={routes.contact}
-          className={styles.mCta}
-          data-track="cta_book_demo_click"
-          onClick={() => setMenuOpen(false)}
-        >
-          Book a demo
-        </ButtonLink>
         <a href={`mailto:${CONTACT_EMAIL}`} className={styles.mEmail}>
           {CONTACT_EMAIL}
         </a>

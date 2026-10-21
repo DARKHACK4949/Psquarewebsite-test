@@ -1,7 +1,20 @@
 import Image from "next/image";
 import { AppLink as Link } from "@/components/ui/AppLink";
+import {
+  FacebookLogo,
+  InstagramLogo,
+  LinkedinLogo,
+  YoutubeLogo,
+} from "@phosphor-icons/react/dist/ssr";
 import { CONTACT_EMAIL, PRIVACY_URL, routes, social } from "@/lib/site";
 import styles from "./SiteFooter.module.css";
+
+const SOCIAL_ICONS = {
+  linkedin: LinkedinLogo,
+  instagram: InstagramLogo,
+  youtube: YoutubeLogo,
+  facebook: FacebookLogo,
+} as const;
 
 const explore = [
   { label: "Work", href: routes.work },
@@ -37,19 +50,26 @@ export function SiteFooter() {
           <nav aria-label="Footer" className={styles.nav}>
             <Column title="Explore" links={explore} />
             <Column title="Company" links={company} />
-            <div className={styles.col}>
+            <div className={`${styles.col} ${styles.follow}`}>
               <span className={styles.colTitle}>Follow</span>
-              {social.map((s) => (
-                <a
-                  key={s.href}
-                  href={s.href}
-                  className={styles.link}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {s.label}
-                </a>
-              ))}
+              <div className={styles.socials}>
+                {social.map((s) => {
+                  const Icon = SOCIAL_ICONS[s.icon];
+                  return (
+                    <a
+                      key={s.href}
+                      href={s.href}
+                      aria-label={s.label}
+                      className={styles.social}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <Icon aria-hidden="true" size={20} className={styles.socialIcon} />
+                      <span className={styles.socialLabel}>{s.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </nav>
         </div>

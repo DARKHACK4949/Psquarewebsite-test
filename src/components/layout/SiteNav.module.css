@@ -181,14 +181,21 @@
 .cta:active {
   transform: scale(0.97);
 }
-@media (max-width: 519px) {
+@media (max-width: 639px) {
   .bar {
     gap: 16px;
   }
-  .cta {
-    display: none;
+  /* Mobile: mark only, the wordmark returns from 640px. */
+  .brand span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 }
+
 .ctaArrow {
   display: inline-block;
   transition: transform 0.35s var(--ease);
@@ -484,15 +491,6 @@
   font-weight: 500;
   color: var(--plum);
   padding: 8px 0 16px;
-}
-.mCta {
-  align-self: flex-start;
-  margin-bottom: 24px;
-}
-@media (min-width: 520px) {
-  .mCta {
-    display: none !important;
-  }
 }
 .mEmail {
   font-size: 18px;
