@@ -72,8 +72,9 @@ export function TrustedBy() {
         ref={stage}
         className={styles.stage}
         data-reveal=""
-        onMouseEnter={() => setSpeed(0)}
-        onMouseLeave={() => setSpeed(1)}
+        // Hover pause is for mice only: touch "hover" would stop the marquee until the next tap.
+        onPointerEnter={(e) => e.pointerType === "mouse" && setSpeed(0)}
+        onPointerLeave={(e) => e.pointerType === "mouse" && setSpeed(1)}
       >
         <div data-co="track" className={styles.track}>
           <LogoSet />

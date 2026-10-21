@@ -49,3 +49,16 @@
   --lift-shadow: 0 12px 28px rgba(51, 1, 82, 0.24);
   --card-shadow: 0 30px 60px -36px rgba(51, 1, 82, 0.24);
 }
+
+/* Phones: one consistent section rhythm (desktop keeps the design's clamp). */
+@media (max-width: 639px) {
+  :root {
+    --section: 96px;
+    --section-tight: 96px;
+  }
+}
+@media (min-width: 640px) {
+  :root {
+    --section-tight: clamp(72px, 9vw, 128px);
+  }
+}

@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  padding-top: clamp(72px, 9vw, 128px);
+  padding-top: var(--section-tight);
 }
 .inner {
   max-width: var(--container);
