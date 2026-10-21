@@ -141,3 +141,11 @@ export const megaMenus: MegaMenu[] = [
     ],
   },
 ];
+
+/**
+ * Which primary navigation to show.
+ * - "full": the design's nav (Work, Solutions/Industries/Capabilities mega menus, Company).
+ * - "minimal": Home + Company only, while the other pages are being built.
+ * Everything for "full" stays in place above; switch this back to restore it.
+ */
+export const NAV_MODE: "full" | "minimal" = "minimal";

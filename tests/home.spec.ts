@@ -55,6 +55,7 @@ test("desktop mega menu opens, closes on Escape", async ({ page, isMobile }) => 
   test.skip(isMobile, "desktop navigation");
   await page.goto("/");
   const trigger = page.getByRole("button", { name: "Solutions" });
+  test.skip((await trigger.count()) === 0, "mega menus hidden (NAV_MODE minimal)");
   await trigger.click();
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await expect(
@@ -72,10 +73,29 @@ test("mobile menu opens with accordions", async ({ page, isMobile }) => {
   await burger.click();
   await expect(burger).toHaveAttribute("aria-expanded", "true");
   const menu = page.locator("#mobile-menu");
+  await expect(menu.getByRole("link", { name: "Company", exact: true })).toBeVisible();
   const ind = menu.getByRole("button", { name: /Industries/ });
+  if ((await ind.count()) === 0) {
+    // NAV_MODE minimal: Home + Company only.
+    await expect(menu.getByRole("link", { name: "Home", exact: true })).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(burger).toHaveAttribute("aria-expanded", "false");
+    return;
+  }
   await ind.click();
   await expect(ind).toHaveAttribute("aria-expanded", "true");
   await expect(menu.getByRole("link", { name: "Realtors & real estate" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(burger).toHaveAttribute("aria-expanded", "false");
+});
+
+test("desktop nav shows Home and Company", async ({ page, isMobile }) => {
+  test.skip(isMobile, "desktop navigation");
+  await page.goto("/start-a-project");
+  const nav = page.getByRole("navigation", { name: "Primary" });
+  await expect(nav.getByRole("link", { name: "Company", exact: true })).toBeVisible();
+  if ((await nav.getByRole("button", { name: "Solutions" }).count()) === 0) {
+    await nav.getByRole("link", { name: "Home", exact: true }).click();
+    await expect(page).toHaveURL(/\/$/);
+  }
 });

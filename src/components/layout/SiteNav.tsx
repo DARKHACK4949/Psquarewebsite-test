@@ -10,12 +10,14 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { megaMenus, type MenuKey, type NavCurrent } from "@/content/nav";
+import { megaMenus, NAV_MODE, type MenuKey, type NavCurrent } from "@/content/nav";
 import { CONTACT_EMAIL, routes } from "@/lib/site";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./SiteNav.module.css";
 
 const WIDE = 1100;
+const FULL_NAV = NAV_MODE === "full";
+const menus = FULL_NAV ? megaMenus : [];
 
 function cx(...c: (string | false | undefined | null)[]) {
   return c.filter(Boolean).join(" ");
@@ -145,10 +147,16 @@ export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
           </Link>
           <span className={styles.spacer} />
           <div className={styles.links}>
-            <NavLink href={routes.work} on={current === "work"}>
-              Work
-            </NavLink>
-            {megaMenus.map((m) => (
+            {FULL_NAV ? (
+              <NavLink href={routes.work} on={current === "work"}>
+                Work
+              </NavLink>
+            ) : (
+              <NavLink href={routes.home} on={current === "home"}>
+                Home
+              </NavLink>
+            )}
+            {menus.map((m) => (
               <button
                 key={m.key}
                 ref={(el) => {
@@ -197,7 +205,7 @@ export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
 
         <div className={styles.dd} style={{ height: ddH }}>
           <div className={styles.ddInner}>
-            {megaMenus.map((m) => {
+            {menus.map((m) => {
               const on = open === m.key;
               return (
                 <div
@@ -277,14 +285,14 @@ export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
         className={cx(styles.menu, menuOpen && styles.menuOn)}
       >
         <Link
-          href={routes.work}
+          href={FULL_NAV ? routes.work : routes.home}
           onClick={() => setMenuOpen(false)}
           className={styles.mItem}
           style={{ "--d": ".02s" } as CSSProperties}
         >
-          Work
+          {FULL_NAV ? "Work" : "Home"}
         </Link>
-        {megaMenus.map((m, i) => {
+        {menus.map((m, i) => {
           const on = mx === m.key;
           return (
             <div
