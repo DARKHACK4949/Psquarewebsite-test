@@ -448,7 +448,8 @@
     margin: 0 calc(-1 * var(--gutter));
     padding: 0 var(--gutter) 4px;
     border-bottom: 0;
-    align-items: flex-start;
+    /* Every step card takes the tallest card's height. */
+    align-items: stretch;
   }
   .steps::-webkit-scrollbar {
     display: none;
