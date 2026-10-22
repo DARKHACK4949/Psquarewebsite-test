@@ -362,10 +362,43 @@
   }
 }
 
-/* Phones: the showreel runs edge to edge, horizontal 16:9, square corners. */
+/*
+ * Phones: the hero is exactly one screen. The copy sits centred in the space
+ * under the nav, the showreel (edge to edge, 16:9, square corners) closes the
+ * screen, and the next section starts below the fold.
+ */
 @media (max-width: 639px) {
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  .inner {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: calc(var(--nav-h) + clamp(0px, 3svh - 8px, 24px));
+  }
+  .grid {
+    flex: 1;
+    row-gap: 0;
+    align-content: center;
+    padding: clamp(8px, 3svh, 24px) 0 clamp(24px, 5svh, 40px);
+  }
+  .right {
+    gap: 0;
+  }
+  .lead {
+    margin-top: clamp(16px, 2.4svh, 20px);
+  }
+  .ctas {
+    margin-top: clamp(20px, 3.6svh, 32px);
+  }
   .reel {
     --w: var(--vw);
+    flex: none;
+    margin-top: 0;
     border-radius: 0;
     box-shadow: none;
   }
