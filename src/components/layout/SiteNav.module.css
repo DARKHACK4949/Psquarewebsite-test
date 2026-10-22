@@ -392,50 +392,81 @@
   backdrop-filter: blur(6px);
 }
 
-/* Mobile menu */
+/* Mobile menu: a deep plum panel that slides down from the top. */
 .menu {
   position: fixed;
   inset: 0;
   z-index: 49;
-  background: rgba(250, 250, 248, 0.94);
-  padding: 112px 24px 40px;
+  overflow: hidden auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
+  padding: calc(var(--nav-h) + 32px) var(--gutter) 32px;
+  color: #fff;
+  /* One smooth brand gradient: near-black plum at the top deepening into plum. */
+  background: linear-gradient(
+    180deg,
+    oklch(0.17 0.03 318) 0%,
+    oklch(0.21 0.07 318) 55%,
+    oklch(0.29 0.12 318) 100%
+  );
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition:
+    transform 0.6s var(--ease),
+    visibility 0s linear 0.6s;
 }
 .menuOn {
-  opacity: 1;
-  pointer-events: auto;
-  backdrop-filter: blur(24px);
+  transform: translateY(0);
+  visibility: visible;
+  transition:
+    transform 0.9s var(--ease),
+    visibility 0s;
 }
+.mNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+/* Links, then the footer, rise in one after another once the panel lands. */
 .mItem,
-.mGroup {
+.mGroup,
+.mFoot {
+  opacity: 0;
   transform: translateY(24px);
-  transition: transform 0.6s var(--ease) var(--d, 0s);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 .menuOn .mItem,
-.menuOn .mGroup {
+.menuOn .mGroup,
+.menuOn .mFoot {
+  opacity: 1;
   transform: translateY(0);
+  transition:
+    opacity 0.6s ease calc(0.25s + var(--d, 0s)),
+    transform 0.8s var(--ease) calc(0.25s + var(--d, 0s));
 }
 .mGroup {
   display: flex;
   flex-direction: column;
 }
 .mGroup .mItem {
+  opacity: 1;
   transform: none;
 }
 .mItem {
   font-family: var(--font-display);
-  font-size: 36px;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  padding: 6px 0;
-  color: var(--ink);
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: var(--ls-h2);
+  padding: 4px 0;
+  color: #fff;
+}
+.mItem:hover,
+.mItem:focus-visible {
+  color: oklch(0.82 0.07 318);
 }
 .mTrigger {
   display: flex;
@@ -468,15 +499,108 @@
 }
 .mPanel a {
   font-size: 18px;
-  color: var(--body);
+  color: rgba(255, 255, 255, 0.72);
   padding: 8px 0;
 }
 .mPanel a.mAll {
   font-size: 16px;
   font-weight: 500;
-  color: var(--plum);
+  color: oklch(0.82 0.07 318);
   padding: 8px 0 16px;
 }
+.mFoot {
+  margin-top: auto;
+  padding-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-size: var(--fs-small);
+}
+.mSocials {
+  display: flex;
+  gap: 8px;
+}
+.mSocials a {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  transition:
+    background-color var(--t-color) ease,
+    border-color var(--t-color) ease;
+}
+.mSocials a:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.mRegions {
+  display: flex;
+  gap: 4px;
+  margin-left: -12px;
+}
+.mRegions a,
+.mRegions span {
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  color: rgba(255, 255, 255, 0.72);
+}
+.mRegions span {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-weight: 500;
+}
+.mLegal {
+  display: flex;
+  gap: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.mLegal a {
+  color: rgba(255, 255, 255, 0.6);
+}
+.mLegal a:hover,
+.mRegions a:hover {
+  color: #fff;
+}
+
+/* While the menu is open the bar reads light-on-dark. */
+.onMenu {
+  background-color: transparent;
+  box-shadow: none;
+}
+.onMenu .brand img {
+  filter: brightness(0) invert(1);
+}
+.brand img {
+  transition: filter var(--t-color) ease;
+}
+.onMenu .cta {
+  background: #fff;
+  color: var(--plum);
+}
+.onMenu .cta:hover {
+  color: var(--plum);
+}
+.onMenu .burger {
+  background: rgba(255, 255, 255, 0.12);
+}
+.onMenu .burger span {
+  background: #fff;
+}
+.cta,
+.burger,
+.burger span {
+  transition:
+    background-color var(--t-color) ease,
+    color var(--t-color) ease,
+    box-shadow 0.35s ease,
+    transform 0.35s var(--ease);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .header,
   .dd,
@@ -485,6 +609,8 @@
   .aside,
   .mItem,
   .mGroup,
+  .mFoot,
+  .menu,
   .mPanel,
   .underline {
     transition-duration: 0.01ms !important;

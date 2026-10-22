@@ -11,12 +11,25 @@ import {
   type CSSProperties,
 } from "react";
 import { megaMenus, NAV_MODE, type MenuKey, type NavCurrent } from "@/content/nav";
-import { routesFor } from "@/lib/site";
-import { regions, type Region } from "@/lib/region";
+import { usePathname } from "next/navigation";
+import {
+  FacebookLogo,
+  InstagramLogo,
+  LinkedinLogo,
+  YoutubeLogo,
+} from "@phosphor-icons/react/dist/ssr";
+import { PRIVACY_URL, routesFor, social } from "@/lib/site";
+import { REGIONS, regionPath, regions, type Region } from "@/lib/region";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./SiteNav.module.css";
 
 const WIDE = 1100;
+const SOCIAL_ICONS = {
+  linkedin: LinkedinLogo,
+  instagram: InstagramLogo,
+  youtube: YoutubeLogo,
+  facebook: FacebookLogo,
+} as const;
 const FULL_NAV = NAV_MODE === "full";
 
 function cx(...c: (string | false | undefined | null)[]) {
@@ -128,7 +141,10 @@ export function SiteNav({ region, current = "none" }: { region: Region; current?
     }
   };
 
-  const showSolid = solid || menuOpen || !!open;
+  const showSolid = (solid || !!open) && !menuOpen;
+  // Region-neutral path of this page, so the menu's region switch lands on its twin.
+  const pathname = usePathname() ?? "/";
+  const neutralPath = pathname.replace(/^\/ca(?=\/|$)/, "") || "/";
 
   return (
     <>
@@ -138,6 +154,7 @@ export function SiteNav({ region, current = "none" }: { region: Region; current?
         className={cx(
           styles.header,
           showSolid && styles.solid,
+          menuOpen && styles.onMenu,
           !!open && styles.ddOpen,
           hidden && !menuOpen && !open && styles.hidden,
         )}
@@ -283,60 +300,99 @@ export function SiteNav({ region, current = "none" }: { region: Region; current?
         inert={!menuOpen}
         className={cx(styles.menu, menuOpen && styles.menuOn)}
       >
-        <Link
-          href={FULL_NAV ? routes.work : routes.home}
-          onClick={() => setMenuOpen(false)}
-          className={styles.mItem}
-          style={{ "--d": ".02s" } as CSSProperties}
-        >
-          {FULL_NAV ? "Work" : "Home"}
-        </Link>
-        {menus.map((m, i) => {
-          const on = mx === m.key;
-          return (
-            <div
-              key={m.key}
-              className={styles.mGroup}
-              style={{ "--d": `${0.05 + i * 0.03}s` } as CSSProperties}
-            >
-              <button
-                type="button"
-                aria-expanded={on}
-                aria-controls={`m-${m.key}`}
-                onClick={() => setMx(on ? null : m.key)}
-                className={cx(styles.mItem, styles.mTrigger, on && styles.mOn)}
+        <nav aria-label="Menu" className={styles.mNav}>
+          <Link
+            href={FULL_NAV ? routes.work : routes.home}
+            onClick={() => setMenuOpen(false)}
+            className={styles.mItem}
+            style={{ "--d": ".1s" } as CSSProperties}
+          >
+            {FULL_NAV ? "Work" : "Home"}
+          </Link>
+          {menus.map((m, i) => {
+            const on = mx === m.key;
+            return (
+              <div
+                key={m.key}
+                className={styles.mGroup}
+                style={{ "--d": `${0.05 + i * 0.03}s` } as CSSProperties}
               >
-                {m.label}
-                <span aria-hidden="true">+</span>
-              </button>
-              <div id={`m-${m.key}`} className={cx(styles.mPanel, on && styles.mPanelOn)}>
-                <div inert={!on}>
-                  {m.items.map((it) => (
-                    <Link key={it.href} href={it.href} onClick={() => setMenuOpen(false)}>
-                      {it.label}
+                <button
+                  type="button"
+                  aria-expanded={on}
+                  aria-controls={`m-${m.key}`}
+                  onClick={() => setMx(on ? null : m.key)}
+                  className={cx(styles.mItem, styles.mTrigger, on && styles.mOn)}
+                >
+                  {m.label}
+                  <span aria-hidden="true">+</span>
+                </button>
+                <div id={`m-${m.key}`} className={cx(styles.mPanel, on && styles.mPanelOn)}>
+                  <div inert={!on}>
+                    {m.items.map((it) => (
+                      <Link key={it.href} href={it.href} onClick={() => setMenuOpen(false)}>
+                        {it.label}
+                      </Link>
+                    ))}
+                    <Link
+                      href={m.all.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={styles.mAll}
+                    >
+                      {m.all.label} →
                     </Link>
-                  ))}
-                  <Link
-                    href={m.all.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={styles.mAll}
-                  >
-                    {m.all.label} →
-                  </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-        <Link
-          href={routes.about}
-          onClick={() => setMenuOpen(false)}
-          className={styles.mItem}
-          style={{ "--d": ".14s" } as CSSProperties}
-        >
-          Company
-        </Link>
-        <span className={styles.spacer} />
+            );
+          })}
+          <Link
+            href={routes.about}
+            onClick={() => setMenuOpen(false)}
+            className={styles.mItem}
+            style={{ "--d": ".16s" } as CSSProperties}
+          >
+            Company
+          </Link>
+        </nav>
+        <div className={styles.mFoot} style={{ "--d": ".24s" } as CSSProperties}>
+          <div className={styles.mSocials}>
+            {social.map((s) => {
+              const Icon = SOCIAL_ICONS[s.icon];
+              return (
+                <a
+                  key={s.href}
+                  href={s.href}
+                  aria-label={s.label}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <Icon aria-hidden="true" size={22} />
+                </a>
+              );
+            })}
+          </div>
+          <div className={styles.mRegions} aria-label="Region" role="group">
+            {REGIONS.map((r) =>
+              r === region ? (
+                <span key={r} aria-current="true">
+                  {regions[r].name}
+                </span>
+              ) : (
+                <a key={r} href={regionPath(r, neutralPath)} hrefLang={regions[r].lang}>
+                  {regions[r].name}
+                </a>
+              ),
+            )}
+          </div>
+          <div className={styles.mLegal}>
+            <a href={PRIVACY_URL}>Privacy</a>
+            <Link href={routes.terms} onClick={() => setMenuOpen(false)}>
+              Terms
+            </Link>
+            <a href={routes.sitemap}>Sitemap</a>
+          </div>
+        </div>
       </div>
     </>
   );
