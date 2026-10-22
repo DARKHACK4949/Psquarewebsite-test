@@ -196,7 +196,12 @@ export function Hero({ hero }: { hero: HomeContent["hero"] }) {
               {hero.lead}
             </p>
             <div data-hero-fade="" className={styles.ctas}>
-              <ButtonLink href={hero.primary.href} data-track="cta_book_demo_click">
+              {/* Phones: the nav bar already shows this button, so the hero leaves it out. */}
+              <ButtonLink
+                href={hero.primary.href}
+                data-track="cta_book_demo_click"
+                className={styles.primary}
+              >
                 {hero.primary.label}
               </ButtonLink>
               <TextLink

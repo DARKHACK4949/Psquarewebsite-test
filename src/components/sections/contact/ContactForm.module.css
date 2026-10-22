@@ -504,7 +504,7 @@
   font-weight: 400;
   font-size: var(--fs-h2);
   line-height: 1.05;
-  letter-spacing: -0.045em;
+  letter-spacing: var(--ls-h2);
   text-wrap: balance;
 }
 .successH span {
@@ -513,7 +513,7 @@
 .successP {
   margin: 0;
   font-size: var(--fs-lead);
-  line-height: 1.46;
+  line-height: var(--lh-lead);
   color: var(--body);
   max-width: 44ch;
   text-wrap: pretty;

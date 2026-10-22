@@ -264,3 +264,24 @@ video {
 main:focus {
   outline: none;
 }
+
+/*
+ * Phones: homepage sections read as distinct bands. Every section after the
+ * hero gets the same space above and below, and every other one sits on a
+ * light plum tint, so the page alternates paper / tint down its length.
+ */
+@media (max-width: 639px) {
+  #psq-page main > section:not(:first-child) {
+    margin-top: 0;
+    padding-top: var(--band-y);
+    padding-bottom: var(--band-y);
+  }
+  #psq-page main > section:nth-child(even) {
+    background-color: var(--band);
+  }
+  /* The closing call to action always sits on paper, right above the footer. */
+  #psq-page main > section:last-child {
+    padding-bottom: 12px;
+    background-color: transparent;
+  }
+}

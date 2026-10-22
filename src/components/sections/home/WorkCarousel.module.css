@@ -12,7 +12,7 @@
   font-weight: 400;
   font-size: var(--fs-h2);
   line-height: 1.05;
-  letter-spacing: -0.045em;
+  letter-spacing: var(--ls-h2);
 }
 
 /* Brand chips: same pill language as the Industries tabs. */
@@ -116,7 +116,7 @@
   font-weight: 400;
   font-size: 26px;
   line-height: 1.12;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--ls-title);
   color: var(--ink);
   text-wrap: balance;
 }

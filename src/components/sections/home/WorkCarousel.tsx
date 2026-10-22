@@ -174,9 +174,7 @@ export function WorkCarousel({ work }: { work: HomeContent["work"] }) {
             <span key={it.key} data-on={active === i || undefined} />
           ))}
         </div>
-        <AccentLink href={work.all.href} size="sm">
-          {work.all.label}
-        </AccentLink>
+        <AccentLink href={work.all.href}>{work.all.label}</AccentLink>
       </div>
     </div>
   );

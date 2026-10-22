@@ -22,9 +22,15 @@
   --fs-h2: clamp(36px, 4vw, 64px);
   --fs-h3: clamp(26px, 2.2vw, 32px);
   --fs-lead: clamp(18px, 1.4vw, 21px);
+  /* Item titles: capability cards, steps, outcomes, questions. */
+  --fs-item: clamp(20px, 1.8vw, 28px);
   --fs-body: 16px;
   --fs-small: 14px;
   --fs-caption: 12px;
+  --ls-h2: -0.045em;
+  --ls-title: -0.025em;
+  --lh-lead: 1.46;
+  --lh-body: 1.6;
 
   /* Layout */
   --container: 1680px;
@@ -55,6 +61,9 @@
   :root {
     --section: 96px;
     --section-tight: 96px;
+    /* Homepage sections become alternating bands: equal space above and below. */
+    --band-y: 72px;
+    --band: color-mix(in oklch, var(--chip) 70%, var(--paper));
   }
 }
 @media (min-width: 640px) {

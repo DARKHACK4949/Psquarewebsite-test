@@ -16,7 +16,7 @@
   font-weight: 400;
   font-size: var(--fs-h2);
   line-height: 1.05;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--ls-h2);
 }
 .lineClip {
   display: block;
@@ -32,7 +32,7 @@
   margin: 0;
   max-width: 48ch;
   font-size: var(--fs-lead);
-  line-height: 1.46;
+  line-height: var(--lh-lead);
   color: var(--body);
   text-wrap: pretty;
 }
@@ -212,17 +212,17 @@
   .body {
     padding-top: 14px;
   }
+  .title {
+    font-size: var(--fs-item);
+  }
   .more p {
-    font-size: 15px;
+    font-size: var(--fs-body);
     line-height: 1.5;
   }
   .foot {
     justify-content: space-between;
     align-items: center;
     margin-top: 16px;
-  }
-  .foot a {
-    font-size: 14px;
   }
   .dots {
     display: flex;

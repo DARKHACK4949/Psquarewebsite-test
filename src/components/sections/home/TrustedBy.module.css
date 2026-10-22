@@ -24,7 +24,7 @@
   font-weight: 400;
   font-size: var(--fs-h2);
   line-height: 1.05;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--ls-h2);
   max-width: 20ch;
   text-wrap: balance;
 }

@@ -89,7 +89,7 @@
   font-weight: 400;
   font-size: var(--fs-h2);
   line-height: 1.05;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--ls-h2);
   color: #fff;
   text-wrap: balance;
 }
@@ -107,7 +107,7 @@
 .lead {
   margin: 0;
   font-size: var(--fs-lead);
-  line-height: 1.5;
+  line-height: var(--lh-lead);
   color: rgba(244, 242, 248, 0.78);
   text-wrap: pretty;
 }

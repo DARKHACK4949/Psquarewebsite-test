@@ -167,7 +167,7 @@
 .lead {
   margin: 0;
   font-size: var(--fs-lead);
-  line-height: 1.46;
+  line-height: var(--lh-lead);
   letter-spacing: -0.01em;
   color: var(--body);
   text-wrap: pretty;
@@ -183,6 +183,11 @@
   .ctas {
     flex-direction: row;
     align-items: center;
+  }
+}
+@media (max-width: 639px) {
+  .ctas .primary {
+    display: none;
   }
 }
 
