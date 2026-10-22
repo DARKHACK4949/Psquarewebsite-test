@@ -129,3 +129,36 @@
   color: #fff;
   border-bottom-color: #fff;
 }
+
+.short {
+  display: none;
+}
+
+/* Phones: one clear stack (eyebrow, headline, short line, one button); no email link. */
+@media (max-width: 639px) {
+  .card {
+    padding: 56px 24px;
+    gap: 28px;
+    align-items: flex-start;
+  }
+  .left {
+    gap: 16px;
+  }
+  .right {
+    gap: 24px;
+  }
+  .long {
+    display: none;
+  }
+  .short {
+    display: inline;
+  }
+  .email {
+    display: none;
+  }
+  .mark {
+    width: 260px;
+    right: -70px;
+    bottom: -90px;
+  }
+}

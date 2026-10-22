@@ -47,7 +47,10 @@ export function NextStep() {
           </h2>
         </div>
         <div className={styles.right}>
-          <p className={styles.lead}>{nextStep.lead}</p>
+          <p className={styles.lead}>
+            <span className={styles.long}>{nextStep.lead}</span>
+            <span className={styles.short}>{nextStep.leadShort}</span>
+          </p>
           <div className={styles.actions}>
             <ButtonLink href={nextStep.cta.href} tone="light" data-track="cta_book_demo_click">
               {nextStep.cta.label}

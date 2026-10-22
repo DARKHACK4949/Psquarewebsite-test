@@ -203,7 +203,7 @@ export function Hero() {
                 href={hero.secondary.href}
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollTo("#what");
+                  scrollTo(hero.secondary.href);
                 }}
               >
                 {hero.secondary.label}

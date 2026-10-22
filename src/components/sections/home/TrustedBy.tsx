@@ -63,9 +63,19 @@ export function TrustedBy() {
   return (
     <section id="company" data-screen-label="07 Trusted by" className={styles.section}>
       <div className={styles.head}>
-        <h2 className={styles.h2} data-split="" aria-label={trusted.title}>
-          <Words text={trusted.title} />
-        </h2>
+        <div className={styles.titleWrap}>
+          <span className={styles.eyebrow}>{trusted.eyebrowShort}</span>
+          <h2 className={`${styles.h2} ${styles.long}`} data-split="" aria-label={trusted.title}>
+            <Words text={trusted.title} />
+          </h2>
+          <h2
+            className={`${styles.h2} ${styles.short}`}
+            data-split=""
+            aria-label={trusted.titleShort}
+          >
+            <Words text={trusted.titleShort} />
+          </h2>
+        </div>
         <AccentLink href={trusted.link.href}>{trusted.link.label}</AccentLink>
       </div>
       <div

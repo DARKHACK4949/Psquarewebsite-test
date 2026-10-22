@@ -11,7 +11,7 @@ import {
   type CSSProperties,
 } from "react";
 import { megaMenus, NAV_MODE, type MenuKey, type NavCurrent } from "@/content/nav";
-import { CONTACT_EMAIL, routes } from "@/lib/site";
+import { routes } from "@/lib/site";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./SiteNav.module.css";
 
@@ -335,9 +335,6 @@ export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
           Company
         </Link>
         <span className={styles.spacer} />
-        <a href={`mailto:${CONTACT_EMAIL}`} className={styles.mEmail}>
-          {CONTACT_EMAIL}
-        </a>
       </div>
     </>
   );

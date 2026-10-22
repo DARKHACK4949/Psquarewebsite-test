@@ -14,11 +14,17 @@ test("homepage renders every section", async ({ page }) => {
     "Less chasing. More moving forward.",
     "From problem to production.",
     "Every business has its own moving parts.",
-    "Trusted by 50+ businesses across 20+ industries.",
     "Questions, answered.",
   ]) {
     await expect(page.getByRole("heading", { level: 2, name })).toHaveCount(1);
   }
+  // Phones show a shorter "Trusted by" heading.
+  await expect(
+    page.getByRole("heading", {
+      level: 2,
+      name: /^Trusted by 50\+ businesses( across 20\+ industries)?\.$/,
+    }),
+  ).toHaveCount(1);
   const ld = await page.locator('script[type="application/ld+json"]').textContent();
   expect(JSON.parse(ld ?? "{}")["@type"]).toBe("Organization");
 });

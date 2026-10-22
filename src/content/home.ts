@@ -4,7 +4,7 @@ export const hero = {
   lines: ["Software built around", "the way your business", "works."],
   lead: "Focused platforms and custom systems that simplify field service, architecture, and real estate operations.",
   primary: { label: "Book a demo", href: routes.contact },
-  secondary: { label: "Explore solutions", href: "#what" },
+  secondary: { label: "See our work", href: "#work" },
   reel: {
     webm: "/media/hero-reel.webm",
     mp4: "/media/hero-reel.mp4",
@@ -189,6 +189,9 @@ export const industries = {
 
 export const trusted = {
   title: "Trusted by 50+ businesses across 20+ industries.",
+  // Phones: shorter heading; the industry count moves to the eyebrow.
+  titleShort: "Trusted by 50+ businesses.",
+  eyebrowShort: "Across 20+ industries",
   link: { label: "About PSQUARE COMPANY", href: routes.about },
   // h: display height clamp(min, vw, max) from the design; w/h: intrinsic size of the 2x asset.
   logos: [
@@ -284,5 +287,6 @@ export const nextStep = {
   eyebrow: "The next step",
   title: ["Let’s make work", "work better."],
   lead: "Bring us the process, the product or the question. We’ll start by understanding it. The first consultation is free.",
+  leadShort: "Tell us how your business runs. The first consultation is free.",
   cta: { label: "Book a demo", href: routes.contact },
 };

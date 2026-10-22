@@ -82,3 +82,31 @@
     display: none;
   }
 }
+
+.titleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.eyebrow {
+  display: none;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--plum);
+}
+.short {
+  display: none;
+}
+
+/* Phones: short heading, the industry count moves to the eyebrow. */
+@media (max-width: 639px) {
+  .eyebrow,
+  .short {
+    display: block;
+  }
+  .long {
+    display: none;
+  }
+}

@@ -477,11 +477,6 @@
   color: var(--plum);
   padding: 8px 0 16px;
 }
-.mEmail {
-  font-size: 18px;
-  color: var(--muted);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .header,
   .dd,
