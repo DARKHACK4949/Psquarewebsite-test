@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AccentLink } from "@/components/ui/Button";
 import { Words } from "@/components/ui/Words";
-import { work } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import { prefersReducedMotion } from "@/lib/motion";
 import styles from "./WorkCarousel.module.css";
 
@@ -12,7 +12,7 @@ import styles from "./WorkCarousel.module.css";
  * of project cards, sized to fit one screen. Chips and swipes stay in sync and
  * only the card in view plays its video.
  */
-export function WorkCarousel() {
+export function WorkCarousel({ work }: { work: HomeContent["work"] }) {
   const [active, setActive] = useState(0);
   const track = useRef<HTMLDivElement>(null);
   const chips = useRef<(HTMLButtonElement | null)[]>([]);
@@ -32,6 +32,7 @@ export function WorkCarousel() {
   };
 
   // Swiping: the card closest to the start edge is active.
+  const count = work.items.length;
   useEffect(() => {
     const t = track.current!;
     let raf = 0;
@@ -40,10 +41,7 @@ export function WorkCarousel() {
       raf = requestAnimationFrame(() => {
         const w = t.firstElementChild?.getBoundingClientRect().width ?? t.clientWidth;
         const gap = parseFloat(getComputedStyle(t).columnGap) || 0;
-        const i = Math.max(
-          0,
-          Math.min(work.items.length - 1, Math.round(t.scrollLeft / (w + gap))),
-        );
+        const i = Math.max(0, Math.min(count - 1, Math.round(t.scrollLeft / (w + gap))));
         setActive((cur) => (cur === i ? cur : i));
       });
     };
@@ -52,7 +50,7 @@ export function WorkCarousel() {
       t.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [count]);
 
   // Only play while the carousel is on screen.
   useEffect(() => {

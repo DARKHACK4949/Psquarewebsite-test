@@ -179,6 +179,31 @@
   font-size: 14px;
   color: var(--muted);
 }
+.regions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.regions svg {
+  margin-right: 4px;
+}
+.regions a,
+.regionOn {
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  color: var(--body);
+  transition:
+    color var(--t-color) ease,
+    background-color var(--t-color) ease;
+}
+.regions a:hover {
+  color: var(--plum);
+}
+.regionOn {
+  background: var(--chip);
+  color: var(--ink);
+  font-weight: 500;
+}
 .legal {
   display: flex;
   flex-wrap: wrap;

@@ -4,6 +4,7 @@ import { test as base, expect } from "@playwright/test";
 export const test = base.extend({
   page: async ({ page }, run) => {
     await page.addInitScript(() => {
+      sessionStorage.setItem("psq-intro", "1");
       sessionStorage.setItem("psq-intro-ca", "1");
       localStorage.setItem("psq-consent", "denied");
     });

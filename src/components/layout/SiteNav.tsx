@@ -11,13 +11,13 @@ import {
   type CSSProperties,
 } from "react";
 import { megaMenus, NAV_MODE, type MenuKey, type NavCurrent } from "@/content/nav";
-import { routes } from "@/lib/site";
+import { routesFor } from "@/lib/site";
+import { regions, type Region } from "@/lib/region";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./SiteNav.module.css";
 
 const WIDE = 1100;
 const FULL_NAV = NAV_MODE === "full";
-const menus = FULL_NAV ? megaMenus : [];
 
 function cx(...c: (string | false | undefined | null)[]) {
   return c.filter(Boolean).join(" ");
@@ -28,7 +28,9 @@ function cx(...c: (string | false | undefined | null)[]) {
  * turns translucent-solid once the page scrolls. Desktop mega menus for
  * Solutions / Industries / Capabilities; full-screen accordion menu on mobile.
  */
-export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
+export function SiteNav({ region, current = "none" }: { region: Region; current?: NavCurrent }) {
+  const routes = routesFor(region);
+  const menus = FULL_NAV ? megaMenus(region) : [];
   const [solid, setSolid] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState<MenuKey | null>(null);
@@ -185,7 +187,7 @@ export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
             </NavLink>
           </div>
           <Link href={routes.contact} className={styles.cta} data-track="cta_book_demo_click">
-            Book a demo
+            {regions[region].cta}
           </Link>
           <button
             type="button"

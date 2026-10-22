@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { change } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/motion";
 import styles from "./ChangeSection.module.css";
 
@@ -23,7 +23,7 @@ const eio = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3
  * thread, sticky note, missed call) collapse into "One view of the work" as the
  * stage scrolls through the viewport. Progress is scrubbed by ScrollTrigger.
  */
-export function ChangeSection() {
+export function ChangeSection({ change }: { change: HomeContent["change"] }) {
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
 

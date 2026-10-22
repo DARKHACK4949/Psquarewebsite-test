@@ -3,14 +3,14 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { ButtonLink, TextLink } from "@/components/ui/Button";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
-import { hero } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import { mountFog } from "@/lib/fog";
 import { whenIntroDone } from "@/lib/intro";
 import { gsap, prefersReducedMotion } from "@/lib/motion";
 import { Showreel, reelBoxFrom, type ReelBox } from "./Showreel";
 import styles from "./Hero.module.css";
 
-export function Hero() {
+export function Hero({ hero }: { hero: HomeContent["hero"] }) {
   const root = useRef<HTMLElement>(null);
   const glow = useRef<HTMLDivElement>(null);
   const card = useRef<HTMLDivElement>(null);
@@ -67,7 +67,7 @@ export function Hero() {
     if (document.readyState === "complete") idle();
     else window.addEventListener("load", idle, { once: true });
     return () => window.removeEventListener("load", idle);
-  }, []);
+  }, [hero.reel.webm, hero.reel.mp4]);
 
   // Pause the background reel while the full showreel plays.
   useEffect(() => {

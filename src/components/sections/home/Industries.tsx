@@ -3,10 +3,10 @@
 import { useRef, useState, type CSSProperties } from "react";
 import { AccentLink } from "@/components/ui/Button";
 import { Words } from "@/components/ui/Words";
-import { industries } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import styles from "./Industries.module.css";
 
-export function Industries() {
+export function Industries({ industries }: { industries: HomeContent["industries"] }) {
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const n = industries.tabs.length;

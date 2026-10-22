@@ -2,7 +2,7 @@ import { test, expect } from "./fixtures";
 
 test.describe("Start a project", () => {
   test("validation errors appear on submit, not while typing", async ({ page }) => {
-    await page.goto("/start-a-project");
+    await page.goto("/ca/start-a-project");
     await page.getByLabel("Full name").fill("A");
     await expect(page.locator("form").getByRole("alert")).toHaveCount(0);
     await page.getByLabel("Full name").fill("");
@@ -14,7 +14,7 @@ test.describe("Start a project", () => {
   });
 
   test("deep link pre-selects products and the product", async ({ page }) => {
-    await page.goto("/start-a-project#sline-sales");
+    await page.goto("/ca/start-a-project#sline-sales");
     await expect(page.getByRole("radio", { name: /Our products|Products/ })).toHaveAttribute(
       "aria-checked",
       "true",
@@ -27,7 +27,7 @@ test.describe("Start a project", () => {
   });
 
   test("changing the type updates the hash and the copy", async ({ page }) => {
-    await page.goto("/start-a-project");
+    await page.goto("/ca/start-a-project");
     await page.getByRole("radio", { name: /Software consultancy|Consultancy/ }).click();
     await expect(page).toHaveURL(/#consulting$/);
     await expect(page.getByLabel(/What should we help you think through/)).toBeVisible();
@@ -36,7 +36,7 @@ test.describe("Start a project", () => {
   });
 
   test("products need at least one pick", async ({ page }) => {
-    await page.goto("/start-a-project#products");
+    await page.goto("/ca/start-a-project#products");
     await page.getByLabel("Full name").fill("Avery Chen");
     await page.getByLabel("Work email").fill("avery@example.ca");
     await page
@@ -52,7 +52,7 @@ test.describe("Start a project", () => {
       body = route.request().postData() ?? "";
       await route.fulfill({ status: 200, json: { ok: true } });
     });
-    await page.goto("/start-a-project");
+    await page.goto("/ca/start-a-project");
     await page.getByLabel("Full name").fill("Avery Chen");
     await page.getByLabel("Work email").fill("avery@example.ca");
     await page.getByLabel(/What do you need built/).fill("We track site requests in spreadsheets.");
@@ -64,7 +64,7 @@ test.describe("Start a project", () => {
       page.getByText("We’ll reply to avery@example.ca to set up a first consultation."),
     ).toBeVisible();
     expect(body).toContain('"type":"bespoke"');
-    expect(body).toContain('"dial":"+1"');
+    expect(body).toContain('"country":"CA"');
     await page.getByRole("button", { name: "Send another" }).click();
     await expect(page.getByLabel("Full name")).toHaveValue("");
   });
@@ -73,7 +73,7 @@ test.describe("Start a project", () => {
     await page.route("**/api/contact", (route) =>
       route.fulfill({ status: 502, json: { error: "x" } }),
     );
-    await page.goto("/start-a-project#products");
+    await page.goto("/ca/start-a-project#products");
     await page.getByRole("checkbox", { name: /ArcGrow/ }).click();
     await page.getByLabel("Full name").fill("Avery Chen");
     await page.getByLabel("Work email").fill("avery@example.ca");
@@ -85,13 +85,25 @@ test.describe("Start a project", () => {
   });
 });
 
+test("global form starts the phone picker on the visitor's country", async ({ browser }) => {
+  const ctx = await browser.newContext({ locale: "en-GB" });
+  const page = await ctx.newPage();
+  await page.addInitScript(() => localStorage.setItem("psq-consent", "denied"));
+  await page.goto("/start-a-project");
+  const picker = page.getByLabel("Country code");
+  await expect(picker).toHaveValue("GB");
+  await picker.selectOption("IN");
+  await expect(page.locator("form").getByText("IN +91", { exact: true })).toBeVisible();
+  await ctx.close();
+});
+
 test.describe("POST /api/contact", () => {
   const valid = {
     type: "bespoke",
     products: [],
     name: "Avery Chen",
     email: "avery@example.ca",
-    dial: "+1",
+    country: "CA",
     message: "We need a field service app.",
   };
 

@@ -1,6 +1,7 @@
 import "server-only";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { enquiryTypes, products } from "@/content/contact";
+import { dialFor } from "@/content/countries";
 import type { ContactValues } from "@/lib/contact-schema";
 
 export type StoredFile = { key: string; url: string; name: string; size: number; type: string };
@@ -65,7 +66,7 @@ function summary(v: ContactValues, file?: StoredFile) {
     ["Name", v.name],
     ["Email", v.email],
     ["Company", v.company || undefined],
-    ["Phone", v.phone ? `${v.dial} ${v.phone}` : undefined],
+    ["Phone", v.phone ? `${dialFor(v.country)} ${v.phone} (${v.country})` : undefined],
     ["Message", v.message || undefined],
     [
       "Attachment",

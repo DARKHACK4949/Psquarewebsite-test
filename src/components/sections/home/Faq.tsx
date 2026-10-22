@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Words } from "@/components/ui/Words";
-import { faq } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import { CONTACT_EMAIL } from "@/lib/site";
 import styles from "./Faq.module.css";
 
 /** "Questions, answered." Accordion with one item open at a time. */
-export function Faq() {
+export function Faq({ faq }: { faq: HomeContent["faq"] }) {
   const [open, setOpen] = useState(-1);
   const [side, setSide] = useState(false);
   const head = useRef<HTMLDivElement>(null);

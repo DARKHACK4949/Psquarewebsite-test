@@ -2,11 +2,13 @@ import Image from "next/image";
 import { AppLink as Link } from "@/components/ui/AppLink";
 import {
   FacebookLogo,
+  GlobeSimple,
   InstagramLogo,
   LinkedinLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import { CONTACT_EMAIL, PRIVACY_URL, routes, social } from "@/lib/site";
+import { CONTACT_EMAIL, PRIVACY_URL, routesFor, social } from "@/lib/site";
+import { REGIONS, regionPath, regions, type Region } from "@/lib/region";
 import styles from "./SiteFooter.module.css";
 
 const SOCIAL_ICONS = {
@@ -16,21 +18,27 @@ const SOCIAL_ICONS = {
   facebook: FacebookLogo,
 } as const;
 
-const explore = [
-  { label: "Work", href: routes.work },
-  { label: "Solutions", href: routes.solutions },
-  { label: "Industries", href: routes.industries },
-  { label: "Capabilities", href: routes.capabilities },
-];
+function footerLinks(region: Region) {
+  const routes = routesFor(region);
+  const explore = [
+    { label: "Work", href: routes.work },
+    { label: "Solutions", href: routes.solutions },
+    { label: "Industries", href: routes.industries },
+    { label: "Capabilities", href: routes.capabilities },
+  ];
 
-const company = [
-  { label: "About", href: routes.about },
-  { label: "Careers", href: routes.careers },
-  { label: "Start a project", href: routes.contact },
-  { label: "Partner with us", href: `${routes.contact}#partner` },
-];
+  const company = [
+    { label: "About", href: routes.about },
+    { label: "Careers", href: routes.careers },
+    { label: "Start a project", href: routes.contact },
+    { label: "Partner with us", href: `${routes.contact}#partner` },
+  ];
+  return { routes, explore, company };
+}
 
-export function SiteFooter() {
+/** `path` is the region-neutral path of this page, so the switcher lands on its twin. */
+export function SiteFooter({ region, path = "/" }: { region: Region; path?: string }) {
+  const { routes, explore, company } = footerLinks(region);
   return (
     <footer className={styles.footer}>
       <div className={styles.card}>
@@ -75,6 +83,25 @@ export function SiteFooter() {
         </div>
         <div className={styles.bottom}>
           <span>© 2026 PSQUARE COMPANY. All rights reserved.</span>
+          <nav aria-label="Region" className={styles.regions}>
+            <GlobeSimple aria-hidden="true" size={16} />
+            {REGIONS.map((r) =>
+              r === region ? (
+                <span key={r} aria-current="true" className={styles.regionOn}>
+                  {regions[r].name}
+                </span>
+              ) : (
+                <a
+                  key={r}
+                  href={regionPath(r, path)}
+                  hrefLang={regions[r].lang}
+                  lang={regions[r].lang}
+                >
+                  {regions[r].name}
+                </a>
+              ),
+            )}
+          </nav>
           <div className={styles.legal}>
             <a href={PRIVACY_URL}>Privacy policy</a>
             <Link href={routes.terms}>Terms of service</Link>

@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { contactIndustries, dialCodes, enquiryTypes, products, teamSizes } from "@/content/contact";
+import { contactIndustries, enquiryTypes, products, teamSizes } from "@/content/contact";
+import { countryCodes } from "@/content/countries";
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -25,7 +26,7 @@ export const contactSchema = z
     name: z.string().trim().min(1, "Please add your name.").max(200),
     email: z.string().trim().max(320).regex(EMAIL_RE, "Please add a valid email."),
     company: z.string().trim().max(200).optional(),
-    dial: z.enum(dialCodes),
+    country: z.enum(countryCodes),
     phone: z.string().trim().max(40).optional(),
     message: z.string().trim().max(5000).optional(),
     company_website: z.string().optional(),

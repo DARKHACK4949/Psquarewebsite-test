@@ -1,6 +1,20 @@
-# PSQUARE COMPANY Canada website
+# PSQUARE COMPANY website
 
-Phase 1 of the Canadian site: the **homepage** (`/`) and **Start a Project** contact page (`/start-a-project`), plus the shared nav and footer. Built from the design handoff in [`design/`](design/) (`HANDOFF.md` is the spec, `CLAUDE.md` the design rules, `*.dc.html` the visual reference).
+Two regional editions, like apple.com and apple.com/ca:
+
+| Edition | Homepage | Contact               | `lang`  | Primary CTA     |
+| ------- | -------- | --------------------- | ------- | --------------- |
+| Global  | `/`      | `/start-a-project`    | `en`    | Start a project |
+| Canada  | `/ca`    | `/ca/start-a-project` | `en-CA` | Book a demo     |
+
+Each edition is a route group with its own root layout (`src/app/(global)`, `src/app/(canada)/ca`), so moving
+between them is a full page load. Pages are shared components (`src/components/pages/*`) that take a `region`;
+copy that differs lives in `src/content/home/{global,ca}.ts` (shared copy in `shared.ts`), region settings in
+`src/lib/region.ts`. Every page carries hreflang alternates (Global doubles as `x-default`), the sitemap lists both
+editions, and the footer has a Global / Canada switcher that keeps you on the same page. Unmatched URLs use
+`src/app/global-not-found.tsx`.
+
+Phase 1: the homepage and Start a Project contact page in both editions, plus the shared nav and footer. Built from the design handoff in [`design/`](design/) (`HANDOFF.md` is the spec, `CLAUDE.md` the design rules, `*.dc.html` the visual reference).
 
 ## Stack
 
@@ -39,19 +53,23 @@ public/images             mark and client logos (WebP, 2x display size)
 
 ### Adding a Phase 2+ page
 
-1. Add the route under `src/app/<page>/page.tsx` with `metadata` copied from the design file's `<helmet>`.
-2. Compose `SiteNav current="…"`, `InnerHero`, your sections, `SiteFooter`, and `<PageReveal />` for scroll reveals
-   (`data-split` + `<Words>` on headings, `data-reveal` on blocks).
-3. Register the path in `BUILT` in `src/lib/site.ts` (turns on link prefetching) and in `src/app/sitemap.ts`.
+1. Build the page as a component in `src/components/pages/` taking `region`, with `metadata` from the design file's
+   `<helmet>` and `alternates(region, path)` from `src/lib/seo.ts`.
+2. Compose `SiteNav region current="…"`, `InnerHero`, your sections, `SiteFooter region path`, and `<PageReveal />`
+   (`data-split` + `<Words>` on headings, `data-reveal` on blocks). Build links with `routesFor(region)`.
+3. Add a thin `page.tsx` in both `src/app/(global)/<page>/` and `src/app/(canada)/ca/<page>/`.
+4. Register both paths in `BUILT` in `src/lib/site.ts` (turns on link prefetching) and the path in `src/app/sitemap.ts`.
 
 ## Motion notes
 
 - Hero and inner-hero entrances are CSS keyframes (word stagger .07s, .65s, design easing) so the server-rendered
   headline paints on first frame; everything scroll-linked is GSAP/ScrollTrigger.
 - "The change we build" scrubs fragments into the "One view of the work" panel as the stage crosses the viewport
-  (as the prototype does; it is not pinned). Selected Work is pinned (275vh) on desktop and a stacked list below 1024px.
-- Homepage brand intro plays once per browser session (`sessionStorage["psq-intro-ca"]`); click or Escape skips it.
+  (as the prototype does; it is not pinned). Selected Work is pinned on desktop (100vh + 87.5vh per extra project) and a stacked list below 1024px.
+- Homepage brand intro plays once per browser session (`sessionStorage["psq-intro"]`, `["psq-intro-ca"]` on Canada); click or Escape skips it.
 - `prefers-reduced-motion`: no Lenis, no pinning/scrubbing/marquee/reveals/blob loops; final states shown.
+- "How we work" (Global): hovering, focusing or tapping a step moves the mock screen through its four stages; on
+  phones the steps are a swipe row that drives it.
 - The cursor fog (`src/lib/fog.js`, ported as-is) runs only in the homepage hero.
 
 ## Contact form backend

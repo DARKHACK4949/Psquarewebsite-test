@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ButtonLink } from "@/components/ui/Button";
 import {
   contactIndustries,
-  dialCodes,
   enquiryTypes,
   FILE_ACCEPT,
   FILE_MAX_BYTES,
@@ -20,7 +19,9 @@ import {
   type ProductKey,
 } from "@/lib/contact-schema";
 import { track } from "@/lib/analytics";
-import { CONTACT_EMAIL, PRIVACY_URL, routes } from "@/lib/site";
+import { countries, dialFor } from "@/content/countries";
+import { CONTACT_EMAIL, PRIVACY_URL, routesFor } from "@/lib/site";
+import { regions, type Region } from "@/lib/region";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./ContactForm.module.css";
 
@@ -33,7 +34,10 @@ function fromHash(): HashState {
   return { type: "bespoke", products: [] };
 }
 
-const blank = (h: HashState = { type: "bespoke", products: [] }): ContactInput => ({
+const blank = (
+  country: string,
+  h: HashState = { type: "bespoke", products: [] },
+): ContactInput => ({
   type: h.type,
   industry: "",
   products: h.products,
@@ -41,7 +45,7 @@ const blank = (h: HashState = { type: "bespoke", products: [] }): ContactInput =
   name: "",
   email: "",
   company: "",
-  dial: "+1",
+  country: country as ContactInput["country"],
   phone: "",
   message: "",
   company_website: "",
@@ -51,7 +55,20 @@ function cx(...c: (string | false | undefined)[]) {
   return c.filter(Boolean).join(" ");
 }
 
-export function ContactForm() {
+/** The visitor's country from their browser languages ("en-GB" → "GB"), if we list it. */
+function browserCountry() {
+  for (const tag of navigator.languages ?? [navigator.language]) {
+    try {
+      const r = new Intl.Locale(tag).maximize().region;
+      if (r && countries.some((c) => c[0] === r)) return r;
+    } catch {}
+  }
+  return null;
+}
+
+export function ContactForm({ region }: { region: Region }) {
+  const routes = routesFor(region);
+  const { defaultCountry } = regions[region];
   const [sent, setSent] = useState<{ name: string; email: string; next: string } | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [fileErr, setFileErr] = useState(false);
@@ -70,7 +87,7 @@ export function ContactForm() {
     formState: { errors, isSubmitting },
   } = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
-    defaultValues: blank(),
+    defaultValues: blank(defaultCountry),
     mode: "onSubmit",
     reValidateMode: "onChange",
   });
@@ -78,12 +95,20 @@ export function ContactForm() {
   const type = useWatch({ control, name: "type" });
   const picked = useWatch({ control, name: "products" });
   const industry = useWatch({ control, name: "industry" });
+  const country = useWatch({ control, name: "country" });
   const size = useWatch({ control, name: "size" });
   const idx = Math.max(
     0,
     enquiryTypes.findIndex((t) => t.k === type),
   );
   const t = enquiryTypes[idx];
+
+  // Global edition: start the phone picker on the visitor's own country.
+  useEffect(() => {
+    if (region === "ca") return;
+    const c = browserCountry();
+    if (c) setValue("country", c as ContactInput["country"]);
+  }, [region, setValue]);
 
   // Deep links (#products, #sline-sales, ...) pre-select the form.
   useEffect(() => {
@@ -168,7 +193,7 @@ export function ContactForm() {
   });
 
   const again = () => {
-    reset(blank(fromHash()));
+    reset(blank(country, fromHash()));
     clearFile();
     setSent(null);
   };
@@ -407,10 +432,14 @@ export function ContactForm() {
                 <div className={styles.phone}>
                   <label className={styles.dial}>
                     <span className="sr-only">Country code</span>
-                    <select className={styles.input} {...register("dial")}>
-                      {dialCodes.map((d) => (
-                        <option key={d} value={d}>
-                          {d}
+                    {/* The native picker sits invisibly over a compact "CA +1" face. */}
+                    <span aria-hidden="true" className={`${styles.input} ${styles.dialFace}`}>
+                      <span className={styles.dialIso}>{country}</span> {dialFor(country)}
+                    </span>
+                    <select {...register("country")}>
+                      {countries.map(([iso, name, dial]) => (
+                        <option key={iso} value={iso}>
+                          {name} ({dial})
                         </option>
                       ))}
                     </select>
@@ -420,7 +449,7 @@ export function ContactForm() {
                     type="tel"
                     aria-labelledby="ph-l"
                     autoComplete="tel-national"
-                    placeholder="416 555 0142"
+                    placeholder={region === "ca" ? "416 555 0142" : "Phone number"}
                     className={styles.input}
                     {...register("phone")}
                   />

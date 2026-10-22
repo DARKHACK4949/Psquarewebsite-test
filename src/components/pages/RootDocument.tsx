@@ -3,8 +3,9 @@ import type { ReactNode } from "react";
 import { Funnel_Display, Funnel_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Analytics } from "@/components/providers/Analytics";
+import { regions, type Region } from "@/lib/region";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
-import "./globals.css";
+import "@/app/globals.css";
 
 const display = Funnel_Display({
   subsets: ["latin"],
@@ -20,21 +21,19 @@ const sans = Funnel_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: `${SITE_NAME} Canada`,
-    template: `%s | ${SITE_NAME} Canada`,
-  },
-  applicationName: SITE_NAME,
-  openGraph: {
-    type: "website",
-    locale: "en_CA",
-    siteName: `${SITE_NAME} Canada`,
-  },
-  twitter: { card: "summary_large_image" },
-  icons: { icon: "/images/psquare-mark.svg" },
-};
+/** Shared <html> shell for each regional edition's root layout. */
+export function rootMetadata(region: Region): Metadata {
+  const { titleSuffix, ogLocale } = regions[region];
+  const name = `${SITE_NAME}${titleSuffix}`;
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: name, template: `%s | ${name}` },
+    applicationName: SITE_NAME,
+    openGraph: { type: "website", locale: ogLocale, siteName: name },
+    twitter: { card: "summary_large_image" },
+    icons: { icon: "/images/psquare-mark.svg" },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#fafaf8",
@@ -42,9 +41,13 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export function RootDocument({ region, children }: { region: Region; children: ReactNode }) {
   return (
-    <html lang="en-CA" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html
+      lang={regions[region].lang}
+      className={`${display.variable} ${sans.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <a href="#main" className="skip-link">
           Skip to content

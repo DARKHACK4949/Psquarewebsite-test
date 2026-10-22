@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/motion";
-import { INTRO_DONE, INTRO_KEY, INTRO_REVEAL } from "@/lib/intro";
+import { INTRO_DONE, INTRO_REVEAL } from "@/lib/intro";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./IntroLoader.module.css";
 
@@ -13,7 +13,7 @@ const WORD = "PSQUARE COMPANY";
  * types out, then the lock-up opens into a window that expands to reveal the
  * page. Any pointer down or Escape skips it.
  */
-export function IntroLoader() {
+export function IntroLoader({ introKey }: { introKey: string }) {
   const bg = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const fill = useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ export function IntroLoader() {
     if (mode !== "run") {
       // Soft navigation onto the homepage: decide here instead of the inline script.
       try {
-        if (!sessionStorage.getItem(INTRO_KEY)) {
+        if (!sessionStorage.getItem(introKey)) {
           html.dataset.intro = "run";
           mode = "run";
         }
@@ -38,7 +38,7 @@ export function IntroLoader() {
     }
     if (mode !== "run") return;
     try {
-      sessionStorage.setItem(INTRO_KEY, "1");
+      sessionStorage.setItem(introKey, "1");
     } catch {}
 
     const page = document.getElementById("psq-page");
@@ -248,7 +248,7 @@ export function IntroLoader() {
         delete html.dataset.intro;
       }
     };
-  }, [lockScroll]);
+  }, [lockScroll, introKey]);
 
   return (
     <div className={styles.root}>

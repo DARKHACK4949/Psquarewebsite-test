@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import { Code, PenNib, Sparkle, Target } from "@phosphor-icons/react";
 import { AccentLink } from "@/components/ui/Button";
 import { capabilityArt } from "@/content/capability-art";
-import { what } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import { gsap, useGSAP, prefersReducedMotion } from "@/lib/motion";
 import styles from "./WhatWeDo.module.css";
 
@@ -16,7 +16,7 @@ const ICONS = { target: Target, "pen-nib": PenNib, code: Code, sparkle: Sparkle 
  * Phones and portrait tablets (below 870px): a swipeable, snapping card row with
  * the next card peeking in; the card in view plays its illustration.
  */
-export function WhatWeDo() {
+export function WhatWeDo({ what }: { what: HomeContent["what"] }) {
   const root = useRef<HTMLElement>(null);
   const list = useRef<HTMLDivElement>(null);
   const [W, setW] = useState(1400);
@@ -193,7 +193,11 @@ export function WhatWeDo() {
               >
                 <div
                   className={styles.art}
-                  dangerouslySetInnerHTML={{ __html: capabilityArt[i] }}
+                  dangerouslySetInnerHTML={{
+                    __html: what.enquiry
+                      ? capabilityArt[i].replace("inquiry", "enquiry")
+                      : capabilityArt[i],
+                  }}
                 />
               </div>
               <div className={styles.body}>

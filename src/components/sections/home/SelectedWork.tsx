@@ -5,12 +5,11 @@ import { useRouter } from "next/navigation";
 import { AccentLink } from "@/components/ui/Button";
 import { Words } from "@/components/ui/Words";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
-import { work, type WorkItem } from "@/content/home";
+import type { HomeContent, WorkItem } from "@/content/home";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/motion";
 import { WorkCarousel } from "./WorkCarousel";
 import styles from "./SelectedWork.module.css";
 
-const N = work.items.length;
 const WIDE_MQ = "(min-width: 1024px) and (min-height: 640px)";
 const clamp = (x: number) => Math.min(1, Math.max(0, x));
 const smooth = (x: number) => {
@@ -61,7 +60,8 @@ function Video({ item, ...rest }: { item: WorkItem } & React.ComponentProps<"vid
  * three products (tabs jump to each). Tablets: a stacked list whose videos play
  * while in view. Phones: brand chips over a swipeable card carousel.
  */
-export function SelectedWork() {
+export function SelectedWork({ work }: { work: HomeContent["work"] }) {
+  const N = work.items.length;
   const root = useRef<HTMLElement>(null);
   const pin = useRef<HTMLDivElement>(null);
   const [idx, setIdx] = useState(0);
@@ -216,7 +216,7 @@ export function SelectedWork() {
             {work.lead}
           </p>
         </div>
-        <div ref={pin} className={styles.pin}>
+        <div ref={pin} className={styles.pin} style={{ height: `${100 + 87.5 * (N - 1)}vh` }}>
           <div className={styles.sticky}>
             <div className={styles.stageGrid}>
               <div className={styles.side}>
@@ -297,7 +297,7 @@ export function SelectedWork() {
       </div>
 
       <div className={styles.phoneOnly}>
-        <WorkCarousel />
+        <WorkCarousel work={work} />
       </div>
 
       <div className={styles.foot}>

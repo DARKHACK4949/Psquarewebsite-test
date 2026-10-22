@@ -4,12 +4,8 @@
  * Homepage intro coordination. <html data-intro> is "run" while the loader
  * covers the page, "reveal" once the page is uncovering, and absent otherwise.
  */
-export const INTRO_KEY = "psq-intro-ca";
 export const INTRO_REVEAL = "psq:intro-reveal";
 export const INTRO_DONE = "psq:intro-done";
-
-/** Inline, pre-paint: decide whether this visit plays the intro (once per session). */
-export const introBootScript = `(function(){try{if(!sessionStorage.getItem("${INTRO_KEY}"))document.documentElement.setAttribute("data-intro","run")}catch(e){}})();`;
 
 export function introRunning() {
   return typeof document !== "undefined" && document.documentElement.dataset.intro === "run";

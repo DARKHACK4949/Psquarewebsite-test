@@ -4,14 +4,14 @@ import Image from "next/image";
 import { useRef } from "react";
 import { AccentLink } from "@/components/ui/Button";
 import { Words } from "@/components/ui/Words";
-import { trusted } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import { gsap, ScrollTrigger, useGSAP, FULL } from "@/lib/motion";
 import styles from "./TrustedBy.module.css";
 
-function LogoSet({ hidden }: { hidden?: boolean }) {
+function LogoSet({ logos, hidden }: { logos: HomeContent["trusted"]["logos"]; hidden?: boolean }) {
   return (
     <div className={styles.set} aria-hidden={hidden || undefined}>
-      {trusted.logos.map((l) => (
+      {logos.map((l) => (
         <div key={l.src} className={styles.cell}>
           <Image
             src={l.src}
@@ -29,7 +29,7 @@ function LogoSet({ hidden }: { hidden?: boolean }) {
 }
 
 /** Client logo marquee: a GSAP loop over a duplicated track; eases to a stop on hover. */
-export function TrustedBy() {
+export function TrustedBy({ trusted }: { trusted: HomeContent["trusted"] }) {
   const stage = useRef<HTMLDivElement>(null);
   const tween = useRef<gsap.core.Tween | null>(null);
 
@@ -87,8 +87,8 @@ export function TrustedBy() {
         onPointerLeave={(e) => e.pointerType === "mouse" && setSpeed(1)}
       >
         <div data-co="track" className={styles.track}>
-          <LogoSet />
-          <LogoSet hidden />
+          <LogoSet logos={trusted.logos} />
+          <LogoSet logos={trusted.logos} hidden />
         </div>
       </div>
     </section>

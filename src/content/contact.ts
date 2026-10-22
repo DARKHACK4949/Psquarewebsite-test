@@ -77,7 +77,5 @@ export const contactIndustries = [
   "Realtors & real estate",
   "Something else",
 ] as const;
-export const dialCodes = ["+1", "+44", "+61", "+91", "+971"] as const;
-
 export const FILE_MAX_BYTES = 10 * 1024 * 1024;
 export const FILE_ACCEPT = ".pdf,.doc,.docx,.ppt,.pptx,.key,.png,.jpg,.jpeg";

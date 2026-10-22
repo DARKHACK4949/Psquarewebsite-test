@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { ButtonLink } from "@/components/ui/Button";
-import { nextStep } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import { CONTACT_EMAIL } from "@/lib/site";
 import styles from "./NextStep.module.css";
 
 /** Closing call to action on the dark plum card; a soft glow follows the pointer. */
-export function NextStep() {
+export function NextStep({ nextStep }: { nextStep: HomeContent["nextStep"] }) {
   const glow = useRef<HTMLDivElement>(null);
 
   return (

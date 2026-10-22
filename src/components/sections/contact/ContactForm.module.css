@@ -307,18 +307,38 @@
 }
 .phone {
   display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
+  grid-template-columns: 96px minmax(0, 1fr);
   gap: 16px;
 }
 .dial {
   position: relative;
   display: block;
 }
-.dial select {
-  appearance: none;
-  -webkit-appearance: none;
+.dialFace {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding-right: 20px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.dialIso {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.dial select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
   cursor: pointer;
+  font: inherit;
+}
+.dial:has(select:focus) .dialFace {
+  border-bottom-color: var(--plum);
+  box-shadow: 0 1px 0 var(--plum);
 }
 .caret {
   position: absolute;
