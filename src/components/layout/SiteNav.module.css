@@ -159,7 +159,7 @@
   align-items: center;
   gap: 8px;
   height: 40px;
-  padding: 0 16px 0 18px;
+  padding: 0 18px;
   border-radius: var(--r-pill);
   background: var(--plum);
   color: #fff;
@@ -191,14 +191,6 @@
     clip: rect(0 0 0 0);
     white-space: nowrap;
   }
-}
-
-.ctaArrow {
-  display: inline-block;
-  transition: transform 0.35s var(--ease);
-}
-.cta:hover .ctaArrow {
-  transform: translateX(3px);
 }
 
 .burger {

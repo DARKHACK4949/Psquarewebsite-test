@@ -167,6 +167,7 @@
 }
 .foot a {
   padding: 0;
+  margin-left: auto; /* stays right-aligned when the row wraps on phones */
 }
 
 @media (prefers-reduced-motion: reduce) {

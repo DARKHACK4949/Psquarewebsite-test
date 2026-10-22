@@ -15,6 +15,9 @@
   align-items: flex-end;
   gap: 20px 64px;
 }
+.head > a {
+  margin-left: auto; /* stays right-aligned when the heading wraps it to its own line */
+}
 .h2 {
   margin: 0;
   font-family: var(--font-display);

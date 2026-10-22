@@ -13,7 +13,8 @@ const ICONS = { target: Target, "pen-nib": PenNib, code: Code, sparkle: Sparkle 
 /**
  * "What we do": four capability cards. On wide layouts the active card grows
  * (flex 2.4) and plays its illustration; hover, focus, click or arrow keys pick.
- * Below 820px of list width the cards stack with every illustration shown.
+ * Phones and portrait tablets (below 870px): a swipeable, snapping card row with
+ * the next card peeking in; the card in view plays its illustration.
  */
 export function WhatWeDo() {
   const root = useRef<HTMLElement>(null);
@@ -24,28 +25,45 @@ export function WhatWeDo() {
   const [inView, setInView] = useState(0);
   const [hover, setHover] = useState(-1);
   const hoverT = useRef(0);
-  const wide = W >= 820;
+  const [swipe, setSwipe] = useState(false);
+  const [gutter, setGutter] = useState(20);
+  const wide = W >= 800 && !swipe;
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 869px)");
+    const on = () => setSwipe(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
 
   useEffect(() => {
     const el = list.current!;
-    const ro = new ResizeObserver(() => setW(el.clientWidth));
+    const measure = () => {
+      setW(el.clientWidth);
+      setGutter(parseFloat(getComputedStyle(el).paddingLeft) || 0);
+    };
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
-    setW(el.clientWidth);
+    measure();
     return () => ro.disconnect();
   }, []);
 
   useEffect(() => {
     if (wide) return;
+    // Stacked: the card crossing the middle of the viewport. Phones: the card centred in the row.
     const io = new IntersectionObserver(
       (es) =>
         es.forEach((e) => {
           if (e.isIntersecting) setInView(Number((e.target as HTMLElement).dataset.i));
         }),
-      { rootMargin: "-45% 0px -45% 0px" },
+      swipe
+        ? { root: list.current, rootMargin: "0px -45% 0px -45%" }
+        : { rootMargin: "-45% 0px -45% 0px" },
     );
     list.current!.querySelectorAll("[role=listitem]").forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [wide]);
+  }, [wide, swipe]);
 
   // Active card grows; the others share the rest.
   useEffect(() => {
@@ -105,7 +123,7 @@ export function WhatWeDo() {
     list.current?.querySelectorAll<HTMLElement>("[role=listitem]")[n]?.focus();
   };
 
-  const ew = wide ? ((W - 48 - 200) * 2.4) / 5.4 : W - 50;
+  const ew = wide ? ((W - 48 - 200) * 2.4) / 5.4 : swipe ? W - 3 * gutter - 24 - 34 : W - 50;
   const s = Math.max(0.35, Math.min(1, ew / 540, wide ? 270 / 300 : 1));
 
   return (
@@ -198,6 +216,11 @@ export function WhatWeDo() {
       </div>
 
       <div className={styles.foot}>
+        <div className={styles.dots} aria-hidden="true">
+          {what.cards.map((c, i) => (
+            <span key={c.title} data-on={inView === i || undefined} />
+          ))}
+        </div>
         <AccentLink href={what.all.href}>{what.all.label}</AccentLink>
       </div>
     </section>

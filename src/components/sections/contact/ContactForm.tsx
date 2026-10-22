@@ -511,7 +511,7 @@ export function ContactForm() {
                 style={{ opacity: isSubmitting ? 0.7 : 1 } as CSSProperties}
                 aria-disabled={isSubmitting || undefined}
               >
-                {isSubmitting ? "Sending…" : t.sub} <span aria-hidden="true">→</span>
+                {isSubmitting ? "Sending…" : t.sub}
               </button>
             </div>
             {sendErr && (

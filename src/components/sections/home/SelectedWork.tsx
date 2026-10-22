@@ -7,6 +7,7 @@ import { Words } from "@/components/ui/Words";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { work, type WorkItem } from "@/content/home";
 import { gsap, ScrollTrigger, useGSAP, prefersReducedMotion } from "@/lib/motion";
+import { WorkCarousel } from "./WorkCarousel";
 import styles from "./SelectedWork.module.css";
 
 const N = work.items.length;
@@ -57,8 +58,8 @@ function Video({ item, ...rest }: { item: WorkItem } & React.ComponentProps<"vid
 
 /**
  * "Selected work". Desktop: a pinned stage where scrolling moves through the
- * three products (tabs jump to each). Smaller screens: a stacked list whose
- * videos play while in view.
+ * three products (tabs jump to each). Tablets: a stacked list whose videos play
+ * while in view. Phones: brand chips over a swipeable card carousel.
  */
 export function SelectedWork() {
   const root = useRef<HTMLElement>(null);
@@ -150,7 +151,7 @@ export function SelectedWork() {
         apply();
       });
       // Stacked layout: each media card scales up as it enters, its screen drifts (parallax).
-      mm.add("(max-width: 1023px), (max-height: 639px)", () => {
+      mm.add("(min-width: 640px) and ((max-width: 1023px) or (max-height: 639px))", () => {
         if (reduced) return;
         el.querySelectorAll<HTMLElement>("[data-w=mcard]").forEach((card) => {
           gsap.fromTo(
@@ -163,9 +164,8 @@ export function SelectedWork() {
               scrollTrigger: { trigger: card, start: "top bottom", end: "top 45%", scrub: 0.6 },
             },
           );
-          const dev = card.querySelector("[data-w=mdevice]");
           gsap.fromTo(
-            dev,
+            card.querySelector("[data-w=mdevice]"),
             { y: 28 },
             {
               y: -28,
@@ -294,6 +294,10 @@ export function SelectedWork() {
             </article>
           ))}
         </div>
+      </div>
+
+      <div className={styles.phoneOnly}>
+        <WorkCarousel />
       </div>
 
       <div className={styles.foot}>

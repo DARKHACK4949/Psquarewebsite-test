@@ -185,10 +185,7 @@ export function SiteNav({ current = "none" }: { current?: NavCurrent }) {
             </NavLink>
           </div>
           <Link href={routes.contact} className={styles.cta} data-track="cta_book_demo_click">
-            Book a demo{" "}
-            <span aria-hidden="true" className={styles.ctaArrow}>
-              →
-            </span>
+            Book a demo
           </Link>
           <button
             type="button"

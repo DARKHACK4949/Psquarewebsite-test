@@ -30,12 +30,12 @@ function Inner({ children, arrow = true }: { children: ReactNode; arrow?: boolea
   );
 }
 
-/** Primary button: plum pill, 52px (40px in the nav), arrow nudges 3px on hover. */
+/** Primary button: plum pill, 52px (40px in the nav), label only. Arrows belong to text links. */
 export function ButtonLink({
   children,
   size = "lg",
   tone = "plum",
-  arrow,
+  arrow = false,
   className,
   ...rest
 }: Common & Omit<ComponentProps<typeof Link>, "children">) {
@@ -50,7 +50,7 @@ export function Button({
   children,
   size = "lg",
   tone = "plum",
-  arrow,
+  arrow = false,
   className,
   ...rest
 }: Common & Omit<ComponentProps<"button">, "children">) {

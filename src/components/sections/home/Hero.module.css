@@ -356,3 +356,12 @@
     animation-play-state: paused;
   }
 }
+
+/* Phones: the showreel runs edge to edge, horizontal 16:9, square corners. */
+@media (max-width: 639px) {
+  .reel {
+    --w: var(--vw);
+    border-radius: 0;
+    box-shadow: none;
+  }
+}

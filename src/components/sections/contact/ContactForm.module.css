@@ -440,7 +440,7 @@
   justify-content: center;
   gap: 10px;
   height: 52px;
-  padding: 0 24px 0 26px;
+  padding: 0 26px;
   border-radius: var(--r-pill);
   background: var(--plum);
   color: #fff;
@@ -453,16 +453,9 @@
     transform var(--t-move) var(--ease),
     opacity var(--t-color) ease;
 }
-.submit span {
-  display: inline-block;
-  transition: transform var(--t-move) var(--ease);
-}
 .submit:hover {
   transform: translateY(-1px);
   box-shadow: var(--lift-shadow);
-}
-.submit:hover span {
-  transform: translateX(3px);
 }
 .submit:active {
   transform: scale(0.98);
@@ -582,8 +575,7 @@
   .knob,
   .tick svg,
   .prod,
-  .submit,
-  .submit span {
+  .submit {
     transition-duration: 0.01ms;
   }
 }

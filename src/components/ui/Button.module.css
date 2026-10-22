@@ -18,13 +18,13 @@
 .lg {
   gap: 10px;
   height: 52px;
-  padding: 0 24px 0 26px;
+  padding: 0 26px;
   font-size: 16px;
 }
 .nav {
   gap: 8px;
   height: 40px;
-  padding: 0 16px 0 18px;
+  padding: 0 18px;
   font-size: 14px;
 }
 .nav:active {

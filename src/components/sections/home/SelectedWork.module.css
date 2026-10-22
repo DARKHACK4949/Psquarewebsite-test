@@ -9,6 +9,17 @@
 .narrowOnly {
   display: block;
 }
+.phoneOnly {
+  display: none;
+}
+@media (max-width: 639px) {
+  .narrowOnly {
+    display: none;
+  }
+  .phoneOnly {
+    display: block;
+  }
+}
 @media (min-width: 1024px) and (min-height: 640px) {
   .wideOnly {
     display: block;
@@ -263,4 +274,11 @@
   padding: 0 var(--gutter);
   display: flex;
   justify-content: flex-end;
+}
+
+/* Phones: the carousel carries its own "See our work" link. */
+@media (max-width: 639px) {
+  .foot {
+    display: none;
+  }
 }
