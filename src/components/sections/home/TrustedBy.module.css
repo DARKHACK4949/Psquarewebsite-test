@@ -99,6 +99,9 @@
 .short {
   display: none;
 }
+.foot {
+  display: none;
+}
 
 /* Phones: short heading, the industry count moves to the eyebrow. */
 @media (max-width: 639px) {
@@ -108,5 +111,16 @@
   }
   .long {
     display: none;
+  }
+  .section {
+    gap: 24px;
+  }
+  .head .headLink {
+    display: none;
+  }
+  .foot {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 var(--gutter);
   }
 }

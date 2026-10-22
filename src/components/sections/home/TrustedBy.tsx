@@ -76,7 +76,9 @@ export function TrustedBy({ trusted }: { trusted: HomeContent["trusted"] }) {
             <Words text={trusted.titleShort} />
           </h2>
         </div>
-        <AccentLink href={trusted.link.href}>{trusted.link.label}</AccentLink>
+        <AccentLink href={trusted.link.href} className={styles.headLink}>
+          {trusted.link.label}
+        </AccentLink>
       </div>
       <div
         ref={stage}
@@ -90,6 +92,10 @@ export function TrustedBy({ trusted }: { trusted: HomeContent["trusted"] }) {
           <LogoSet logos={trusted.logos} />
           <LogoSet logos={trusted.logos} hidden />
         </div>
+      </div>
+      {/* Phones: the link closes the section, like every other section's link. */}
+      <div className={styles.foot}>
+        <AccentLink href={trusted.link.href}>{trusted.link.label}</AccentLink>
       </div>
     </section>
   );

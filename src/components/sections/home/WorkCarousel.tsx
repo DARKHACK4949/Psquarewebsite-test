@@ -153,9 +153,9 @@ export function WorkCarousel({ work }: { work: HomeContent["work"] }) {
                 <source src={it.video.webm} type="video/webm" />
                 <source src={it.video.mp4} type="video/mp4" />
               </video>
-              <span className={styles.tag}>{it.sector}</span>
             </div>
             <div className={styles.body}>
+              <span className={styles.tag}>{it.sector}</span>
               <h3 className={styles.h3}>
                 {it.title[0]} {it.title[1]} <span className={styles.accent}>{it.title[2]}</span>
               </h3>
