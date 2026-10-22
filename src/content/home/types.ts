@@ -27,7 +27,13 @@ export type HomeContent = {
     lead: string;
     primary: Link;
     secondary: Link;
-    reel: { webm: string; mp4: string; poster: string };
+    reel: {
+      webm: string;
+      mp4: string;
+      poster: string;
+      /** 4:3 cut for phones (below 640px); tablets and desktop use the 16:9 reel. */
+      phone: { webm: string; mp4: string; poster: string };
+    };
   };
   change: {
     lines: [string, string];

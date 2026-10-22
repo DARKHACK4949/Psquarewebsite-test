@@ -399,7 +399,20 @@
     --w: var(--vw);
     flex: none;
     margin-top: 0;
+    aspect-ratio: 4 / 3;
     border-radius: 0;
     box-shadow: none;
+  }
+}
+/* Shorter phones (iPhone 13 and below): tighter copy so the 4:3 reel still closes the screen. */
+@media (max-width: 639px) and (max-height: 760px) {
+  .inner {
+    padding-top: calc(var(--nav-h) + 12px);
+  }
+  .grid {
+    padding: 0 0 16px;
+  }
+  .h1 {
+    font-size: 34px;
   }
 }

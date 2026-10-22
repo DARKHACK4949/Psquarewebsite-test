@@ -7,6 +7,12 @@ export const reel = {
   webm: "/media/hero-reel.webm",
   mp4: "/media/hero-reel.mp4",
   poster: "/media/hero-reel-poster.jpg",
+  // Phones get their own 4:3 cut of the reel.
+  phone: {
+    webm: "/media/hero-reel-m.webm",
+    mp4: "/media/hero-reel-m.mp4",
+    poster: "/media/hero-reel-m-poster.jpg",
+  },
 };
 
 export const change: HomeContent["change"] = {

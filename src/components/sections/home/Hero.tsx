@@ -8,6 +8,8 @@ import { mountFog } from "@/lib/fog";
 import { whenIntroDone } from "@/lib/intro";
 import { gsap, prefersReducedMotion } from "@/lib/motion";
 import { Showreel, reelBoxFrom, type ReelBox } from "./Showreel";
+
+const PHONE_MQ = "(max-width: 639px)";
 import styles from "./Hero.module.css";
 
 export function Hero({ hero }: { hero: HomeContent["hero"] }) {
@@ -49,14 +51,19 @@ export function Hero({ hero }: { hero: HomeContent["hero"] }) {
   }, []);
 
   // Hero reel loads after first paint (poster first); stays paused under reduced motion.
+  // Phones play the 4:3 cut, wider screens the 16:9 reel; crossing the breakpoint swaps it.
   useEffect(() => {
     const v = video.current;
     if (!v) return;
+    const mq = window.matchMedia(PHONE_MQ);
+    const { webm, mp4, phone } = hero.reel;
     const load = () => {
-      if (v.dataset.loaded) return;
-      v.dataset.loaded = "1";
+      const src = mq.matches ? phone : { webm, mp4 };
       const canWebm = v.canPlayType('video/webm; codecs="vp9"') !== "";
-      v.src = canWebm ? hero.reel.webm : hero.reel.mp4;
+      const next = canWebm ? src.webm : src.mp4;
+      if (v.dataset.loaded === next) return;
+      v.dataset.loaded = next;
+      v.src = next;
       v.muted = true;
       if (!prefersReducedMotion()) v.play().catch(() => {});
     };
@@ -66,8 +73,13 @@ export function Hero({ hero }: { hero: HomeContent["hero"] }) {
         : setTimeout(load, 300);
     if (document.readyState === "complete") idle();
     else window.addEventListener("load", idle, { once: true });
-    return () => window.removeEventListener("load", idle);
-  }, [hero.reel.webm, hero.reel.mp4]);
+    const onChange = () => v.dataset.loaded && load();
+    mq.addEventListener("change", onChange);
+    return () => {
+      window.removeEventListener("load", idle);
+      mq.removeEventListener("change", onChange);
+    };
+  }, [hero.reel]);
 
   // Pause the background reel while the full showreel plays.
   useEffect(() => {
@@ -234,6 +246,11 @@ export function Hero({ hero }: { hero: HomeContent["hero"] }) {
             onMouseMove={onReelMove}
             onMouseLeave={() => setCursorOn(false)}
           >
+            {/* Poster per breakpoint, under the video until it plays. */}
+            <picture>
+              <source media={PHONE_MQ} srcSet={hero.reel.phone.poster} />
+              <img src={hero.reel.poster} alt="" aria-hidden="true" className={styles.video} />
+            </picture>
             <video
               ref={video}
               className={styles.video}
@@ -241,7 +258,6 @@ export function Hero({ hero }: { hero: HomeContent["hero"] }) {
               loop
               playsInline
               preload="none"
-              poster={hero.reel.poster}
               aria-hidden="true"
             />
             <div aria-hidden="true" className={styles.shade} />
