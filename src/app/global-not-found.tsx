@@ -4,7 +4,7 @@ import { SiteNav } from "@/components/layout/SiteNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { InnerHero } from "@/components/sections/InnerHero";
 import { ButtonLink } from "@/components/ui/Button";
-import styles from "@/components/pages/ContactPage.module.css";
+import styles from "./global-not-found.module.css";
 
 export const metadata: Metadata = {
   title: "Page not found | PSQUARE COMPANY",

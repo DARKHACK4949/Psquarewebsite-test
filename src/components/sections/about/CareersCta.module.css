@@ -1,0 +1,72 @@
+.section {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+}
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(32px, 4vw, 64px);
+  align-items: center;
+  padding: clamp(16px, 1.6vw, 24px);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  border: 1px solid rgba(15, 14, 19, 0.06);
+  box-shadow: var(--card-shadow);
+}
+@media (min-width: 900px) {
+  .card {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--chip);
+}
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: clamp(8px, 2vw, 32px);
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+  text-wrap: balance;
+}
+.accent {
+  color: var(--plum);
+}
+.lead {
+  margin: 0;
+  max-width: 40ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--body);
+  text-wrap: pretty;
+}
+.cta {
+  align-self: flex-start;
+}
+@media (max-width: 639px) {
+  .copy {
+    padding: 4px 8px 8px;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,28 @@
+.band {
+  position: relative;
+  isolation: isolate;
+  color: var(--night-text);
+  padding-bottom: var(--section);
+}
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--night);
+  border-radius: 32px;
+  transform: scaleX(0.94);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg {
+    transform: none;
+    border-radius: 0;
+  }
+}
+/* Phones: one solid band, edge to edge. */
+@media (max-width: 639px) {
+  .bg {
+    border-radius: 0;
+  }
+}

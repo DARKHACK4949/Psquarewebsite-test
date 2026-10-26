@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     { path: "/", priority: 1 },
     { path: "/start-a-project", priority: 0.8 },
+    { path: "/about", priority: 0.7 },
   ];
   return pages.flatMap((p) => {
     const languages = Object.fromEntries([

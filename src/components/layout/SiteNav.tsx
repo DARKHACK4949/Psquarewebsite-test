@@ -41,7 +41,16 @@ function cx(...c: (string | false | undefined | null)[]) {
  * turns translucent-solid once the page scrolls. Desktop mega menus for
  * Solutions / Industries / Capabilities; full-screen accordion menu on mobile.
  */
-export function SiteNav({ region, current = "none" }: { region: Region; current?: NavCurrent }) {
+export function SiteNav({
+  region,
+  current = "none",
+  alwaysSolid = false,
+}: {
+  region: Region;
+  current?: NavCurrent;
+  /** Keep the glass bar on from the top, for pages that open on a dark hero. */
+  alwaysSolid?: boolean;
+}) {
   const routes = routesFor(region);
   const menus = FULL_NAV ? megaMenus(region) : [];
   const [solid, setSolid] = useState(false);
@@ -141,7 +150,7 @@ export function SiteNav({ region, current = "none" }: { region: Region; current?
     }
   };
 
-  const showSolid = (solid || !!open) && !menuOpen;
+  const showSolid = (solid || alwaysSolid || !!open) && !menuOpen;
   // Region-neutral path of this page, so the menu's region switch lands on its twin.
   const pathname = usePathname() ?? "/";
   const neutralPath = pathname.replace(/^\/ca(?=\/|$)/, "") || "/";

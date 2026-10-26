@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { SiteNav } from "@/components/layout/SiteNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { InnerHero } from "@/components/sections/InnerHero";
 import { ContactForm } from "@/components/sections/contact/ContactForm";
 import { contactHero } from "@/content/contact";
+import { CONTACT_EMAIL } from "@/lib/site";
 import { regions, type Region } from "@/lib/region";
 import { alternates } from "@/lib/seo";
 import styles from "./ContactPage.module.css";
@@ -24,18 +25,45 @@ export function contactMetadata(region: Region): Metadata {
   };
 }
 
+/**
+ * Start a project: one night section. The intro sits on the left (sticky on
+ * desktop); the enquiry form sits on the right in a frosted glass card.
+ */
 export function ContactPage({ region }: { region: Region }) {
+  let w = 0;
   return (
     <>
-      <SiteNav region={region} current="none" />
+      <SiteNav region={region} current="none" alwaysSolid />
       <main id="main" tabIndex={-1}>
-        <InnerHero
-          eyebrow={contactHero.eyebrow}
-          title={contactHero.title}
-          lead={contactHero.lead}
-        />
-        <section data-screen-label="02 Form" className={styles.body} aria-label="Enquiry form">
-          <ContactForm region={region} />
+        <section data-screen-label="01 Contact" className={styles.section}>
+          <div aria-hidden="true" className={styles.glow} />
+          <div className={styles.grid}>
+            <div className={styles.intro}>
+              <span className={styles.eyebrow}>{contactHero.eyebrow}</span>
+              <h1 className={styles.h1} aria-label={contactHero.title.join(" ")}>
+                {contactHero.title.map((part, p) => (
+                  <span key={part} aria-hidden="true" className={p > 0 ? styles.accent : undefined}>
+                    {part.split(" ").map((word, j, arr) => (
+                      <span key={j}>
+                        <span className={styles.word} style={{ "--i": w++ } as CSSProperties}>
+                          {word}
+                        </span>
+                        {j < arr.length - 1 ? " " : null}
+                      </span>
+                    ))}
+                    {p < contactHero.title.length - 1 ? " " : null}
+                  </span>
+                ))}
+              </h1>
+              <p className={styles.lead}>{contactHero.lead}</p>
+              <a href={`mailto:${CONTACT_EMAIL}`} className={styles.email}>
+                {CONTACT_EMAIL} <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div className={styles.formCol} aria-label="Enquiry form">
+              <ContactForm region={region} />
+            </div>
+          </div>
         </section>
       </main>
       <SiteFooter region={region} path={PATH} />

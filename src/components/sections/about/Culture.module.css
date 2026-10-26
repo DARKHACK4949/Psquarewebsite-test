@@ -1,0 +1,339 @@
+.section {
+  padding-top: var(--section);
+}
+.inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 72px);
+}
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--hero-gap);
+  row-gap: 20px;
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+}
+.accent {
+  color: var(--night-accent);
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3vw, 44px);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: clamp(24px, 3.2vw, 56px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--night-line);
+}
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+.tab {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 0 0 clamp(16px, 1.6vw, 22px);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(18px, 1.6vw, 26px);
+  line-height: 1.1;
+  letter-spacing: var(--ls-title);
+  white-space: nowrap;
+  color: var(--night-muted);
+  transition: color var(--t-color) ease;
+}
+.tab:hover,
+.tab[aria-selected="true"] {
+  color: var(--night-text);
+}
+.tabNum {
+  padding-top: 0.3em;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--night-muted);
+}
+.tabBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--night-accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--t-move) var(--ease);
+}
+.tab[aria-selected="true"] .tabBar {
+  transform: scaleX(1);
+}
+
+/* Panels: stacked in one cell, only the active one visible. */
+.panels {
+  display: grid;
+}
+.panel {
+  grid-area: 1 / 1;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.4vw, 24px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 0.6s;
+}
+.panelOn {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+@media (min-width: 900px) {
+  .panel {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+/* Every card rises in, one after another, when its tab opens. */
+.intro,
+.tile {
+  opacity: 0;
+  transform: translateY(16px) scale(0.985);
+  transition:
+    opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+    transform 0.65s var(--ease);
+}
+.intro[data-on],
+.tile[data-on] {
+  opacity: 1;
+  transform: none;
+  transition-delay: var(--d, 0s);
+}
+
+.intro {
+  position: relative;
+  min-width: 0;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--plum-deep);
+}
+@media (min-width: 900px) {
+  .intro {
+    flex: 1 1 0;
+    min-width: 260px;
+  }
+}
+.glowA,
+.glowB {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.glowA {
+  right: -30%;
+  top: -40%;
+  width: 110%;
+  background: radial-gradient(
+    closest-side,
+    oklch(0.42 0.15 318 / 0.55),
+    oklch(0.32 0.12 318 / 0) 100%
+  );
+  filter: blur(24px);
+}
+.glowB {
+  left: -20%;
+  bottom: -35%;
+  width: 90%;
+  background: radial-gradient(
+    closest-side,
+    oklch(0.5 0.14 318 / 0.35),
+    oklch(0.32 0.12 318 / 0) 100%
+  );
+  filter: blur(30px);
+}
+.introBody {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(40px, 5vw, 80px);
+  padding: clamp(24px, 2.4vw, 40px);
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(250, 250, 248, 0.08);
+}
+.introTop {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.6vw, 24px);
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--night-accent);
+}
+.eyebrow span {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--night-accent);
+}
+.introTitle {
+  margin: 0;
+  max-width: 12ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 2.5vw, 42px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--night-text);
+  text-wrap: balance;
+}
+.introFoot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(250, 250, 248, 0.82);
+}
+.introMark {
+  flex: none;
+  width: 22px;
+  height: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.45;
+}
+
+/* Mosaic */
+.mosaic {
+  flex: none;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.4vw, 24px);
+  min-width: 0;
+}
+@media (min-width: 900px) {
+  .mosaic {
+    width: auto;
+    height: min(
+      740px,
+      50vw,
+      calc(
+        (min(100vw, var(--container)) - 2 * var(--gutter) - clamp(12px, 1.4vw, 24px) - 260px) *
+          var(--kmin)
+      )
+    );
+  }
+}
+.row {
+  flex-basis: 0;
+  min-height: 0;
+  display: flex;
+  gap: clamp(12px, 1.4vw, 24px);
+  min-width: 0;
+}
+.stack {
+  flex-basis: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.4vw, 24px);
+}
+.tile {
+  position: relative;
+  flex-basis: 0;
+  min-width: 0;
+  min-height: 0;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--night-surface);
+}
+.zoom {
+  position: absolute;
+  inset: 0;
+  transition: transform 1.2s var(--ease);
+}
+.tile:hover .zoom {
+  transform: scale(1.03);
+}
+.media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.78) contrast(1.06) brightness(1.03) sepia(0.08);
+}
+.tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, oklch(0.3 0.12 318 / 0) 45%, oklch(0.22 0.09 318 / 0.28) 100%),
+    oklch(0.35 0.14 318 / 0.1);
+  mix-blend-mode: multiply;
+  box-shadow: inset 0 0 0 1px rgba(15, 14, 19, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro,
+  .tile,
+  .tabBar,
+  .zoom {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

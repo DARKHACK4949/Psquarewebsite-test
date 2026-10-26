@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { contactIndustries, enquiryTypes, products, teamSizes } from "@/content/contact";
+import {
+  contactIndustries,
+  enquiryTypes,
+  MESSAGE_MAX,
+  products,
+  teamSizes,
+} from "@/content/contact";
 import { countryCodes } from "@/content/countries";
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,7 +34,7 @@ export const contactSchema = z
     company: z.string().trim().max(200).optional(),
     country: z.enum(countryCodes),
     phone: z.string().trim().max(40).optional(),
-    message: z.string().trim().max(5000).optional(),
+    message: z.string().trim().max(MESSAGE_MAX).optional(),
     company_website: z.string().optional(),
   })
   .superRefine((v, ctx) => {

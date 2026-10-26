@@ -77,7 +77,7 @@ for (const [base, label] of [
     }
     await page.getByRole("main").getByRole("link", { name: label }).first().click();
     await expect(page).toHaveURL(new RegExp(`${base}/start-a-project$`));
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Tell us how your");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Let’s talk about");
   });
 }
 

@@ -1,0 +1,185 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  /* The night band ends halfway down the 16:9 reel. */
+  --reel-half: calc((min(100vw, var(--container)) - 2 * var(--gutter)) * 9 / 32);
+}
+.night {
+  position: absolute;
+  inset: 0 0 var(--reel-half) 0;
+  background: var(--night);
+  overflow: hidden;
+  pointer-events: none;
+}
+.glow {
+  position: absolute;
+  right: -18vw;
+  top: -38vw;
+  width: max(90vw, 900px);
+  aspect-ratio: 1.25;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    oklch(0.42 0.15 318 / 0.5),
+    oklch(0.32 0.12 318 / 0.2) 50%,
+    oklch(0.25 0.08 318 / 0) 100%
+  );
+  filter: blur(40px);
+}
+.grid {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--hero-top) var(--gutter) clamp(32px, 4vw, 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--hero-gap);
+  row-gap: clamp(28px, 4vw, 40px);
+  align-items: end;
+  justify-content: space-between;
+}
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+.h1 {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h1);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  color: var(--night-text);
+  text-wrap: balance;
+}
+.word {
+  display: inline-block;
+}
+.accent {
+  color: var(--night-accent);
+}
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 2.2vw, 32px);
+  width: 100%;
+  max-width: var(--aside-w);
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  letter-spacing: -0.01em;
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+.link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--night-text);
+  border-bottom: 1px solid var(--night-border);
+  transition:
+    color var(--t-color) ease,
+    border-color var(--t-color) ease;
+}
+.link span {
+  display: inline-block;
+  transition: transform var(--t-move) var(--ease);
+}
+.link:hover {
+  color: var(--night-accent);
+  border-bottom-color: var(--night-accent);
+}
+.link:hover span {
+  transform: translateY(3px);
+}
+.reelWrap {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.reel {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  background: var(--chip);
+  transform-origin: 50% 50%;
+}
+.reelIn {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0.01;
+    transform: translateY(35%);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0.01;
+    transform: translateY(14px);
+  }
+}
+@keyframes reelIn {
+  from {
+    opacity: 0.01;
+    transform: translateY(48px);
+  }
+}
+@keyframes glowIn {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .glow {
+    animation: glowIn 2.4s linear backwards;
+  }
+  .word {
+    animation: rise var(--t-reveal) var(--ease) backwards;
+    animation-delay: calc(0.05s + var(--i, 0) * 0.07s);
+  }
+  .right {
+    animation: fade var(--t-reveal) var(--ease) 0.3s backwards;
+  }
+  .reelWrap {
+    animation: reelIn 1.1s var(--ease) 0.45s backwards;
+  }
+}
+
+/* Phones: the reel runs edge to edge. */
+@media (max-width: 639px) {
+  .hero {
+    --reel-half: calc(100vw * 9 / 32);
+  }
+  .reelWrap {
+    padding: 0;
+  }
+  .reel {
+    border-radius: 0;
+  }
+}

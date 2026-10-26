@@ -15,6 +15,23 @@
   --line: rgba(15, 14, 19, 0.1);
   --border: rgba(15, 14, 19, 0.14);
 
+  /* Dark sections (Company page): night surface and its type colours. */
+  --night: #0f0e13;
+  --night-surface: #1c1a22;
+  --night-text: #fafaf8;
+  --night-body: oklch(0.8 0.008 300);
+  --night-muted: oklch(0.7 0.008 300);
+  --night-accent: oklch(0.82 0.06 318);
+  --night-line: rgba(250, 250, 248, 0.14);
+  --night-border: rgba(250, 250, 248, 0.24);
+  /* Deep plum gradient for feature cards. */
+  --plum-deep: linear-gradient(
+    160deg,
+    oklch(0.34 0.13 318) 0%,
+    #330152 48%,
+    oklch(0.19 0.08 318) 100%
+  );
+
   /* Type */
   --font-display: var(--font-funnel-display), "Funnel Display", sans-serif;
   --font-sans: var(--font-funnel-sans), "Funnel Sans", system-ui, sans-serif;

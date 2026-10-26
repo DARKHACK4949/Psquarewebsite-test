@@ -50,7 +50,14 @@ export const social = [
 ] as const;
 
 /** Routes that exist in the current phase. Add each new page here as it ships. */
-const BUILT = new Set<string>(["/", "/start-a-project", "/ca", "/ca/start-a-project"]);
+const BUILT = new Set<string>([
+  "/",
+  "/start-a-project",
+  "/about",
+  "/ca",
+  "/ca/start-a-project",
+  "/ca/about",
+]);
 
 export function isBuilt(href: string) {
   if (/^(https?:|mailto:|tel:|#)/.test(href)) return true;
