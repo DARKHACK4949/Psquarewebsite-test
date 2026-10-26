@@ -41,19 +41,12 @@ function cx(...c: (string | false | undefined | null)[]) {
  * turns translucent-solid once the page scrolls. Desktop mega menus for
  * Solutions / Industries / Capabilities; full-screen accordion menu on mobile.
  */
-export function SiteNav({
-  region,
-  current = "none",
-  alwaysSolid = false,
-}: {
-  region: Region;
-  current?: NavCurrent;
-  /** Keep the glass bar on from the top, for pages that open on a dark hero. */
-  alwaysSolid?: boolean;
-}) {
+export function SiteNav({ region, current = "none" }: { region: Region; current?: NavCurrent }) {
   const routes = routesFor(region);
   const menus = FULL_NAV ? megaMenus(region) : [];
   const [solid, setSolid] = useState(false);
+  // True while the bar sits over a section marked [data-nav-dark].
+  const [dark, setDark] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState<MenuKey | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -83,12 +76,24 @@ export function SiteNav({
       const dy = y - last;
       last = y;
       setSolid(y > 8);
+      setDark(
+        Array.from(document.querySelectorAll("[data-nav-dark]")).some((el) => {
+          const r = el.getBoundingClientRect();
+          return r.top < 40 && r.bottom > 40;
+        }),
+      );
       setHidden((h) => (y < 120 ? false : dy > 6 ? true : dy < -6 ? false : h));
       if (Math.abs(y - openedAt.current) > 24) setOpen(null);
     };
     onScroll();
+    const settle = window.setTimeout(onScroll, 400);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.clearTimeout(settle);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   // Wheel/touch outside the header closes an open mega menu.
@@ -150,7 +155,8 @@ export function SiteNav({
     }
   };
 
-  const showSolid = (solid || alwaysSolid || !!open) && !menuOpen;
+  const showSolid = (solid || !!open) && !menuOpen;
+  const onDark = dark && !open && !menuOpen;
   // Region-neutral path of this page, so the menu's region switch lands on its twin.
   const pathname = usePathname() ?? "/";
   const neutralPath = pathname.replace(/^\/ca(?=\/|$)/, "") || "/";
@@ -163,6 +169,7 @@ export function SiteNav({
         className={cx(
           styles.header,
           showSolid && styles.solid,
+          onDark && styles.dark,
           menuOpen && styles.onMenu,
           !!open && styles.ddOpen,
           hidden && !menuOpen && !open && styles.hidden,

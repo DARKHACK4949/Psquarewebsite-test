@@ -57,7 +57,7 @@ export function NightBand({ children }: { children: ReactNode }) {
   );
   return (
     <div ref={root} className={styles.band}>
-      <div aria-hidden="true" data-night-bg="" className={styles.bg} />
+      <div aria-hidden="true" data-night-bg="" data-nav-dark="" className={styles.bg} />
       {children}
     </div>
   );

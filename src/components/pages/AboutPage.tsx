@@ -36,7 +36,7 @@ export function aboutMetadata(region: Region): Metadata {
 export function AboutPage({ region }: { region: Region }) {
   return (
     <>
-      <SiteNav region={region} current="co" alwaysSolid />
+      <SiteNav region={region} current="co" />
       <main id="main" tabIndex={-1}>
         <AboutHero />
         <Numbers />

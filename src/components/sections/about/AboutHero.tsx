@@ -48,7 +48,7 @@ export function AboutHero() {
 
   return (
     <section data-screen-label="01 Company hero" className={styles.hero}>
-      <div aria-hidden="true" className={styles.night}>
+      <div aria-hidden="true" data-nav-dark="" className={styles.night}>
         <div className={styles.glow} />
       </div>
       <div className={styles.grid}>

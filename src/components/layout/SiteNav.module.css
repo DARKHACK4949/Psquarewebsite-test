@@ -567,6 +567,53 @@
   color: #fff;
 }
 
+/* Over a dark section ([data-nav-dark]) the bar turns light-on-dark. */
+.dark {
+  background-color: rgba(15, 14, 19, 0);
+  box-shadow: 0 1px 0 rgba(250, 250, 248, 0);
+}
+.dark.solid {
+  background-color: rgba(15, 14, 19, 0.5);
+  box-shadow: 0 1px 0 rgba(250, 250, 248, 0.08);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .dark.solid {
+    background-color: var(--night);
+  }
+}
+.dark .brand,
+.dark .brand:hover {
+  color: var(--night-text);
+}
+.dark .brand img {
+  filter: brightness(0) invert(1);
+}
+.dark .link {
+  color: var(--night-body);
+}
+.dark .link:hover,
+.dark .on {
+  color: var(--night-text);
+}
+.dark .underline {
+  background: var(--night-accent);
+}
+.dark .cta,
+.dark .cta:hover {
+  background: var(--night-text);
+  color: var(--ink);
+}
+.dark .burger {
+  background: rgba(250, 250, 248, 0.12);
+}
+.dark .burger span {
+  background: var(--night-text);
+}
+.brand,
+.link {
+  transition: color var(--t-color) ease;
+}
+
 /* While the menu is open the bar reads light-on-dark. */
 .onMenu {
   background-color: transparent;

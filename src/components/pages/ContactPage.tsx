@@ -33,9 +33,9 @@ export function ContactPage({ region }: { region: Region }) {
   let w = 0;
   return (
     <>
-      <SiteNav region={region} current="none" alwaysSolid />
+      <SiteNav region={region} current="none" />
       <main id="main" tabIndex={-1}>
-        <section data-screen-label="01 Contact" className={styles.section}>
+        <section data-screen-label="01 Contact" data-nav-dark="" className={styles.section}>
           <div aria-hidden="true" className={styles.glow} />
           <div className={styles.grid}>
             <div className={styles.intro}>
