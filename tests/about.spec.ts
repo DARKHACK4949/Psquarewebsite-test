@@ -9,7 +9,7 @@ for (const base of ["", "/ca"]) {
     ).toBeVisible();
     for (const name of [
       "Five years in. Just getting started.",
-      "How we got here",
+      "Five years. One idea, kept simple.",
       "Built from the inside out.",
       "The people behind it",
       "Inside PSQUARE",

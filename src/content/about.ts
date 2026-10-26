@@ -32,37 +32,34 @@ export const numbers = {
 };
 
 export const journey = {
-  title: "How we got here",
+  eyebrow: "Our journey",
+  title: ["Five years.", "One idea, kept simple."],
+  lead: "From two founders in 2022 to a worldwide family of builders, every step has followed the same goal: business software that feels easy.",
   milestones: [
     {
       year: "2022",
       title: "Founded",
       copy: "Prabhjot and Prabhsimran start PSQUARE COMPANY to make business software simpler, smarter and built to scale.",
-      photo: "Founders, early days",
     },
     {
       year: "2023",
       title: "Seven industries",
       copy: "A team of 25 builds software for construction, manufacturing, elevators, real estate, facility management, Gen AI and architecture.",
-      photo: "The team of 25",
     },
     {
       year: "2024",
       title: "Backing founders",
       copy: "We start incubating startups, with consulting, product strategy and engineering from idea to launch. The team grows to 75.",
-      photo: "Founders we backed",
     },
     {
       year: "2025",
-      title: "PSQUARE IMPACT",
-      copy: "Our brand and marketing division launches, helping businesses grow through storytelling, digital presence and performance marketing.",
-      photo: "PSQUARE IMPACT launch",
+      title: "Six teams, one roof",
+      copy: "We pass 100 people and 150 projects, with strategy, design, engineering and delivery working side by side.",
     },
     {
       year: "2026",
       title: "PSQUARE UNITED",
       copy: "A worldwide initiative that invites like-minded innovators to join the PSQUARE family and change how business runs.",
-      photo: "PSQUARE UNITED",
     },
   ],
 };
