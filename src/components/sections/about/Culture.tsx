@@ -31,14 +31,13 @@ function plan(tab: Tab) {
 }
 
 const PLANS = culture.tabs.map(plan);
-/** Desktop mosaics share one height: that of the flattest tab. */
-const K_MIN = Math.min(...PLANS.map((p) => p.k));
 
 function Tile({ m, grow, d, on }: { m: CultureMedia; grow: number; d: number; on: boolean }) {
   return (
     <div
       className={styles.tile}
-      style={{ flexGrow: grow, "--d": `${0.06 + d * 0.07}s` } as CSSProperties}
+      // Weights are scaled by 100: flex-grow values summing below 1 would leave space unfilled.
+      style={{ flexGrow: grow * 100, "--d": `${0.06 + d * 0.07}s` } as CSSProperties}
       data-on={on || undefined}
     >
       <div className={styles.zoom}>
@@ -138,7 +137,6 @@ export function Culture() {
                   aria-hidden={!on}
                   inert={!on}
                   className={on ? `${styles.panel} ${styles.panelOn}` : styles.panel}
-                  style={{ "--k": p.k.toFixed(4), "--kmin": K_MIN.toFixed(4) } as CSSProperties}
                 >
                   <div
                     className={styles.intro}
@@ -173,12 +171,12 @@ export function Culture() {
                   </div>
                   <div className={styles.mosaic} style={{ aspectRatio: (1 / p.k).toFixed(4) }}>
                     {p.rows.map((row, ri) => (
-                      <div key={ri} className={styles.row} style={{ flexGrow: row.k }}>
+                      <div key={ri} className={styles.row} style={{ flexGrow: row.k * 100 }}>
                         {row.items.map((it, ii) =>
                           it.kind === "one" ? (
                             <Tile key={ii} m={t.media[it.i]} grow={it.r} d={d++} on={on} />
                           ) : (
-                            <div key={ii} className={styles.stack} style={{ flexGrow: it.r }}>
+                            <div key={ii} className={styles.stack} style={{ flexGrow: it.r * 100 }}>
                               {it.kids.map((k) => (
                                 <Tile key={k.i} m={t.media[k.i]} grow={1 / k.r} d={d++} on={on} />
                               ))}

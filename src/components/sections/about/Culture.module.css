@@ -102,13 +102,15 @@
   transform: scaleX(1);
 }
 
-/* Panels: stacked in one cell, only the active one visible. */
+/* Panels: only the active one is in flow; the others sit on top of it, hidden. */
 .panels {
-  display: grid;
+  position: relative;
 }
 .panel {
-  grid-area: 1 / 1;
-  align-self: start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   gap: clamp(12px, 1.4vw, 24px);
@@ -117,6 +119,7 @@
   transition: visibility 0s linear 0.6s;
 }
 .panelOn {
+  position: relative;
   visibility: visible;
   pointer-events: auto;
   transition-delay: 0s;
@@ -152,10 +155,10 @@
   isolation: isolate;
   background: var(--plum-deep);
 }
+/* Desktop: the card keeps one modest width; the photos take the rest. */
 @media (min-width: 900px) {
   .intro {
-    flex: 1 1 0;
-    min-width: 260px;
+    flex: 0 0 clamp(260px, 24vw, 360px);
   }
 }
 .glowA,
@@ -265,15 +268,9 @@
 }
 @media (min-width: 900px) {
   .mosaic {
+    flex: 1 1 0;
     width: auto;
-    height: min(
-      740px,
-      50vw,
-      calc(
-        (min(100vw, var(--container)) - 2 * var(--gutter) - clamp(12px, 1.4vw, 24px) - 260px) *
-          var(--kmin)
-      )
-    );
+    align-self: flex-start;
   }
 }
 .row {
@@ -335,5 +332,17 @@
   .zoom {
     transition-duration: 0.01ms !important;
     transition-delay: 0s !important;
+  }
+}
+
+/* Phones: a compact card above the photos. */
+@media (max-width: 639px) {
+  .introBody {
+    gap: 24px;
+    padding: 20px;
+  }
+  .introTitle {
+    max-width: none;
+    font-size: 26px;
   }
 }

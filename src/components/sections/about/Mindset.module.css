@@ -283,11 +283,11 @@
   filter: blur(16px);
   transform: translate(-50%, -50%) translateZ(1px);
 }
+/* Same box as the stage (not square), so the extrusion centres under the core tile. */
 .stage > .layers {
   inset: 0;
-  left: 0;
-  top: 0;
-  width: 100%;
+  width: auto;
+  aspect-ratio: auto;
   transform: none;
   transform-style: preserve-3d;
 }
