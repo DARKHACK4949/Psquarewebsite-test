@@ -7,7 +7,6 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://psquarecom
 
 export const SITE_NAME = "PSQUARE COMPANY";
 export const CONTACT_EMAIL = "info@psquarecompany.com";
-export const PRIVACY_URL = "https://psquarecompany.com/privacy-policy-2";
 
 /**
  * Every internal URL lives here so later phases (About, Work, Capabilities,
@@ -26,15 +25,16 @@ const paths = {
   careers: "/careers",
   startups: "/startups",
   caseStudy: "/case-study",
+  privacy: "/privacy",
   terms: "/terms",
-  sitemap: "/sitemap.xml",
+  sitemap: "/sitemap",
 } as const;
 
 export type Routes = { [K in keyof typeof paths]: string };
 
 export function routesFor(region: Region): Routes {
   return Object.fromEntries(
-    Object.entries(paths).map(([k, v]) => [k, k === "sitemap" ? v : regionPath(region, v)]),
+    Object.entries(paths).map(([k, v]) => [k, regionPath(region, v)]),
   ) as Routes;
 }
 
@@ -54,9 +54,17 @@ const BUILT = new Set<string>([
   "/",
   "/start-a-project",
   "/about",
+  "/careers",
+  "/privacy",
+  "/terms",
+  "/sitemap",
   "/ca",
   "/ca/start-a-project",
   "/ca/about",
+  "/ca/careers",
+  "/ca/privacy",
+  "/ca/terms",
+  "/ca/sitemap",
 ]);
 
 export function isBuilt(href: string) {

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { getConsent, setConsent, track, type AnalyticsEvent } from "@/lib/analytics";
-import { PRIVACY_URL } from "@/lib/site";
 import styles from "./Analytics.module.css";
 
 /**
@@ -36,7 +35,7 @@ export function Analytics() {
     <div role="dialog" aria-label="Cookie preferences" className={styles.banner}>
       <p className={styles.text}>
         We use analytics cookies to understand how the site is used.{" "}
-        <a href={PRIVACY_URL}>Privacy policy</a>
+        <a href="/privacy">Privacy policy</a>
       </p>
       <div className={styles.actions}>
         <button type="button" className={styles.decline} onClick={() => answer("denied")}>

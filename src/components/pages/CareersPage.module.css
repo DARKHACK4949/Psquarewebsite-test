@@ -1,0 +1,151 @@
+/* Hero "Introduce yourself ↓": the text link on the night band. */
+.heroLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  color: var(--night-text);
+  background-image:
+    linear-gradient(var(--night-accent), var(--night-accent)),
+    linear-gradient(var(--night-border), var(--night-border));
+  background-repeat: no-repeat;
+  background-position:
+    0 100%,
+    0 100%;
+  background-size:
+    0% 1px,
+    100% 1px;
+  transition:
+    background-size var(--t-move) var(--ease),
+    color var(--t-color) ease;
+}
+.heroLink:hover {
+  color: var(--night-accent);
+  background-size:
+    100% 1px,
+    100% 1px;
+}
+.heroLink > span {
+  transition: transform var(--t-move) var(--ease);
+}
+.heroLink:hover > span {
+  transform: translateY(3px);
+}
+
+.section {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 6vw, 96px);
+}
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--hero-gap);
+  row-gap: 20px;
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+  text-wrap: balance;
+}
+.accent {
+  color: var(--plum);
+}
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--body);
+  text-wrap: pretty;
+}
+.media {
+  border-radius: var(--r-media);
+  overflow: hidden;
+  background: var(--chip);
+  aspect-ratio: 4 / 3;
+}
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(32px, 3vw, 48px) clamp(16px, 2vw, 32px);
+}
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.n {
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--plum);
+}
+.h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+  letter-spacing: var(--ls-title);
+}
+.p {
+  margin: 0;
+  max-width: 32ch;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--body);
+}
+
+.end {
+  padding-bottom: var(--section);
+}
+.endRow {
+  row-gap: 32px;
+  padding-top: clamp(40px, 5vw, 72px);
+  border-top: 1px solid var(--border);
+}
+.spacer {
+  height: var(--section);
+}

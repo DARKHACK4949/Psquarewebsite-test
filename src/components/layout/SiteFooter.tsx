@@ -7,7 +7,7 @@ import {
   LinkedinLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import { CONTACT_EMAIL, PRIVACY_URL, routesFor, social } from "@/lib/site";
+import { CONTACT_EMAIL, routesFor, social } from "@/lib/site";
 import { REGIONS, regionPath, regions, type Region } from "@/lib/region";
 import styles from "./SiteFooter.module.css";
 
@@ -31,7 +31,6 @@ function footerLinks(region: Region) {
     { label: "About", href: routes.about },
     { label: "Careers", href: routes.careers },
     { label: "Start a project", href: routes.contact },
-    { label: "Partner with us", href: `${routes.contact}#partner` },
   ];
   return { routes, explore, company };
 }
@@ -103,9 +102,9 @@ export function SiteFooter({ region, path = "/" }: { region: Region; path?: stri
             )}
           </nav>
           <div className={styles.legal}>
-            <a href={PRIVACY_URL}>Privacy policy</a>
+            <Link href={routes.privacy}>Privacy policy</Link>
             <Link href={routes.terms}>Terms of service</Link>
-            <a href={routes.sitemap}>Sitemap</a>
+            <Link href={routes.sitemap}>Sitemap</Link>
           </div>
         </div>
       </div>

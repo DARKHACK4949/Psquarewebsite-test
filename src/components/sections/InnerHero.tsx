@@ -4,23 +4,31 @@ import styles from "./InnerHero.module.css";
 /**
  * Inner-page hero (every page except the homepage): plum aurora glow, eyebrow,
  * headline revealed word by word on the left, lead on the right aligned to the
- * bottom. `title` parts after the first render in plum. The entrance is CSS-only,
+ * bottom. `title` parts after the first render in plum (the night accent on dark). The entrance is CSS-only,
  * so the server-rendered headline paints without waiting for JS.
  */
 export function InnerHero({
   eyebrow,
   title,
   lead,
+  tone = "light",
   children,
 }: {
   eyebrow: string;
   title: readonly string[];
   lead: string;
+  /** "night": dark band (Careers); the nav switches to light ink over it. */
+  tone?: "light" | "night";
   children?: ReactNode;
 }) {
   let i = 0;
+  const night = tone === "night";
   return (
-    <section data-screen-label="01 Hero" className={styles.hero}>
+    <section
+      data-screen-label="01 Hero"
+      data-nav-dark={night ? "" : undefined}
+      className={night ? `${styles.hero} ${styles.night}` : styles.hero}
+    >
       <div aria-hidden="true" className={styles.aurora}>
         <div className={styles.glow} />
       </div>

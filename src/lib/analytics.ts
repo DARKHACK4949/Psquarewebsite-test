@@ -1,7 +1,13 @@
 "use client";
 
 export type AnalyticsEvent =
-  "cta_book_demo_click" | "contact_type_change" | "contact_submit_success" | "contact_submit_error";
+  | "cta_book_demo_click"
+  | "contact_type_change"
+  | "contact_submit_success"
+  | "contact_submit_error"
+  | "careers_introduce_click"
+  | "careers_role_click"
+  | "legal_index_click";
 
 export type Consent = "granted" | "denied";
 

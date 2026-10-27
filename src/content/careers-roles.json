@@ -1,0 +1,11 @@
+{
+  "_help": "Add openings to roles. href is a JD page or Google Form; without it, the role links to an application email. Put the location in type, e.g. \"Full-time · Mohali, on-site\". posted is the date the role went live (YYYY-MM-DD), used for search listings.",
+  "_example": {
+    "t": "Flutter Developer",
+    "team": "Engineering",
+    "type": "Full-time · Mohali, on-site",
+    "href": "https://forms.gle/...",
+    "posted": "2026-10-01"
+  },
+  "roles": []
+}

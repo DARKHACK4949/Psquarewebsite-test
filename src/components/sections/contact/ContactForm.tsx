@@ -20,7 +20,7 @@ import {
 } from "@/lib/contact-schema";
 import { track } from "@/lib/analytics";
 import { countries, dialFor } from "@/content/countries";
-import { CONTACT_EMAIL, PRIVACY_URL } from "@/lib/site";
+import { CONTACT_EMAIL, routesFor } from "@/lib/site";
 import { regions, type Region } from "@/lib/region";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./ContactForm.module.css";
@@ -540,7 +540,8 @@ export function ContactForm({ region }: { region: Region }) {
             </span>
           )}
           <span className={styles.privacy}>
-            We only use your details to reply. <a href={PRIVACY_URL}>Privacy policy</a>
+            We only use your details to reply.{" "}
+            <a href={routesFor(region).privacy}>Privacy policy</a>
           </span>
         </form>
       )}

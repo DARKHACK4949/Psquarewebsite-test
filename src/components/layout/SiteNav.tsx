@@ -18,7 +18,7 @@ import {
   LinkedinLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import { PRIVACY_URL, routesFor, social } from "@/lib/site";
+import { routesFor, social } from "@/lib/site";
 import { REGIONS, regionPath, regions, type Region } from "@/lib/region";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import styles from "./SiteNav.module.css";
@@ -402,11 +402,15 @@ export function SiteNav({ region, current = "none" }: { region: Region; current?
             )}
           </div>
           <div className={styles.mLegal}>
-            <a href={PRIVACY_URL}>Privacy</a>
+            <Link href={routes.privacy} onClick={() => setMenuOpen(false)}>
+              Privacy
+            </Link>
             <Link href={routes.terms} onClick={() => setMenuOpen(false)}>
               Terms
             </Link>
-            <a href={routes.sitemap}>Sitemap</a>
+            <Link href={routes.sitemap} onClick={() => setMenuOpen(false)}>
+              Sitemap
+            </Link>
           </div>
         </div>
       </div>

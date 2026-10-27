@@ -1,0 +1,105 @@
+{
+  "updated": "1 October 2026",
+  "eyebrow": "Legal",
+  "title": ["Terms of", "service"],
+  "lead": "The terms that apply when you use this website or work with PSQUARE COMPANY. Written to be read.",
+  "sections": [
+    {
+      "id": "about",
+      "title": "About these terms",
+      "blocks": [
+        {
+          "p": "These terms govern your use of psquarecompany.com and any services PSQUARE COMPANY (“PSQUARE”, “we”, “us”) provides. By using the site, you agree to them."
+        },
+        {
+          "p": "Client projects are also covered by a separate agreement. Where the two differ, the project agreement applies."
+        }
+      ]
+    },
+    {
+      "id": "use",
+      "title": "Using this website",
+      "blocks": [
+        {
+          "p": "You may browse, share and link to this website for lawful purposes. Please don’t attempt to disrupt it, access it without permission or copy it in bulk."
+        }
+      ]
+    },
+    {
+      "id": "ip",
+      "title": "Intellectual property",
+      "blocks": [
+        {
+          "p": "Content on this site, including text, images, video and the PSQUARE name and mark, belongs to PSQUARE or its partners. You may not reuse it commercially without written permission."
+        },
+        {
+          "p": "Ownership of software we build for clients is set out in each project agreement."
+        }
+      ]
+    },
+    {
+      "id": "services",
+      "title": "Our services",
+      "blocks": [
+        {
+          "p": "Descriptions of solutions and capabilities on this site are for general information. The scope, timeline and price of any engagement are confirmed in writing before work begins."
+        }
+      ]
+    },
+    {
+      "id": "enquiries",
+      "title": "Enquiries and consultations",
+      "blocks": [
+        {
+          "p": "When you contact us or request a consultation, we use the details you share only to respond and to plan your project. A free first consultation does not create any obligation on either side."
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "title": "Privacy",
+      "blocks": [
+        {
+          "p": "How we collect and use personal information is described in our Privacy policy, which forms part of these terms."
+        },
+        {
+          "link": {
+            "label": "Read the Privacy policy",
+            "route": "privacy"
+          }
+        }
+      ]
+    },
+    {
+      "id": "links",
+      "title": "Third-party links",
+      "blocks": [
+        {
+          "p": "This site may link to other websites and social platforms. We aren’t responsible for their content or practices."
+        }
+      ]
+    },
+    {
+      "id": "liability",
+      "title": "Liability",
+      "blocks": [
+        {
+          "p": "We work to keep this site accurate and available, but it is provided “as is”. To the extent the law allows, PSQUARE is not liable for losses arising from your use of the site."
+        }
+      ]
+    },
+    {
+      "id": "changes",
+      "title": "Changes and governing law",
+      "blocks": [
+        {
+          "p": "We may update these terms from time to time; the date above shows the latest version. These terms are governed by the laws of India, and disputes fall under the courts of Punjab."
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "title": "Questions about these terms?",
+    "lead": "Write to us and we’ll answer in plain language."
+  }
+}
