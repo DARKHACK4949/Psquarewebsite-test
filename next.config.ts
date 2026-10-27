@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   experimental: { globalNotFound: true },
   images: {
     formats: ["image/avif", "image/webp"],
+    // 90 is used for the Company page photo gallery, where detail matters.
+    qualities: [75, 90],
   },
   async headers() {
     return [

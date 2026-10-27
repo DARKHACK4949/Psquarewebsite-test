@@ -6,7 +6,8 @@
 .glow {
   position: absolute;
   left: -10vw;
-  top: -20vw;
+  /* Starts inside the section: a glow cut by the section edge reads as a hard line. */
+  top: -4vw;
   width: 70vw;
   aspect-ratio: 1;
   border-radius: 50%;

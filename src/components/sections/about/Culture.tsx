@@ -53,7 +53,9 @@ function Tile({ m, grow, d, on }: { m: CultureMedia; grow: number; d: number; on
             src={m.src}
             alt={m.alt}
             fill
-            sizes="(min-width: 900px) 40vw, 100vw"
+            // A tile can span most of the row (up to ~70% of the viewport on desktop).
+            sizes="(min-width: 900px) 70vw, 100vw"
+            quality={90}
             className={styles.media}
             style={{ objectPosition: m.pos ?? "50% 50%" }}
           />
