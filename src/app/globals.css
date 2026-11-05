@@ -278,7 +278,7 @@ main:focus {
  * light plum tint, so the page alternates paper / tint down its length.
  */
 @media (max-width: 639px) {
-  /* The device wall and its statement keep their own spacing and background. */
+  /* The device wall keeps its own spacing and background. */
   #psq-page main > section:not(:first-child):not([data-noband]) {
     margin-top: 0;
     padding-top: var(--band-y);
@@ -288,7 +288,8 @@ main:focus {
     background-color: var(--band);
   }
   /* The closing call to action always sits on paper, right above the footer. */
-  #psq-page main > section:last-child {
+  /* Same specificity as the band rules above, so this one wins. */
+  #psq-page main > section:last-child:not([data-noband]) {
     padding-bottom: 12px;
     background-color: transparent;
   }

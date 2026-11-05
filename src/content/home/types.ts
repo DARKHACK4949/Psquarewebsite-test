@@ -35,12 +35,11 @@ export type HomeContent = {
       phone: { webm: string; mp4: string; poster: string };
     };
   };
-  /** Device wall after the hero: pinned tiles of product clips, then the statement. */
+  /** Device wall after the hero: pinned tiles of product clips. */
   wall: {
     /** Headline words; the last `accent` words render in the accent colour. */
     title: string;
     accent: number;
-    statement: string;
     tiles: WallTile[][];
   };
   what: {
@@ -88,7 +87,13 @@ export type HomeContent = {
 };
 
 export type WallTile = {
-  src: { webm: string; mp4: string; poster: string };
+  src: {
+    webm: string;
+    mp4: string;
+    poster: string;
+    /** Lighter cut for phones, which show the first two columns only. */
+    phone?: { webm: string; mp4: string };
+  };
   /** Tile shape: the portrait phone clip, 4:3 or 4:5. */
   ratio: "portrait" | "43" | "45";
   /** Fill the tile (abstract or exact-ratio clips); devices are never cropped otherwise. */

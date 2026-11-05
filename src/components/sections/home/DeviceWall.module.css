@@ -1,7 +1,25 @@
 /* Scroll length of the pinned scene; the nav sentinel reads it too. */
 .wall {
   --track: 380vh;
+  /* The scene's share of the track (SCENE in DeviceWall.tsx). */
+  --scene: 0.766;
   position: relative;
+  /*
+   * The next section overlaps the last 42% (48% on desktop) of the pinned scroll: it rises over
+   * the fog and its heading reveals as the wall clears, with no blank screen.
+   */
+  --overlap: 0.42;
+  margin-bottom: calc((var(--track) - 100svh) * var(--overlap) * -1);
+}
+/* Desktop sections carry more top padding, so they start a little sooner. */
+@media (min-width: 1024px) {
+  .wall {
+    --overlap: 0.48;
+  }
+}
+.wall + section {
+  position: relative;
+  z-index: 1;
 }
 @media (max-width: 1023px) {
   .wall {
@@ -22,17 +40,18 @@
   background: var(--night);
   opacity: 0;
   pointer-events: none;
+  will-change: opacity;
 }
 /*
  * Covers the scroll range where the night layer is past half: from the
- * section top at 65% of the viewport to 87% of the pinned track.
+ * section top at 65% of the viewport to 87% of the scene.
  */
 .navDark {
   position: absolute;
   left: 0;
   right: 0;
   top: calc(-65vh + 40px);
-  height: calc((var(--track) - 100svh) * 0.87 + 65vh);
+  height: calc((var(--track) - 100svh) * var(--scene) * 0.87 + 65vh);
   pointer-events: none;
   visibility: hidden;
 }
@@ -67,8 +86,10 @@
   display: flex;
   align-items: flex-start;
   gap: var(--g);
+  will-change: transform, opacity;
 }
 .col {
+  will-change: opacity;
   flex: none;
   width: var(--cw);
   display: flex;
@@ -136,6 +157,7 @@
   z-index: 4;
   pointer-events: none;
   opacity: 0;
+  will-change: opacity;
   background: radial-gradient(
     ellipse 75% 55% at 50% 50%,
     rgba(15, 14, 19, 0.4) 0%,
@@ -168,12 +190,14 @@
 .word {
   position: relative;
   display: inline-block;
+  will-change: transform;
 }
 .accent {
   color: var(--wall-accent);
 }
 .sharp {
   opacity: 0;
+  will-change: opacity;
 }
 /* A blurred copy, cross-faded with the sharp word (only opacity animates). */
 .soft {
@@ -182,6 +206,7 @@
   top: 0;
   opacity: 0;
   filter: blur(12px);
+  will-change: opacity;
 }
 
 .fog {
@@ -193,6 +218,7 @@
   z-index: 6;
   pointer-events: none;
   transform: translateY(100svh);
+  will-change: transform;
 }
 .fog > div {
   position: absolute;
@@ -235,32 +261,6 @@
   background: radial-gradient(closest-side, oklch(0.95 0.02 318 / 0.8), oklch(0.97 0.01 318 / 0));
 }
 
-/* The statement the fog hands over to, pulled up under the pinned scene. */
-.statement {
-  position: relative;
-  z-index: 7;
-  margin-top: -100svh;
-  overflow: hidden;
-}
-.statementInner {
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 30vh var(--gutter) 20vh;
-}
-.stmt {
-  margin: 0;
-  max-width: 22ch;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(24px, 2.6vw, 44px);
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  text-wrap: pretty;
-}
-.sw {
-  display: inline-block;
-}
-
 /* Phones: two columns (42% / 58%), right column hidden. */
 @media (max-width: 639px) {
   .bento {
@@ -282,6 +282,9 @@
  * dark band with the tiles dimmed behind a readable headline.
  */
 @media (prefers-reduced-motion: reduce) {
+  .wall {
+    margin-bottom: 0;
+  }
   .track {
     height: auto;
   }
@@ -304,8 +307,5 @@
   }
   .sharp {
     opacity: 1;
-  }
-  .statement {
-    margin-top: 0;
   }
 }

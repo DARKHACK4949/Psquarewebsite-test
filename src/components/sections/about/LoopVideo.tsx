@@ -4,13 +4,18 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, type CSSProperties 
 import type { VideoSrc } from "@/content/about";
 import { prefersReducedMotion } from "@/lib/motion";
 
+const PHONE = "(max-width: 639px)";
+
+/** Optional lighter cut for phones (below 640px), picked before the full sources. */
+type Src = VideoSrc & { phone?: { webm: string; mp4: string } };
+
 /**
  * Muted, looping background video: loads lazily, plays only while on screen
  * and stays on its poster under reduced motion.
  */
 export const LoopVideo = forwardRef<
   HTMLVideoElement,
-  { src: VideoSrc; className?: string; style?: CSSProperties; label?: string; eager?: boolean }
+  { src: Src; className?: string; style?: CSSProperties; label?: string; eager?: boolean }
 >(function LoopVideo({ src, className, style, label, eager }, ref) {
   const el = useRef<HTMLVideoElement>(null);
   useImperativeHandle(ref, () => el.current!);
@@ -44,6 +49,12 @@ export const LoopVideo = forwardRef<
       className={className}
       style={style}
     >
+      {src.phone && (
+        <>
+          <source src={src.phone.webm} type="video/webm" media={PHONE} />
+          <source src={src.phone.mp4} type="video/mp4" media={PHONE} />
+        </>
+      )}
       <source src={src.webm} type="video/webm" />
       <source src={src.mp4} type="video/mp4" />
     </video>

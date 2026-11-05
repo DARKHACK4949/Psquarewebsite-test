@@ -9,10 +9,17 @@ import styles from "./DeviceWall.module.css";
 const RATIO = { portrait: styles.rPortrait, "43": styles.r43, "45": styles.r45 };
 
 /**
+ * Share of the track the scene takes. The next section overlaps the last
+ * 42% of the scroll (48% on desktop) and arrives over the fog as the scene ends.
+ * Keep in step with --scene in DeviceWall.module.css.
+ */
+const SCENE = 0.766;
+
+/**
  * Device wall: a pinned, full-bleed bento of product clips that glides up as
  * one block while the page goes dark and the headline resolves word by word.
- * Light fog then rises and hands over to the statement, which is pulled up
- * under the pinned scene. Scrubbed across the 380vh track.
+ * Light fog then rises and the next section scrolls in over it.
+ * Scrubbed across the 380vh track.
  *
  * Only transform and opacity animate: the dark page is a fixed night layer
  * fading in and out, and each word's blur is a pre-blurred copy cross-fading
@@ -20,7 +27,6 @@ const RATIO = { portrait: styles.rPortrait, "43": styles.r43, "45": styles.r45 }
  */
 export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
   const root = useRef<HTMLElement>(null);
-  const statement = useRef<HTMLElement>(null);
   const words = wall.title.split(" ");
   const accentFrom = words.length - wall.accent;
 
@@ -54,6 +60,9 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
           },
         );
 
+        let hidden = false;
+        const videos = q<HTMLVideoElement>("video");
+
         // 2) The pinned scene, progress 0 → 1 across the track.
         const tl = gsap.timeline({
           defaults: { ease: "none" },
@@ -63,6 +72,13 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
             end: "bottom bottom",
             scrub: true,
             invalidateOnRefresh: true,
+            // Once the fog covers the wall, stop decoding its clips.
+            onUpdate: (st) => {
+              const covered = st.progress > SCENE * 0.88;
+              if (covered === hidden) return;
+              hidden = covered;
+              videos.forEach((v) => (covered ? v.pause() : v.play().catch(() => {})));
+            },
           },
         });
 
@@ -123,7 +139,7 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
           tl.to(soft, { opacity: 0, ease: "power1.in", duration: 0.05 }, tOut + 0.03);
         });
 
-        // Fog rises, the grid fades, the page returns to light for the statement.
+        // Fog rises, the grid fades, the page returns to light.
         tl.fromTo(
           fog,
           { y: () => vh() },
@@ -138,23 +154,10 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
           0.8,
         );
 
-        // 3) Statement words darken as they scroll in.
-        const stmt = statement.current!;
-        gsap.fromTo(
-          stmt.querySelectorAll("[data-w=sw]"),
-          { opacity: 0.15 },
-          {
-            opacity: 1,
-            stagger: 0.1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: stmt.querySelector("p"),
-              start: "top 85%",
-              end: "top 35%",
-              scrub: true,
-            },
-          },
-        );
+        // The scene above runs on a 0–1 clock; an empty tail squeezes it into the
+        // first SCENE of the track, leaving the rest for the next section to
+        // scroll in over the fog (see the margin in the CSS).
+        tl.set({}, {}, 1 / SCENE);
       });
       return () => mm.revert();
     },
@@ -162,91 +165,68 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
   );
 
   return (
-    <>
-      <section
-        ref={root}
-        data-screen-label="01b Device wall"
-        data-noband=""
-        aria-label={wall.title}
-        className={styles.wall}
-      >
-        {/* Fixed night layer: the page's dark phase. */}
-        <div data-w="night" aria-hidden="true" className={styles.night} />
-        {/* Spans the dark phase so the nav switches to light ink over it. */}
-        <div data-nav-dark="" aria-hidden="true" className={styles.navDark} />
-        <div data-w="track" className={styles.track}>
-          <div data-w="pin" className={styles.pin}>
-            <div aria-hidden="true" className={styles.stage}>
-              <div data-w="bento" className={styles.bento}>
-                {wall.tiles.map((col, c) => (
-                  <div key={c} data-w="col" className={`${styles.col} ${styles[`col${c + 1}`]}`}>
-                    {col.map((tile) => (
-                      <div
-                        key={tile.src.webm}
-                        data-w={tile.hero ? "hero" : undefined}
-                        className={`${styles.tile} ${RATIO[tile.ratio]} ${tile.cover ? styles.cover : ""}`}
-                      >
-                        <LoopVideo src={tile.src} />
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div data-w="fog" aria-hidden="true" className={styles.fog}>
-              <div className={styles.fogBase} />
-              <div className={styles.fogA} />
-              <div className={styles.fogB} />
-              <div className={styles.fogC} />
-            </div>
-
-            <div data-w="veil" aria-hidden="true" className={styles.veil} />
-
-            <div className={styles.head}>
-              <h2 className={styles.h2} aria-label={wall.title}>
-                {words.map((w, i) => (
-                  <span key={i} aria-hidden="true">
-                    <span
-                      data-w="word"
-                      className={i >= accentFrom ? `${styles.word} ${styles.accent}` : styles.word}
+    <section
+      ref={root}
+      data-screen-label="01b Device wall"
+      data-noband=""
+      aria-label={wall.title}
+      className={styles.wall}
+    >
+      {/* Fixed night layer: the page's dark phase. */}
+      <div data-w="night" aria-hidden="true" className={styles.night} />
+      {/* Spans the dark phase so the nav switches to light ink over it. */}
+      <div data-nav-dark="" aria-hidden="true" className={styles.navDark} />
+      <div data-w="track" className={styles.track}>
+        <div data-w="pin" className={styles.pin}>
+          <div aria-hidden="true" className={styles.stage}>
+            <div data-w="bento" className={styles.bento}>
+              {wall.tiles.map((col, c) => (
+                <div key={c} data-w="col" className={`${styles.col} ${styles[`col${c + 1}`]}`}>
+                  {col.map((tile) => (
+                    <div
+                      key={tile.src.webm}
+                      data-w={tile.hero ? "hero" : undefined}
+                      className={`${styles.tile} ${RATIO[tile.ratio]} ${tile.cover ? styles.cover : ""}`}
                     >
-                      <span data-w="sharp" className={styles.sharp}>
-                        {w}
-                      </span>
-                      <span data-w="soft" className={styles.soft}>
-                        {w}
-                      </span>
-                    </span>
-                    {i < words.length - 1 ? " " : null}
-                  </span>
-                ))}
-              </h2>
+                      <LoopVideo src={tile.src} />
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      <section
-        ref={statement}
-        data-screen-label="01c Statement"
-        data-noband=""
-        className={styles.statement}
-      >
-        <div className={styles.statementInner}>
-          <p className={styles.stmt}>
-            <span className="sr-only">{wall.statement}</span>
-            {wall.statement.split(" ").map((w, i, a) => (
-              <span key={i} aria-hidden="true">
-                <span data-w="sw" className={styles.sw}>
-                  {w}
+          <div data-w="fog" aria-hidden="true" className={styles.fog}>
+            <div className={styles.fogBase} />
+            <div className={styles.fogA} />
+            <div className={styles.fogB} />
+            <div className={styles.fogC} />
+          </div>
+
+          <div data-w="veil" aria-hidden="true" className={styles.veil} />
+
+          <div className={styles.head}>
+            <h2 className={styles.h2} aria-label={wall.title}>
+              {words.map((w, i) => (
+                <span key={i} aria-hidden="true">
+                  <span
+                    data-w="word"
+                    className={i >= accentFrom ? `${styles.word} ${styles.accent}` : styles.word}
+                  >
+                    <span data-w="sharp" className={styles.sharp}>
+                      {w}
+                    </span>
+                    <span data-w="soft" className={styles.soft}>
+                      {w}
+                    </span>
+                  </span>
+                  {i < words.length - 1 ? " " : null}
                 </span>
-                {i < a.length - 1 ? " " : null}
-              </span>
-            ))}
-          </p>
+              ))}
+            </h2>
+          </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
