@@ -1,5 +1,5 @@
 import type { Routes } from "@/lib/site";
-import type { HomeContent, Logo, WorkItem } from "./types";
+import type { HomeContent, Logo, WallTile, WorkItem } from "./types";
 
 /** Copy both editions share; each region file composes its homepage from these. */
 
@@ -13,6 +13,35 @@ export const reel = {
     mp4: "/media/hero-reel-m.mp4",
     poster: "/media/hero-reel-m-poster.jpg",
   },
+};
+
+const clip = (name: string) => ({
+  webm: `/media/home/wall/${name}.webm`,
+  mp4: `/media/home/wall/${name}.mp4`,
+  poster: `/media/home/wall/${name}-poster.jpg`,
+});
+
+const t = (name: string, ratio: WallTile["ratio"], extra = {}): WallTile => ({
+  src: clip(name),
+  ratio,
+  ...extra,
+});
+
+export const wall: HomeContent["wall"] = {
+  title: "We design the products behind ambitious businesses.",
+  accent: 2,
+  statement:
+    "As the way people use software changes, we help teams rebuild their platforms, workflows and design systems to keep up.",
+  // Three columns, left to right; phones show the first two.
+  tiles: [
+    [t("phone-portrait", "portrait", { cover: true }), t("fintech-mobile", "45")],
+    [
+      t("arcgrow-mobile", "43"),
+      t("psquare-glass-hero", "45", { cover: true, hero: true }),
+      t("sline-mobile", "43"),
+    ],
+    [t("sline-tablet", "45"), t("laptop-dashboard", "45")],
+  ],
 };
 
 export const change: HomeContent["change"] = {

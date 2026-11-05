@@ -15,6 +15,7 @@ export const globalHome = (r: Routes): HomeContent => ({
     secondary: { label: "See our work", href: "#work" },
     reel: s.reel,
   },
+  wall: s.wall,
   change: s.change,
   what: { ...s.what(r), enquiry: true },
   work: s.work(r, ["tathasthu", "sline", "arcgrow", "suryacon", "slineServices"]),

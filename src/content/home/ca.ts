@@ -15,6 +15,7 @@ export const caHome = (r: Routes): HomeContent => ({
     secondary: { label: "See our work", href: "#work" },
     reel: s.reel,
   },
+  wall: s.wall,
   change: s.change,
   what: s.what(r),
   work: s.work(r, ["sline", "arcgrow", "slineServices"]),

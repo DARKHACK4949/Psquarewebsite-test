@@ -24,6 +24,9 @@
   --night-accent: oklch(0.82 0.06 318);
   --night-line: rgba(250, 250, 248, 0.14);
   --night-border: rgba(250, 250, 248, 0.24);
+  /* Homepage device wall: tile backing that blends with the clips' black, and the night accent for its headline. */
+  --video-black: #000;
+  --wall-accent: oklch(0.82 0.07 318);
   /* Deep plum gradient for feature cards. */
   --plum-deep: linear-gradient(
     160deg,

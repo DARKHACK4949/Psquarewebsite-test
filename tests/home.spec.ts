@@ -160,3 +160,44 @@ test("desktop nav shows Home and Company", async ({ page, isMobile }) => {
     await expect(page).toHaveURL(/:\d+\/$/);
   }
 });
+
+for (const base of ["", "/ca"]) {
+  test(`${base || "global"} device wall sits between the hero and the next section`, async ({
+    page,
+  }) => {
+    await page.goto(`${base}/`);
+    const heads = page.getByRole("heading", { level: 2 });
+    await expect(
+      page.getByRole("heading", {
+        level: 2,
+        name: "We design the products behind ambitious businesses.",
+      }),
+    ).toBeAttached();
+    await expect(heads.first()).toHaveAccessibleName(
+      "We design the products behind ambitious businesses.",
+    );
+    await expect(page.getByText(/As the way people use software changes/).first()).toBeAttached();
+    const clips = page.locator('[data-w="bento"] video');
+    await expect(clips).toHaveCount(7);
+    // Every clip has a WebM and an MP4 fallback, and stays hidden from assistive tech.
+    for (const v of await clips.all()) {
+      await expect(v.locator("source")).toHaveCount(2);
+      await expect(v).toHaveAttribute("aria-hidden", "true");
+    }
+  });
+}
+
+test("device wall darkens the page and the nav while pinned", async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem("psq-intro", "1"));
+  await page.goto("/");
+  const top = await page.evaluate(() => {
+    const t = document.querySelector<HTMLElement>("[data-w=track]")!;
+    return t.getBoundingClientRect().top + scrollY + t.offsetHeight * 0.3;
+  });
+  for (let k = 0; k < 10; k++) await page.mouse.wheel(0, top / 10);
+  await expect
+    .poll(() =>
+      page.evaluate(() => getComputedStyle(document.querySelector("[data-w=night]")!).opacity),
+    )
+    .toBe("1");
+});

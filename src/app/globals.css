@@ -12,10 +12,17 @@ html.lenis body {
   overflow: hidden;
 }
 
+/*
+ * Paper lives on <html> only (it paints the canvas). The body stays
+ * transparent so fixed backdrops at z-index -1, like the homepage device
+ * wall's night phase, can show behind the content.
+ */
+html {
+  background: var(--paper);
+}
 html,
 body {
   margin: 0;
-  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -271,12 +278,13 @@ main:focus {
  * light plum tint, so the page alternates paper / tint down its length.
  */
 @media (max-width: 639px) {
-  #psq-page main > section:not(:first-child) {
+  /* The device wall and its statement keep their own spacing and background. */
+  #psq-page main > section:not(:first-child):not([data-noband]) {
     margin-top: 0;
     padding-top: var(--band-y);
     padding-bottom: var(--band-y);
   }
-  #psq-page main > section:nth-child(even) {
+  #psq-page main > section:nth-child(even):not([data-noband]) {
     background-color: var(--band);
   }
   /* The closing call to action always sits on paper, right above the footer. */

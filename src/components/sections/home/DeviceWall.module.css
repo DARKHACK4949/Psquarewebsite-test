@@ -1,0 +1,311 @@
+/* Scroll length of the pinned scene; the nav sentinel reads it too. */
+.wall {
+  --track: 380vh;
+  position: relative;
+}
+@media (max-width: 1023px) {
+  .wall {
+    --track: 340vh;
+  }
+}
+@media (max-width: 639px) {
+  .wall {
+    --track: 350vh;
+  }
+}
+
+/* The page's dark phase: fixed behind the content, faded by the timeline. */
+.night {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--night);
+  opacity: 0;
+  pointer-events: none;
+}
+/*
+ * Covers the scroll range where the night layer is past half: from the
+ * section top at 65% of the viewport to 87% of the pinned track.
+ */
+.navDark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-65vh + 40px);
+  height: calc((var(--track) - 100svh) * 0.87 + 65vh);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.track {
+  position: relative;
+  height: var(--track);
+}
+.pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Full-bleed three-column bento (31% / 38% / 31%) that moves as one block. */
+.bento {
+  --g: 20px;
+  --r: var(--r-card);
+  --cw: calc((100vw - 2 * var(--g)) * 0.31);
+  --cw2: calc(100vw - 2 * var(--g) - 2 * var(--cw));
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--g);
+}
+.col {
+  flex: none;
+  width: var(--cw);
+  display: flex;
+  flex-direction: column;
+  gap: var(--g);
+}
+/* Staggered column tops. */
+.col1 {
+  transform: translateY(7vh);
+}
+.col2 {
+  width: var(--cw2);
+}
+.col3 {
+  transform: translateY(13vh);
+}
+
+.tile {
+  position: relative;
+  flex: none;
+  width: 100%;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--video-black);
+}
+/* Devices are never cropped; their black backgrounds blend with the tile. */
+.tile video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.cover video {
+  object-fit: cover;
+}
+/* Soft vignette tames bright clips. */
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 50% 40%,
+    rgba(10, 10, 12, 0.08) 0%,
+    rgba(10, 10, 12, 0.34) 100%
+  );
+  box-shadow: inset 0 0 0 1px rgba(250, 250, 248, 0.05);
+}
+.rPortrait {
+  aspect-ratio: 608 / 1080;
+}
+.r43 {
+  aspect-ratio: 4 / 3;
+}
+.r45 {
+  aspect-ratio: 4 / 5;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 75% 55% at 50% 50%,
+    rgba(15, 14, 19, 0.4) 0%,
+    rgba(15, 14, 19, 0.2) 50%,
+    rgba(15, 14, 19, 0) 100%
+  );
+}
+.head {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: 0 20px;
+  pointer-events: none;
+}
+.h2 {
+  margin: 0;
+  max-width: 18ch;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(38px, 4.6vw, 76px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: var(--night-text);
+  text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+.word {
+  position: relative;
+  display: inline-block;
+}
+.accent {
+  color: var(--wall-accent);
+}
+.sharp {
+  opacity: 0;
+}
+/* A blurred copy, cross-faded with the sharp word (only opacity animates). */
+.soft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  filter: blur(12px);
+}
+
+.fog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 200svh;
+  z-index: 6;
+  pointer-events: none;
+  transform: translateY(100svh);
+}
+.fog > div {
+  position: absolute;
+  border-radius: 50%;
+}
+.fogBase {
+  inset: 0;
+  border-radius: 0 !important;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--paper) 0%, transparent) 0%,
+    color-mix(in srgb, var(--paper) 35%, transparent) 14%,
+    color-mix(in srgb, var(--paper) 80%, transparent) 30%,
+    var(--paper) 46%
+  );
+}
+.fogA {
+  left: -10%;
+  top: 2%;
+  width: 70%;
+  height: 22%;
+  background: radial-gradient(closest-side, oklch(0.93 0.03 318 / 0.7), oklch(0.96 0.015 318 / 0));
+}
+.fogB {
+  right: -12%;
+  top: 6%;
+  width: 75%;
+  height: 20%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--paper) 95%, transparent),
+    color-mix(in srgb, var(--paper) 0%, transparent)
+  );
+}
+.fogC {
+  left: 25%;
+  top: -2%;
+  width: 55%;
+  height: 16%;
+  background: radial-gradient(closest-side, oklch(0.95 0.02 318 / 0.8), oklch(0.97 0.01 318 / 0));
+}
+
+/* The statement the fog hands over to, pulled up under the pinned scene. */
+.statement {
+  position: relative;
+  z-index: 7;
+  margin-top: -100svh;
+  overflow: hidden;
+}
+.statementInner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 30vh var(--gutter) 20vh;
+}
+.stmt {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  text-wrap: pretty;
+}
+.sw {
+  display: inline-block;
+}
+
+/* Phones: two columns (42% / 58%), right column hidden. */
+@media (max-width: 639px) {
+  .bento {
+    --g: 8px;
+    --r: 14px;
+    --cw: calc((100vw - var(--g)) * 0.42);
+    --cw2: calc(100vw - var(--g) - var(--cw));
+  }
+  .col3 {
+    display: none;
+  }
+  .h2 {
+    max-width: 14ch;
+  }
+}
+
+/*
+ * Reduced motion: no pin and no scroll timeline. The wall rests as a static
+ * dark band with the tiles dimmed behind a readable headline.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    height: auto;
+  }
+  .pin {
+    position: relative;
+    background: var(--night);
+  }
+  .night,
+  .soft {
+    display: none;
+  }
+  .navDark {
+    top: 0;
+    height: 100svh;
+  }
+  .bento {
+    top: 50%;
+    transform: translateY(-38%);
+    opacity: 0.5;
+  }
+  .sharp {
+    opacity: 1;
+  }
+  .statement {
+    margin-top: 0;
+  }
+}
