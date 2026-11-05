@@ -178,7 +178,7 @@ for (const base of ["", "/ca"]) {
     );
     await expect(page.getByText(/As the way people use software changes/)).toHaveCount(0);
     const clips = page.locator('[data-w="bento"] video');
-    await expect(clips).toHaveCount(7);
+    await expect(clips).toHaveCount(9);
     // Every clip has a WebM and an MP4 fallback, and stays hidden from assistive tech.
     // Each also carries a lighter phone cut, listed first.
     for (const v of await clips.all()) {
@@ -186,7 +186,7 @@ for (const base of ["", "/ca"]) {
       await expect(v).toHaveAttribute("aria-hidden", "true");
     }
     await expect(page.locator('[data-w="bento"] source[media="(max-width: 639px)"]')).toHaveCount(
-      14,
+      18,
     );
   });
 }

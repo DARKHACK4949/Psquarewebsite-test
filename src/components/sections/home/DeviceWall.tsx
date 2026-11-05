@@ -13,12 +13,16 @@ const RATIO = {
   "916": styles.r916,
 };
 
-/** Scroll per pixel the bento travels: 1 moves the tiles with the finger, like the rest of the page. */
+/**
+ * Scroll per pixel the bento travels: 1 moves the tiles with the finger, like
+ * the rest of the page. A floor in fit() keeps the headline readable on phones.
+ */
 const PACE = 1.15;
 
 /**
  * Share of the track the scene takes. The next section overlaps the last
- * 42% of the scroll (48% on desktop) and arrives over the fog as the scene ends.
+ * 42% of the scroll (48% on desktop, 50% on phones) and arrives over the fog
+ * as the scene ends.
  * Keep in step with --scene in DeviceWall.module.css.
  */
 const SCENE = 0.766;
@@ -57,22 +61,25 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
         const word = q("[data-w=word]");
         const vh = () => pin.clientHeight;
 
-        // 1) The page goes dark as the section arrives.
-        gsap.fromTo(
-          night,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            ease: "sine.inOut",
-            immediateRender: false,
+        // 1) As the section arrives, the page goes dark and the columns fade in
+        //    one after another, so the screen is never an empty dark gap.
+        gsap
+          .timeline({
             scrollTrigger: { trigger: el, start: "top 95%", end: "top 35%", scrub: true },
-          },
-        );
+          })
+          .fromTo(night, { opacity: 0 }, { opacity: 1, ease: "sine.inOut", duration: 1 }, 0)
+          .fromTo(
+            cols,
+            { opacity: 0 },
+            { opacity: 1, ease: "power2.out", duration: 0.6, stagger: 0.2 },
+            0.1,
+          );
 
         // The bento rises as one block at a constant speed, timed so the hero tile is centred at .44.
         const T_CENTER = 0.44;
         const T_END = 0.82;
-        const y0 = () => vh() * 0.55;
+        // Start a third of the way down: the tiles fill most of the screen as it pins.
+        const y0 = () => vh() * 0.35;
         const midY = () => {
           const b = bento.getBoundingClientRect();
           const h = hero.getBoundingClientRect();
@@ -81,7 +88,8 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
         // Fit the track to the bento's travel, so the tiles keep pace with the scroll.
         const fit = () => {
           const travel = Math.abs(midY() - y0()) * (T_END / T_CENTER);
-          const scroll = (travel * PACE) / (T_END * SCENE);
+          // At least 1.1 screens, so the headline is on screen long enough to read.
+          const scroll = Math.max((travel * PACE) / (T_END * SCENE), vh() * 1.1);
           el.style.setProperty("--track", `${Math.round(scroll + vh())}px`);
         };
         fit();
@@ -116,14 +124,8 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
           0,
         );
 
-        // Columns fade in one after another, resting at 80% so the headline reads.
+        // The wall rests at 80% so the headline reads.
         tl.set(bento, { opacity: 0.8 }, 0);
-        tl.fromTo(
-          cols,
-          { opacity: 0 },
-          { opacity: 1, ease: "power2.out", duration: 0.16, stagger: 0.03 },
-          0.02,
-        );
 
         // Soft dark glow behind the headline.
         tl.fromTo(veil, { opacity: 0 }, { opacity: 1, ease: "power2.out", duration: 0.16 }, 0.02);

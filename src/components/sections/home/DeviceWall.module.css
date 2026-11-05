@@ -5,7 +5,7 @@
   --scene: 0.766;
   position: relative;
   /*
-   * The next section overlaps the last 42% (48% on desktop) of the pinned scroll: it rises over
+   * The next section overlaps the last 42% (48% desktop, 50% phones) of the pinned scroll: it rises over
    * the fog and its heading reveals as the wall clears, with no blank screen.
    */
   --overlap: 0.42;
@@ -29,6 +29,8 @@
 @media (max-width: 639px) {
   .wall {
     --track: 350vh;
+    /* The phone track is short, so the next section starts a little sooner. */
+    --overlap: 0.5;
   }
 }
 
@@ -271,6 +273,22 @@
  * wide and centred, so the side columns run off both edges.
  */
 @media (max-width: 639px) {
+  /* On a narrow screen the glows turn into tall blotches: the fog rises as one smooth gradient. */
+  .fogA,
+  .fogB,
+  .fogC {
+    display: none;
+  }
+  .fogBase {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--paper) 0%, transparent) 0%,
+      color-mix(in srgb, var(--paper) 25%, transparent) 12%,
+      color-mix(in srgb, var(--paper) 70%, transparent) 26%,
+      color-mix(in srgb, var(--paper) 92%, transparent) 36%,
+      var(--paper) 44%
+    );
+  }
   .bento {
     --bw: 150vw;
     --g: 8px;
