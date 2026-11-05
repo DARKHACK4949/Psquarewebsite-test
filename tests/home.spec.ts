@@ -180,13 +180,13 @@ for (const base of ["", "/ca"]) {
     const clips = page.locator('[data-w="bento"] video');
     await expect(clips).toHaveCount(7);
     // Every clip has a WebM and an MP4 fallback, and stays hidden from assistive tech.
-    // The five clips phones show also carry a lighter phone cut, listed first.
+    // Each also carries a lighter phone cut, listed first.
     for (const v of await clips.all()) {
       await expect(v.locator("source:not([media])")).toHaveCount(2);
       await expect(v).toHaveAttribute("aria-hidden", "true");
     }
     await expect(page.locator('[data-w="bento"] source[media="(max-width: 639px)"]')).toHaveCount(
-      10,
+      14,
     );
   });
 }

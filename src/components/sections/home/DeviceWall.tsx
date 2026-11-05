@@ -3,10 +3,18 @@
 import { useRef } from "react";
 import type { HomeContent } from "@/content/home";
 import { LoopVideo } from "@/components/sections/about/LoopVideo";
-import { gsap, useGSAP, FULL } from "@/lib/motion";
+import { gsap, ScrollTrigger, useGSAP, FULL } from "@/lib/motion";
 import styles from "./DeviceWall.module.css";
 
-const RATIO = { portrait: styles.rPortrait, "43": styles.r43, "45": styles.r45 };
+const RATIO = {
+  portrait: styles.rPortrait,
+  "43": styles.r43,
+  "45": styles.r45,
+  "916": styles.r916,
+};
+
+/** Scroll per pixel the bento travels: 1 moves the tiles with the finger, like the rest of the page. */
+const PACE = 1.15;
 
 /**
  * Share of the track the scene takes. The next section overlaps the last
@@ -19,7 +27,8 @@ const SCENE = 0.766;
  * Device wall: a pinned, full-bleed bento of product clips that glides up as
  * one block while the page goes dark and the headline resolves word by word.
  * Light fog then rises and the next section scrolls in over it.
- * Scrubbed across the 380vh track.
+ * The track's length is fitted to the bento's travel (see PACE), so the
+ * tiles move with the scroll at the same pace as the rest of the page.
  *
  * Only transform and opacity animate: the dark page is a fixed night layer
  * fading in and out, and each word's blur is a pre-blurred copy cross-fading
@@ -60,6 +69,24 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
           },
         );
 
+        // The bento rises as one block at a constant speed, timed so the hero tile is centred at .44.
+        const T_CENTER = 0.44;
+        const T_END = 0.82;
+        const y0 = () => vh() * 0.55;
+        const midY = () => {
+          const b = bento.getBoundingClientRect();
+          const h = hero.getBoundingClientRect();
+          return vh() / 2 - (h.top - b.top + h.height / 2);
+        };
+        // Fit the track to the bento's travel, so the tiles keep pace with the scroll.
+        const fit = () => {
+          const travel = Math.abs(midY() - y0()) * (T_END / T_CENTER);
+          const scroll = (travel * PACE) / (T_END * SCENE);
+          el.style.setProperty("--track", `${Math.round(scroll + vh())}px`);
+        };
+        fit();
+        ScrollTrigger.addEventListener("refreshInit", fit);
+
         let hidden = false;
         const videos = q<HTMLVideoElement>("video");
 
@@ -82,15 +109,6 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
           },
         });
 
-        // The bento rises as one block at a constant speed, timed so the hero tile is centred at .44.
-        const T_CENTER = 0.44;
-        const T_END = 0.82;
-        const y0 = () => vh() * 0.55;
-        const midY = () => {
-          const b = bento.getBoundingClientRect();
-          const h = hero.getBoundingClientRect();
-          return vh() / 2 - (h.top - b.top + h.height / 2);
-        };
         tl.fromTo(
           bento,
           { y: y0 },
@@ -158,6 +176,11 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
         // first SCENE of the track, leaving the rest for the next section to
         // scroll in over the fog (see the margin in the CSS).
         tl.set({}, {}, 1 / SCENE);
+
+        return () => {
+          ScrollTrigger.removeEventListener("refreshInit", fit);
+          el.style.removeProperty("--track");
+        };
       });
       return () => mm.revert();
     },

@@ -91,11 +91,11 @@ export type WallTile = {
     webm: string;
     mp4: string;
     poster: string;
-    /** Lighter cut for phones, which show the first two columns only. */
-    phone?: { webm: string; mp4: string };
+    /** Lighter cut for phones. */
+    phone: { webm: string; mp4: string };
   };
-  /** Tile shape: the portrait phone clip, 4:3 or 4:5. */
-  ratio: "portrait" | "43" | "45";
+  /** Tile shape: the portrait phone clip, 4:3, 4:5 or 9:16. */
+  ratio: "portrait" | "43" | "45" | "916";
   /** Fill the tile (abstract or exact-ratio clips); devices are never cropped otherwise. */
   cover?: boolean;
   /** The tile the scroll centres while the headline shows. */

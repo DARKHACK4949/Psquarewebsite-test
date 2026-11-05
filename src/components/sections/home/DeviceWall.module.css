@@ -75,14 +75,16 @@
 
 /* Full-bleed three-column bento (31% / 38% / 31%) that moves as one block. */
 .bento {
+  /* Bento width: the viewport, or wider on phones so the sides run off the edges. */
+  --bw: 100vw;
   --g: 20px;
   --r: var(--r-card);
-  --cw: calc((100vw - 2 * var(--g)) * 0.31);
-  --cw2: calc(100vw - 2 * var(--g) - 2 * var(--cw));
+  --cw: calc((var(--bw) - 2 * var(--g)) * 0.31);
+  --cw2: calc(var(--bw) - 2 * var(--g) - 2 * var(--cw));
   position: absolute;
-  left: 0;
+  left: calc((100vw - var(--bw)) / 2);
   top: 0;
-  width: 100vw;
+  width: var(--bw);
   display: flex;
   align-items: flex-start;
   gap: var(--g);
@@ -149,6 +151,9 @@
 }
 .r45 {
   aspect-ratio: 4 / 5;
+}
+.r916 {
+  aspect-ratio: 9 / 16;
 }
 
 .veil {
@@ -261,16 +266,15 @@
   background: radial-gradient(closest-side, oklch(0.95 0.02 318 / 0.8), oklch(0.97 0.01 318 / 0));
 }
 
-/* Phones: two columns (42% / 58%), right column hidden. */
+/*
+ * Phones: the same three-column wall, scaled down. It is 150% of the screen
+ * wide and centred, so the side columns run off both edges.
+ */
 @media (max-width: 639px) {
   .bento {
+    --bw: 150vw;
     --g: 8px;
-    --r: 14px;
-    --cw: calc((100vw - var(--g)) * 0.42);
-    --cw2: calc(100vw - var(--g) - var(--cw));
-  }
-  .col3 {
-    display: none;
+    --r: var(--r-item);
   }
   .h2 {
     max-width: 14ch;

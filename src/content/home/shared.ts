@@ -15,17 +15,16 @@ export const reel = {
   },
 };
 
-const clip = (name: string, phone: boolean) => ({
+// Each clip ships a full cut and a lighter phone cut (720px, 30fps).
+const clip = (name: string) => ({
   webm: `/media/home/wall/${name}.webm`,
   mp4: `/media/home/wall/${name}.mp4`,
   poster: `/media/home/wall/${name}-poster.jpg`,
-  ...(phone && {
-    phone: { webm: `/media/home/wall/${name}-m.webm`, mp4: `/media/home/wall/${name}-m.mp4` },
-  }),
+  phone: { webm: `/media/home/wall/${name}-m.webm`, mp4: `/media/home/wall/${name}-m.mp4` },
 });
 
-const t = (name: string, ratio: WallTile["ratio"], extra = {}, phone = true): WallTile => ({
-  src: clip(name, phone),
+const t = (name: string, ratio: WallTile["ratio"], extra = {}): WallTile => ({
+  src: clip(name),
   ratio,
   ...extra,
 });
@@ -33,16 +32,15 @@ const t = (name: string, ratio: WallTile["ratio"], extra = {}, phone = true): Wa
 export const wall: HomeContent["wall"] = {
   title: "We design the products behind ambitious businesses.",
   accent: 2,
-  // Three columns, left to right; phones show the first two.
+  // Three columns, left to right, on every screen size.
   tiles: [
     [t("phone-portrait", "portrait", { cover: true }), t("fintech-mobile", "45")],
     [
       t("arcgrow-mobile", "43"),
-      t("psquare-glass-hero", "45", { cover: true, hero: true }),
+      t("psquare-glass", "916", { cover: true, hero: true }),
       t("sline-mobile", "43"),
     ],
-    // Desktop and tablet only, so no phone cut.
-    [t("sline-tablet", "45", {}, false), t("laptop-dashboard", "45", {}, false)],
+    [t("sline-tablet", "45"), t("laptop-dashboard", "45")],
   ],
 };
 
