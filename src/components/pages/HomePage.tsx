@@ -5,7 +5,6 @@ import { PageReveal } from "@/components/providers/PageReveal";
 import { IntroLoader } from "@/components/sections/home/IntroLoader";
 import { Hero } from "@/components/sections/home/Hero";
 import { DeviceWall } from "@/components/sections/home/DeviceWall";
-import { ChangeSection } from "@/components/sections/home/ChangeSection";
 import { WhatWeDo } from "@/components/sections/home/WhatWeDo";
 import { SelectedWork } from "@/components/sections/home/SelectedWork";
 import { HowWeWork } from "@/components/sections/home/HowWeWork";
@@ -59,7 +58,6 @@ export function HomePage({ region }: { region: Region }) {
         <main id="main" tabIndex={-1}>
           <Hero hero={c.hero} />
           <DeviceWall wall={c.wall} />
-          <ChangeSection change={c.change} />
           <WhatWeDo what={c.what} />
           <SelectedWork work={c.work} />
           {c.howWeWork && <HowWeWork how={c.howWeWork} />}

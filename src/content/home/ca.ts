@@ -16,7 +16,6 @@ export const caHome = (r: Routes): HomeContent => ({
     reel: s.reel,
   },
   wall: s.wall,
-  change: s.change,
   what: s.what(r),
   work: s.work(r, ["sline", "arcgrow", "slineServices"]),
   industries: {

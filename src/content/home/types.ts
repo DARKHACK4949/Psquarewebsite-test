@@ -43,12 +43,6 @@ export type HomeContent = {
     statement: string;
     tiles: WallTile[][];
   };
-  change: {
-    lines: [string, string];
-    lead: string;
-    outcomes: string[];
-    rows: { title: string; meta: string; who: string; status: string; idle?: boolean }[];
-  };
   what: {
     lines: [string, string];
     lead: string;

@@ -44,35 +44,6 @@ export const wall: HomeContent["wall"] = {
   ],
 };
 
-export const change: HomeContent["change"] = {
-  lines: ["Less chasing.", "More moving forward."],
-  lead: "We bring scattered work into one place, so your team always knows what happens next.",
-  outcomes: ["Make work visible.", "Reduce repeated effort.", "Create room to grow."],
-  rows: [
-    {
-      title: "Service request · Tower B",
-      meta: "Technician on site, 2:30 pm",
-      who: "AK",
-      status: "In progress",
-    },
-    { title: "Quote approval", meta: "Raise purchase order", who: "RS", status: "Approved" },
-    { title: "Invoice #2041", meta: "Payment due 14 Oct", who: "MP", status: "Sent" },
-    {
-      title: "Onboarding · New joiner",
-      meta: "Laptop and access ready Monday",
-      who: "NK",
-      status: "Scheduled",
-    },
-    {
-      title: "Site inspection",
-      meta: "Confirm access with site office",
-      who: "AK",
-      status: "Waiting",
-      idle: true,
-    },
-  ],
-};
-
 export const what = (r: Routes): HomeContent["what"] => ({
   lines: ["From problem", "to production."],
   lead: "One team takes a product from the first conversation to software running in your business.",

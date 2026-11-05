@@ -11,7 +11,7 @@ test("Canada homepage renders every section", async ({ page }) => {
     }),
   ).toBeVisible();
   for (const name of [
-    "Less chasing. More moving forward.",
+    "We design the products behind ambitious businesses.",
     "From problem to production.",
     "Every business has its own moving parts.",
     "Questions, answered.",
@@ -40,7 +40,7 @@ test("Global homepage renders every section, including How we work", async ({ pa
     }),
   ).toBeVisible();
   for (const name of [
-    "Less chasing. More moving forward.",
+    "We design the products behind ambitious businesses.",
     "From problem to production.",
     "The work behind the work.",
     "Every business has its own moving parts.",
