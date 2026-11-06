@@ -1,40 +1,19 @@
-/* Scroll length of the pinned scene; the nav sentinel reads it too. */
+/*
+ * Device wall. Nothing is pinned: the tiles scroll at the page's own pace,
+ * the headline is held mid-screen with CSS sticky, and scroll only drives
+ * fades (see DeviceWall.tsx).
+ */
 .wall {
-  --track: 380vh;
-  /* The scene's share of the track (SCENE in DeviceWall.tsx). */
-  --scene: 0.766;
+  /* How far the fog block overlaps the bottom of the tiles, and how far it runs past them. */
+  --fog-overlap: 50svh;
+  --fog-tail: 25svh;
   position: relative;
-  /*
-   * The next section overlaps the last 42% (48% desktop, 50% phones) of the pinned scroll: it rises over
-   * the fog and its heading reveals as the wall clears, with no blank screen.
-   */
-  --overlap: 0.42;
-  margin-bottom: calc((var(--track) - 100svh) * var(--overlap) * -1);
-}
-/* Desktop sections carry more top padding, so they start a little sooner. */
-@media (min-width: 1024px) {
-  .wall {
-    --overlap: 0.48;
-  }
-}
-.wall + section {
-  position: relative;
-  z-index: 1;
-}
-@media (max-width: 1023px) {
-  .wall {
-    --track: 340vh;
-  }
-}
-@media (max-width: 639px) {
-  .wall {
-    --track: 350vh;
-    /* The phone track is short, so the next section starts a little sooner. */
-    --overlap: 0.5;
-  }
+  padding-top: 8svh;
+  /* Phones widen the bento past the screen edges; clip without a scroll box (sticky keeps working). */
+  overflow-x: clip;
 }
 
-/* The page's dark phase: fixed behind the content, faded by the timeline. */
+/* The page's dark phase: fixed behind the content, faded by scroll. */
 .night {
   position: fixed;
   inset: 0;
@@ -46,36 +25,88 @@
 }
 /*
  * Covers the scroll range where the night layer is past half: from the
- * section top at 65% of the viewport to 87% of the scene.
+ * section top at 65% of the viewport until the fog's top is 42% down.
  */
 .navDark {
   position: absolute;
   left: 0;
   right: 0;
   top: calc(-65vh + 40px);
-  height: calc((var(--track) - 100svh) * var(--scene) * 0.87 + 65vh);
+  /* Night is half gone when the fog's top is 42% down the screen. */
+  bottom: calc(var(--fog-overlap) + var(--fog-tail) + 42vh - 40px);
   pointer-events: none;
   visibility: hidden;
 }
 
-.track {
+/*
+ * The stage holds the sticky headline layer and the tiles, which are pulled
+ * up underneath it. Sticky is bounded by the stage, so the headline leaves
+ * with the last tiles instead of lingering over the fog.
+ */
+.stage {
   position: relative;
-  height: var(--track);
 }
-.pin {
+.stick {
   position: sticky;
   top: 0;
+  z-index: 2;
   height: 100svh;
-  overflow: hidden;
-}
-.stage {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
   pointer-events: none;
 }
+.veil {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity;
+  background: radial-gradient(
+    ellipse 75% 55% at 50% 50%,
+    rgba(15, 14, 19, 0.4) 0%,
+    rgba(15, 14, 19, 0.2) 50%,
+    rgba(15, 14, 19, 0) 100%
+  );
+}
+.head {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 20px;
+}
+.h2 {
+  margin: 0;
+  max-width: 18ch;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(38px, 4.6vw, 76px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: var(--night-text);
+  text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+.word {
+  position: relative;
+  display: inline-block;
+}
+.accent {
+  color: var(--wall-accent);
+}
+.sharp {
+  opacity: 0;
+  will-change: opacity;
+}
+/* A blurred copy, cross-faded with the sharp word (only opacity animates). */
+.soft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  filter: blur(12px);
+  will-change: opacity;
+}
 
-/* Full-bleed three-column bento (31% / 38% / 31%) that moves as one block. */
+/* Full-bleed three-column bento (31% / 38% / 31%), in normal flow. */
 .bento {
   /* Bento width: the viewport, or wider on phones so the sides run off the edges. */
   --bw: 100vw;
@@ -83,32 +114,34 @@
   --r: var(--r-card);
   --cw: calc((var(--bw) - 2 * var(--g)) * 0.31);
   --cw2: calc(var(--bw) - 2 * var(--g) - 2 * var(--cw));
-  position: absolute;
-  left: calc((100vw - var(--bw)) / 2);
-  top: 0;
+  position: relative;
+  z-index: 1;
   width: var(--bw);
+  margin-top: -100svh;
+  margin-left: calc((100% - var(--bw)) / 2);
   display: flex;
   align-items: flex-start;
   gap: var(--g);
-  will-change: transform, opacity;
+  /* Rests at 80% so the white headline reads over bright clips. */
+  opacity: 0.8;
 }
 .col {
-  will-change: opacity;
   flex: none;
   width: var(--cw);
   display: flex;
   flex-direction: column;
   gap: var(--g);
+  will-change: opacity;
 }
 /* Staggered column tops. */
 .col1 {
-  transform: translateY(7vh);
+  padding-top: 7vh;
 }
 .col2 {
   width: var(--cw2);
 }
 .col3 {
-  transform: translateY(13vh);
+  padding-top: 13vh;
 }
 
 .tile {
@@ -158,102 +191,69 @@
   aspect-ratio: 9 / 16;
 }
 
-.veil {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  opacity: 0;
-  will-change: opacity;
-  background: radial-gradient(
-    ellipse 75% 55% at 50% 50%,
-    rgba(15, 14, 19, 0.4) 0%,
-    rgba(15, 14, 19, 0.2) 50%,
-    rgba(15, 14, 19, 0) 100%
-  );
+/*
+ * Tiles per column by screen shape. The bento scales with the screen's width,
+ * so wider screens show fewer tiles: the headline then stays readable for
+ * about one screen of scrolling everywhere. Hidden tiles never load a clip.
+ */
+@media (min-aspect-ratio: 3/4) {
+  .col > :nth-child(n + 6) {
+    display: none;
+  }
 }
-.head {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  padding: 0 20px;
-  pointer-events: none;
+@media (min-aspect-ratio: 1/1) {
+  .col > :nth-child(n + 5) {
+    display: none;
+  }
 }
-.h2 {
-  margin: 0;
-  max-width: 18ch;
-  text-align: center;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(38px, 4.6vw, 76px);
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  color: var(--night-text);
-  text-wrap: balance;
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+@media (min-aspect-ratio: 13/10) {
+  .col > :nth-child(n + 4) {
+    display: none;
+  }
 }
-.word {
-  position: relative;
-  display: inline-block;
-  will-change: transform;
-}
-.accent {
-  color: var(--wall-accent);
-}
-.sharp {
-  opacity: 0;
-  will-change: opacity;
-}
-/* A blurred copy, cross-faded with the sharp word (only opacity animates). */
-.soft {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  filter: blur(12px);
-  will-change: opacity;
+@media (min-aspect-ratio: 11/5) {
+  .col > :nth-child(n + 3) {
+    display: none;
+  }
 }
 
+/*
+ * The fog: a block after the tiles, pulled up over their bottom, that turns
+ * from clear to paper over most of its height. It moves with the scroll, so
+ * the light arrives at the page's pace.
+ */
 .fog {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 200svh;
-  z-index: 6;
+  position: relative;
+  z-index: 3;
+  height: calc(var(--fog-overlap) + var(--fog-tail));
+  margin-top: calc(var(--fog-overlap) * -1);
   pointer-events: none;
-  transform: translateY(100svh);
-  will-change: transform;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--paper) 0%, transparent) 0%,
+    color-mix(in srgb, var(--paper) 30%, transparent) 20%,
+    color-mix(in srgb, var(--paper) 75%, transparent) 42%,
+    color-mix(in srgb, var(--paper) 95%, transparent) 58%,
+    var(--paper) 70%
+  );
 }
+/* Soft glows along the fog's leading edge (wide screens only). */
 .fog > div {
   position: absolute;
   border-radius: 50%;
 }
-.fogBase {
-  inset: 0;
-  border-radius: 0 !important;
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--paper) 0%, transparent) 0%,
-    color-mix(in srgb, var(--paper) 35%, transparent) 14%,
-    color-mix(in srgb, var(--paper) 80%, transparent) 30%,
-    var(--paper) 46%
-  );
-}
 .fogA {
   left: -10%;
-  top: 2%;
+  top: 4%;
   width: 70%;
-  height: 22%;
+  height: 40%;
   background: radial-gradient(closest-side, oklch(0.93 0.03 318 / 0.7), oklch(0.96 0.015 318 / 0));
 }
 .fogB {
   right: -12%;
-  top: 6%;
+  top: 12%;
   width: 75%;
-  height: 20%;
+  height: 36%;
   background: radial-gradient(
     closest-side,
     color-mix(in srgb, var(--paper) 95%, transparent),
@@ -262,9 +262,9 @@
 }
 .fogC {
   left: 25%;
-  top: -2%;
+  top: 0;
   width: 55%;
-  height: 16%;
+  height: 30%;
   background: radial-gradient(closest-side, oklch(0.95 0.02 318 / 0.8), oklch(0.97 0.01 318 / 0));
 }
 
@@ -273,21 +273,9 @@
  * wide and centred, so the side columns run off both edges.
  */
 @media (max-width: 639px) {
-  /* On a narrow screen the glows turn into tall blotches: the fog rises as one smooth gradient. */
-  .fogA,
-  .fogB,
-  .fogC {
-    display: none;
-  }
-  .fogBase {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--paper) 0%, transparent) 0%,
-      color-mix(in srgb, var(--paper) 25%, transparent) 12%,
-      color-mix(in srgb, var(--paper) 70%, transparent) 26%,
-      color-mix(in srgb, var(--paper) 92%, transparent) 36%,
-      var(--paper) 44%
-    );
+  .wall {
+    --fog-overlap: 35svh;
+    --fog-tail: 20svh;
   }
   .bento {
     --bw: 150vw;
@@ -297,37 +285,34 @@
   .h2 {
     max-width: 14ch;
   }
+  /* On a narrow screen the glows turn into tall blotches: the fog stays one smooth gradient. */
+  .fogA,
+  .fogB,
+  .fogC {
+    display: none;
+  }
 }
 
 /*
- * Reduced motion: no pin and no scroll timeline. The wall rests as a static
- * dark band with the tiles dimmed behind a readable headline.
+ * Reduced motion: no fades. The wall is a static dark band with a readable
+ * headline; sticky and the fog block need no animation and stay as they are.
  */
 @media (prefers-reduced-motion: reduce) {
   .wall {
-    margin-bottom: 0;
-  }
-  .track {
-    height: auto;
-  }
-  .pin {
-    position: relative;
     background: var(--night);
   }
   .night,
-  .soft {
+  .soft,
+  .veil {
     display: none;
   }
   .navDark {
     top: 0;
-    height: 100svh;
-  }
-  .bento {
-    top: 50%;
-    transform: translateY(-38%);
-    opacity: 0.5;
   }
   .sharp {
     opacity: 1;
+  }
+  .bento {
+    opacity: 0.5;
   }
 }

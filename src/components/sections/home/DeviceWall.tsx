@@ -14,29 +14,15 @@ const RATIO = {
 };
 
 /**
- * Scroll per pixel the bento travels: 1 moves the tiles with the finger, like
- * the rest of the page. A floor in fit() keeps the headline readable on phones.
- */
-const PACE = 1.15;
-
-/**
- * Share of the track the scene takes. The next section overlaps the last
- * 42% of the scroll (48% on desktop, 50% on phones) and arrives over the fog
- * as the scene ends.
- * Keep in step with --scene in DeviceWall.module.css.
- */
-const SCENE = 0.766;
-
-/**
- * Device wall: a pinned, full-bleed bento of product clips that glides up as
- * one block while the page goes dark and the headline resolves word by word.
- * Light fog then rises and the next section scrolls in over it.
- * The track's length is fitted to the bento's travel (see PACE), so the
- * tiles move with the scroll at the same pace as the rest of the page.
+ * Device wall: a full-bleed bento of product clips that scrolls at the page's
+ * own pace (no pinning), under a headline held in place with CSS sticky.
+ * Scroll only drives fades: the page goes dark as the wall arrives, the
+ * headline resolves word by word as the glass tile passes beneath it, and a
+ * light fog block after the tiles rises with the scroll and returns the page
+ * to light for the next section.
  *
- * Only transform and opacity animate: the dark page is a fixed night layer
- * fading in and out, and each word's blur is a pre-blurred copy cross-fading
- * with the sharp one.
+ * Only opacity animates: the dark page is a fixed night layer, and each word's
+ * blur is a pre-blurred copy cross-fading with the sharp one.
  */
 export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
   const root = useRef<HTMLElement>(null);
@@ -50,19 +36,16 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
         const el = root.current!;
         const q = <T extends Element = HTMLElement>(s: string) =>
           Array.from(el.querySelectorAll<T & HTMLElement>(s));
-        const track = el.querySelector<HTMLElement>("[data-w=track]")!;
-        const pin = el.querySelector<HTMLElement>("[data-w=pin]")!;
-        const bento = el.querySelector<HTMLElement>("[data-w=bento]")!;
         const hero = el.querySelector<HTMLElement>("[data-w=hero]")!;
         const night = el.querySelector<HTMLElement>("[data-w=night]")!;
         const veil = el.querySelector<HTMLElement>("[data-w=veil]")!;
         const fog = el.querySelector<HTMLElement>("[data-w=fog]")!;
+        const bento = el.querySelector<HTMLElement>("[data-w=bento]")!;
         const cols = q("[data-w=col]");
-        const word = q("[data-w=word]");
-        const vh = () => pin.clientHeight;
+        const sharp = q("[data-w=sharp]");
+        const soft = q("[data-w=soft]");
 
-        // 1) As the section arrives, the page goes dark and the columns fade in
-        //    one after another, so the screen is never an empty dark gap.
+        // 1) As the wall arrives, the page goes dark and the columns fade in.
         gsap
           .timeline({
             scrollTrigger: { trigger: el, start: "top 95%", end: "top 35%", scrub: true },
@@ -75,114 +58,60 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
             0.1,
           );
 
-        // The bento rises as one block at a constant speed, timed so the hero tile is centred at .44.
-        const T_CENTER = 0.44;
-        const T_END = 0.82;
-        // Start a third of the way down: the tiles fill most of the screen as it pins.
-        const y0 = () => vh() * 0.35;
-        const midY = () => {
-          const b = bento.getBoundingClientRect();
-          const h = hero.getBoundingClientRect();
-          return vh() / 2 - (h.top - b.top + h.height / 2);
-        };
-        // Fit the track to the bento's travel, so the tiles keep pace with the scroll.
-        const fit = () => {
-          const travel = Math.abs(midY() - y0()) * (T_END / T_CENTER);
-          // At least 1.1 screens, so the headline is on screen long enough to read.
-          const scroll = Math.max((travel * PACE) / (T_END * SCENE), vh() * 1.1);
-          el.style.setProperty("--track", `${Math.round(scroll + vh())}px`);
-        };
-        fit();
-        ScrollTrigger.addEventListener("refreshInit", fit);
-
-        let hidden = false;
-        const videos = q<HTMLVideoElement>("video");
-
-        // 2) The pinned scene, progress 0 → 1 across the track.
-        const tl = gsap.timeline({
+        // 2) The headline resolves word by word as the glass tile rises to it.
+        const reveal = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: track,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: true,
-            invalidateOnRefresh: true,
-            // Once the fog covers the wall, stop decoding its clips.
-            onUpdate: (st) => {
-              const covered = st.progress > SCENE * 0.88;
-              if (covered === hidden) return;
-              hidden = covered;
-              videos.forEach((v) => (covered ? v.pause() : v.play().catch(() => {})));
-            },
-          },
+          scrollTrigger: { trigger: hero, start: "top 95%", end: "top 45%", scrub: true },
+        });
+        reveal.fromTo(veil, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
+        sharp.forEach((s, i) => {
+          const at = i * 0.1;
+          reveal
+            .fromTo(soft[i], { opacity: 0 }, { opacity: 1, duration: 0.12 }, at)
+            .to(soft[i], { opacity: 0, duration: 0.2 }, at + 0.12)
+            .fromTo(s, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at + 0.08);
         });
 
-        tl.fromTo(
-          bento,
-          { y: y0 },
-          { y: () => y0() + (midY() - y0()) * (T_END / T_CENTER), duration: T_END },
-          0,
-        );
-
-        // The wall rests at 80% so the headline reads.
-        tl.set(bento, { opacity: 0.8 }, 0);
-
-        // Soft dark glow behind the headline.
-        tl.fromTo(veil, { opacity: 0 }, { opacity: 1, ease: "power2.out", duration: 0.16 }, 0.02);
-        tl.to(veil, { opacity: 0, ease: "power1.in", duration: 0.1 }, 0.72);
-
-        // Headline: each word drifts in out of a blur, then blurs out.
-        const d = 0.1;
-        const step = (0.3 - d) / Math.max(1, word.length - 1);
-        word.forEach((w, i) => {
-          const sharp = w.querySelector("[data-w=sharp]");
-          const soft = w.querySelector("[data-w=soft]");
-          const tIn = 0.22 + i * step;
-          const tOut = 0.7 + i * 0.012;
-          tl.fromTo(w, { x: -22, y: 22 }, { x: 0, y: 0, ease: "power2.out", duration: d }, tIn);
-          tl.fromTo(
-            soft,
-            { opacity: 0 },
-            { opacity: 1, ease: "power2.out", duration: d * 0.4 },
-            tIn,
-          );
-          tl.to(soft, { opacity: 0, ease: "power1.in", duration: d * 0.6 }, tIn + d * 0.4);
-          tl.fromTo(
-            sharp,
-            { opacity: 0 },
-            { opacity: 1, ease: "power2.out", duration: d * 0.7 },
-            tIn + d * 0.3,
-          );
-          tl.to(w, { x: 22, y: -22, ease: "power2.in", duration: 0.08 }, tOut);
-          tl.to(sharp, { opacity: 0, ease: "power2.in", duration: 0.05 }, tOut);
-          tl.to(soft, { opacity: 0.9, ease: "power1.out", duration: 0.03 }, tOut);
-          tl.to(soft, { opacity: 0, ease: "power1.in", duration: 0.05 }, tOut + 0.03);
+        // 3) The fog takes over: the headline blurs out, then the page turns light.
+        const out = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: { trigger: fog, start: "top 70%", end: "top 40%", scrub: true },
         });
+        out.to(veil, { opacity: 0, duration: 1 }, 0);
+        sharp.forEach((s, i) => {
+          const at = i * 0.05;
+          out
+            .to(soft[i], { opacity: 0.9, duration: 0.15 }, at)
+            .to(s, { opacity: 0, duration: 0.2 }, at)
+            .to(soft[i], { opacity: 0, duration: 0.3 }, at + 0.15);
+        });
+        // The page turns light, and the tiles still above the fog fade a little ahead
+        // of the dark (on the bento, so it never fights the columns' fade-in).
+        gsap
+          .timeline({
+            scrollTrigger: { trigger: fog, start: "top 65%", end: "top 20%", scrub: true },
+          })
+          .fromTo(
+            night,
+            { opacity: 1 },
+            { opacity: 0, ease: "sine.inOut", immediateRender: false, duration: 1 },
+            0,
+          )
+          .fromTo(
+            bento,
+            { opacity: 0.8 },
+            { opacity: 0, ease: "sine.inOut", immediateRender: false, duration: 0.7 },
+            0,
+          );
 
-        // Fog rises, the grid fades, the page returns to light.
-        tl.fromTo(
-          fog,
-          { y: () => vh() },
-          { y: () => -vh() * 0.92, ease: "power1.inOut", duration: 0.36 },
-          0.64,
-        );
-        tl.to(bento, { opacity: 0, ease: "power1.in", duration: 0.14 }, 0.74);
-        tl.fromTo(
-          night,
-          { opacity: 1 },
-          { opacity: 0, immediateRender: false, ease: "power1.inOut", duration: 0.14 },
-          0.8,
-        );
-
-        // The scene above runs on a 0–1 clock; an empty tail squeezes it into the
-        // first SCENE of the track, leaving the rest for the next section to
-        // scroll in over the fog (see the margin in the CSS).
-        tl.set({}, {}, 1 / SCENE);
-
-        return () => {
-          ScrollTrigger.removeEventListener("refreshInit", fit);
-          el.style.removeProperty("--track");
-        };
+        // Once the fog covers the wall, stop decoding its clips.
+        const videos = q<HTMLVideoElement>("video");
+        ScrollTrigger.create({
+          trigger: fog,
+          start: "top 20%",
+          onEnter: () => videos.forEach((v) => v.pause()),
+          onLeaveBack: () => videos.forEach((v) => v.play().catch(() => {})),
+        });
       });
       return () => mm.revert();
     },
@@ -201,41 +130,17 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
       <div data-w="night" aria-hidden="true" className={styles.night} />
       {/* Spans the dark phase so the nav switches to light ink over it. */}
       <div data-nav-dark="" aria-hidden="true" className={styles.navDark} />
-      <div data-w="track" className={styles.track}>
-        <div data-w="pin" className={styles.pin}>
-          <div aria-hidden="true" className={styles.stage}>
-            <div data-w="bento" className={styles.bento}>
-              {wall.tiles.map((col, c) => (
-                <div key={c} data-w="col" className={`${styles.col} ${styles[`col${c + 1}`]}`}>
-                  {col.map((tile) => (
-                    <div
-                      key={tile.src.webm}
-                      data-w={tile.hero ? "hero" : undefined}
-                      className={`${styles.tile} ${RATIO[tile.ratio]} ${tile.cover ? styles.cover : ""}`}
-                    >
-                      <LoopVideo src={tile.src} />
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
 
-          <div data-w="fog" aria-hidden="true" className={styles.fog}>
-            <div className={styles.fogBase} />
-            <div className={styles.fogA} />
-            <div className={styles.fogB} />
-            <div className={styles.fogC} />
-          </div>
-
+      {/* The stage bounds the sticky headline, so it leaves with the last tiles. */}
+      <div className={styles.stage}>
+        {/* Held mid-screen by CSS sticky while the tiles scroll past beneath it. */}
+        <div className={styles.stick}>
           <div data-w="veil" aria-hidden="true" className={styles.veil} />
-
           <div className={styles.head}>
             <h2 className={styles.h2} aria-label={wall.title}>
               {words.map((w, i) => (
                 <span key={i} aria-hidden="true">
                   <span
-                    data-w="word"
                     className={i >= accentFrom ? `${styles.word} ${styles.accent}` : styles.word}
                   >
                     <span data-w="sharp" className={styles.sharp}>
@@ -251,6 +156,29 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
             </h2>
           </div>
         </div>
+
+        <div data-w="bento" aria-hidden="true" className={styles.bento}>
+          {wall.tiles.map((col, c) => (
+            <div key={c} data-w="col" className={`${styles.col} ${styles[`col${c + 1}`]}`}>
+              {col.map((tile, i) => (
+                <div
+                  key={i}
+                  data-w={tile.hero ? "hero" : undefined}
+                  className={`${styles.tile} ${RATIO[tile.ratio]} ${tile.cover ? styles.cover : ""}`}
+                >
+                  <LoopVideo src={tile.src} />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* The fog: a gradient block after the tiles that rises with the scroll. */}
+      <div data-w="fog" aria-hidden="true" className={styles.fog}>
+        <div className={styles.fogA} />
+        <div className={styles.fogB} />
+        <div className={styles.fogC} />
       </div>
     </section>
   );

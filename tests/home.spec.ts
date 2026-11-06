@@ -178,7 +178,7 @@ for (const base of ["", "/ca"]) {
     );
     await expect(page.getByText(/As the way people use software changes/)).toHaveCount(0);
     const clips = page.locator('[data-w="bento"] video');
-    await expect(clips).toHaveCount(9);
+    await expect(clips).toHaveCount(18);
     // Every clip has a WebM and an MP4 fallback, and stays hidden from assistive tech.
     // Each also carries a lighter phone cut, listed first.
     for (const v of await clips.all()) {
@@ -186,22 +186,54 @@ for (const base of ["", "/ca"]) {
       await expect(v).toHaveAttribute("aria-hidden", "true");
     }
     await expect(page.locator('[data-w="bento"] source[media="(max-width: 639px)"]')).toHaveCount(
-      18,
+      36,
     );
   });
 }
 
-test("device wall darkens the page and the nav while pinned", async ({ page }) => {
+test("device wall scrolls at the page's pace, darkens the page, then hands back", async ({
+  page,
+}) => {
   await page.addInitScript(() => sessionStorage.setItem("psq-intro", "1"));
   await page.goto("/");
-  const top = await page.evaluate(() => {
-    const t = document.querySelector<HTMLElement>("[data-w=track]")!;
-    return t.getBoundingClientRect().top + scrollY + t.offsetHeight * 0.3;
-  });
-  for (let k = 0; k < 10; k++) await page.mouse.wheel(0, top / 10);
+  const at = (sel: string) =>
+    page.evaluate(
+      (s) => document.querySelector<HTMLElement>(s)!.getBoundingClientRect().top + scrollY,
+      sel,
+    );
+  // Jump straight there (a wheel barely scrolls on the emulated touch phone).
+  const wheelTo = async (y: number) => {
+    await page.evaluate((v) => window.scrollTo(0, v), y);
+    await page.waitForTimeout(800);
+  };
+  const night = () =>
+    page.evaluate(() => getComputedStyle(document.querySelector("[data-w=night]")!).opacity);
+
+  // The glass tile at the headline: dark page, headline fully shown.
+  const vh = await page.evaluate(() => innerHeight);
+  await wheelTo((await at("[data-w=hero]")) - vh * 0.3);
+  await expect.poll(night).toBe("1");
   await expect
     .poll(() =>
-      page.evaluate(() => getComputedStyle(document.querySelector("[data-w=night]")!).opacity),
+      page.evaluate(() =>
+        Math.min(
+          ...[...document.querySelectorAll("[data-w=sharp]")].map(
+            (e) => +getComputedStyle(e).opacity,
+          ),
+        ),
+      ),
     )
-    .toBe("1");
+    .toBe(1);
+
+  // Not pinned: the tiles move exactly as far as the page scrolls.
+  const tileTop = () =>
+    page.evaluate(() => document.querySelector("[data-w=col]")!.getBoundingClientRect().top);
+  const [y1, t1] = [await page.evaluate(() => scrollY), await tileTop()];
+  await wheelTo(y1 + 300);
+  const [y2, t2] = [await page.evaluate(() => scrollY), await tileTop()];
+  expect(Math.abs(t1 - t2 - (y2 - y1))).toBeLessThan(2);
+
+  // Past the fog the page is light again.
+  await wheelTo(await at('[data-screen-label="03 What we do"]'));
+  await expect.poll(night).toBe("0");
 });
