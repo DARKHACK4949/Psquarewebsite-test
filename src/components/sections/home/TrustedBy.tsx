@@ -28,8 +28,17 @@ function LogoSet({ logos, hidden }: { logos: HomeContent["trusted"]["logos"]; hi
   );
 }
 
-/** Client logo marquee: a GSAP loop over a duplicated track; eases to a stop on hover. */
-export function TrustedBy({ trusted }: { trusted: HomeContent["trusted"] }) {
+/**
+ * Client logo marquee: a GSAP loop over a duplicated track; eases to a stop on hover.
+ * `variant="strip"`: a thin band right under the hero, a small label beside the marquee.
+ */
+export function TrustedBy({
+  trusted,
+  variant = "section",
+}: {
+  trusted: HomeContent["trusted"];
+  variant?: "section" | "strip";
+}) {
   const stage = useRef<HTMLDivElement>(null);
   const tween = useRef<gsap.core.Tween | null>(null);
 
@@ -60,6 +69,38 @@ export function TrustedBy({ trusted }: { trusted: HomeContent["trusted"] }) {
       gsap.to(tween.current, { timeScale, duration: 0.6, ease: "power2.out", overwrite: true });
   };
 
+  const marquee = (
+    <div
+      ref={stage}
+      className={styles.stage}
+      data-reveal={variant === "section" ? "" : undefined}
+      // Hover pause is for mice only: touch "hover" would stop the marquee until the next tap.
+      onPointerEnter={(e) => e.pointerType === "mouse" && setSpeed(0)}
+      onPointerLeave={(e) => e.pointerType === "mouse" && setSpeed(1)}
+    >
+      <div data-co="track" className={styles.track}>
+        <LogoSet logos={trusted.logos} />
+        <LogoSet logos={trusted.logos} hidden />
+      </div>
+    </div>
+  );
+
+  if (variant === "strip")
+    return (
+      <section
+        id="company"
+        data-screen-label="01a Trusted by"
+        data-noband=""
+        aria-labelledby="trusted-strip"
+        className={styles.strip}
+      >
+        <h2 id="trusted-strip" className={styles.stripLabel}>
+          {trusted.title}
+        </h2>
+        {marquee}
+      </section>
+    );
+
   return (
     <section id="company" data-screen-label="07 Trusted by" className={styles.section}>
       <div className={styles.head}>
@@ -80,19 +121,7 @@ export function TrustedBy({ trusted }: { trusted: HomeContent["trusted"] }) {
           {trusted.link.label}
         </AccentLink>
       </div>
-      <div
-        ref={stage}
-        className={styles.stage}
-        data-reveal=""
-        // Hover pause is for mice only: touch "hover" would stop the marquee until the next tap.
-        onPointerEnter={(e) => e.pointerType === "mouse" && setSpeed(0)}
-        onPointerLeave={(e) => e.pointerType === "mouse" && setSpeed(1)}
-      >
-        <div data-co="track" className={styles.track}>
-          <LogoSet logos={trusted.logos} />
-          <LogoSet logos={trusted.logos} hidden />
-        </div>
-      </div>
+      {marquee}
       {/* Phones: the link closes the section, like every other section's link. */}
       <div className={styles.foot}>
         <AccentLink href={trusted.link.href}>{trusted.link.label}</AccentLink>

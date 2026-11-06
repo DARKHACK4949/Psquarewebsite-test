@@ -6,7 +6,7 @@
 .wall {
   /* How far the fog block overlaps the bottom of the tiles, and how far it runs past them. */
   --fog-overlap: 50svh;
-  --fog-tail: 25svh;
+  --fog-tail: 12svh;
   position: relative;
   padding-top: 8svh;
   /* Phones widen the bento past the screen edges; clip without a scroll box (sticky keeps working). */
@@ -274,43 +274,13 @@
 }
 
 /*
- * Dark exit (the dark-chapter preview): the block after the tiles fades to the
- * night colour instead of paper, so the wall dissolves into the dark section
- * that follows. It runs only a little past the tiles, and the nav stays light
- * on dark to the end of the section, where the next section's marker takes over.
- */
-.dark {
-  --fog-tail: 8svh;
-}
-.dark .navDark {
-  bottom: 0;
-}
-.fade {
-  position: relative;
-  z-index: 3;
-  height: calc(var(--fog-overlap) + var(--fog-tail));
-  margin-top: calc(var(--fog-overlap) * -1);
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--night) 0%, transparent) 0%,
-    color-mix(in srgb, var(--night) 60%, transparent) 30%,
-    color-mix(in srgb, var(--night) 92%, transparent) 55%,
-    var(--night) 70%
-  );
-}
-
-/*
  * Phones: the same three-column wall, scaled down. It is 150% of the screen
  * wide and centred, so the side columns run off both edges.
  */
 @media (max-width: 639px) {
   .wall {
     --fog-overlap: 35svh;
-    --fog-tail: 20svh;
-  }
-  .wall.dark {
-    --fog-tail: 6svh;
+    --fog-tail: 10svh;
   }
   .bento {
     --bw: 150vw;

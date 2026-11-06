@@ -238,7 +238,7 @@ test("device wall scrolls at the page's pace, darkens the page, then hands back"
   await expect.poll(night).toBe("0");
 });
 
-test("dark-chapter preview: hidden from search, work follows the wall", async ({ page }) => {
+test("redesign preview: hidden from search, new section order", async ({ page }) => {
   await page.goto("/preview/dark-chapter");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
   const order = await page.evaluate(() =>
@@ -246,10 +246,16 @@ test("dark-chapter preview: hidden from search, work follows the wall", async ({
       s.getAttribute("data-screen-label"),
     ),
   );
-  expect(order.slice(0, 4)).toEqual([
+  expect(order).toEqual([
     "01 Hero",
+    "01a Trusted by",
     "01b Device wall",
     "04 Selected work",
     "03 What we do",
+    "09 Next step",
   ]);
+  // Project tabs switch the film and its line.
+  await page.getByRole("tab", { name: "ArcGrow" }).click();
+  await expect(page.getByRole("tab", { name: "ArcGrow" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("tabpanel")).toContainText("One studio.");
 });

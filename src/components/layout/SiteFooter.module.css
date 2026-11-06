@@ -4,6 +4,34 @@
   padding: 0 clamp(12px, 1.6vw, 24px) clamp(12px, 1.6vw, 24px);
 }
 
+/*
+ * Night tone: re-points this footer's colour tokens to their night
+ * counterparts, so every rule below reads light-on-dark without a rewrite.
+ * The footer goes full width so its dark background spans the page; the card
+ * inside keeps the container width.
+ */
+.night {
+  --ink: var(--night-text);
+  --body: var(--night-body);
+  --muted: var(--night-muted);
+  --plum: var(--night-accent);
+  --border: var(--night-border);
+  --line: var(--night-line);
+  --chip: color-mix(in srgb, var(--night-text) 10%, transparent);
+  --plum-tint: color-mix(in srgb, var(--night-text) 8%, transparent);
+  max-width: none;
+  background: var(--night);
+}
+.night .card {
+  max-width: var(--container);
+  margin: 0 auto;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  border-top: 1px solid var(--night-line);
+  border-radius: 0;
+}
+
 .card {
   display: flex;
   flex-direction: column;

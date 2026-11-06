@@ -36,15 +36,34 @@ function footerLinks(region: Region) {
 }
 
 /** `path` is the region-neutral path of this page, so the switcher lands on its twin. */
-export function SiteFooter({ region, path = "/" }: { region: Region; path?: string }) {
+/**
+ * `tone="night"`: the footer continues a dark closing section (homepage
+ * redesign preview): no white card, light ink, the white mark.
+ */
+export function SiteFooter({
+  region,
+  path = "/",
+  tone = "light",
+}: {
+  region: Region;
+  path?: string;
+  tone?: "light" | "night";
+}) {
   const { routes, explore, company } = footerLinks(region);
   return (
-    <footer className={styles.footer}>
+    <footer className={tone === "night" ? `${styles.footer} ${styles.night}` : styles.footer}>
       <div className={styles.card}>
         <div className={styles.top}>
           <div className={styles.brandCol}>
             <Link href={routes.home} aria-label="PSQUARE COMPANY home" className={styles.brand}>
-              <Image src="/images/psquare-mark.svg" alt="" width={34} height={34} />
+              <Image
+                src={
+                  tone === "night" ? "/images/psquare-mark-white.svg" : "/images/psquare-mark.svg"
+                }
+                alt=""
+                width={34}
+                height={34}
+              />
               PSQUARE COMPANY
             </Link>
             <p className={styles.tag}>

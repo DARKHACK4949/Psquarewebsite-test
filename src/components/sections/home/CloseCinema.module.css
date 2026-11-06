@@ -1,0 +1,74 @@
+/* Solid night: a clean cut from the light chapter, and the footer continues it. */
+.section {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  background: var(--night);
+  color: var(--night-text);
+  overflow: hidden;
+}
+.film {
+  position: absolute;
+  inset: 0;
+}
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+}
+/* Keeps the line readable and melts the film into the footer below. */
+.film::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--night) 10%, transparent) 0%,
+    color-mix(in srgb, var(--night) 35%, transparent) 55%,
+    var(--night) 100%
+  );
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) clamp(64px, 8vw, 128px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.h2 {
+  margin: 0;
+  max-width: 11ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(44px, 6.2vw, 108px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+.lead {
+  margin: 0;
+  max-width: 40ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 8px;
+}
+/* Scoped to the link: its underline reads these, and the light button keeps plum text. */
+.section .link {
+  --border: var(--night-border);
+  --plum: var(--night-accent);
+  color: var(--night-text);
+}

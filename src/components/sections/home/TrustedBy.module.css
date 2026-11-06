@@ -64,6 +64,33 @@
   opacity: 1;
 }
 
+/* Strip: a thin paper band right under the dark hero, label beside the marquee. */
+.strip {
+  background: var(--paper);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 4px var(--hero-gap);
+  padding: clamp(20px, 2.4vw, 32px) var(--gutter);
+  border-bottom: 1px solid var(--line);
+}
+@media (min-width: 900px) {
+  .strip {
+    grid-template-columns: clamp(180px, 16vw, 240px) minmax(0, 1fr);
+  }
+}
+.stripLabel {
+  margin: 0;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+  text-wrap: balance;
+}
+.strip .cell {
+  height: clamp(56px, 5vw, 72px);
+}
+
 /* Reduced motion: no marquee; one static, wrapping row. */
 @media (prefers-reduced-motion: reduce) {
   .stage {

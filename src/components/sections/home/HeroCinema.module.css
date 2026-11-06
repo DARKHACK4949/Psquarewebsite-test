@@ -1,0 +1,115 @@
+/* Dark hero: solid night, so it cuts cleanly to the light logo strip below. */
+.hero {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+  padding-top: var(--hero-top);
+  overflow: hidden;
+}
+
+.head {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(48px, 6vw, 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px var(--hero-gap);
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+
+/* The page's display size. */
+.h1 {
+  margin: 0;
+  max-width: 17ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 5.2vw, 92px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+.clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.word {
+  display: inline-block;
+}
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .word {
+    animation: rise 0.9s var(--ease) backwards;
+    animation-delay: calc(0.1s + var(--i, 0) * 0.06s);
+  }
+  .aside {
+    animation: fade 0.8s var(--ease) 0.6s backwards;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.lead {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+}
+/* Scoped to the link: its underline reads these, and the light button keeps plum text. */
+.hero .link {
+  --border: var(--night-border);
+  --plum: var(--night-accent);
+  color: var(--night-text);
+}
+
+/* The reel: inset at first, full bleed once it has scrolled up. */
+.reelWrap {
+  position: relative;
+}
+.frame {
+  overflow: hidden;
+  border-radius: var(--r-card);
+  transform-origin: 50% 0;
+  will-change: transform;
+  background: var(--video-black);
+  aspect-ratio: 16 / 9;
+}
+@media (max-width: 639px) {
+  .frame {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--r-media);
+  }
+}
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
