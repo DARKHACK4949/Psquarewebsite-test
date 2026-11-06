@@ -197,16 +197,21 @@
  * about one screen of scrolling everywhere. Hidden tiles never load a clip.
  */
 @media (min-aspect-ratio: 3/4) {
-  .col > :nth-child(n + 6) {
+  .col > :nth-child(n + 7) {
     display: none;
   }
 }
 @media (min-aspect-ratio: 1/1) {
-  .col > :nth-child(n + 5) {
+  .col > :nth-child(n + 6) {
     display: none;
   }
 }
 @media (min-aspect-ratio: 13/10) {
+  .col > :nth-child(n + 5) {
+    display: none;
+  }
+}
+@media (min-aspect-ratio: 3/2) {
   .col > :nth-child(n + 4) {
     display: none;
   }

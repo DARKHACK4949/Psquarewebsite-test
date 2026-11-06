@@ -17,7 +17,7 @@ const RATIO = {
  * Device wall: a full-bleed bento of product clips that scrolls at the page's
  * own pace (no pinning), under a headline held in place with CSS sticky.
  * Scroll only drives fades: the page goes dark as the wall arrives, the
- * headline resolves word by word as the glass tile passes beneath it, and a
+ * headline resolves word by word as it settles mid-screen, and a
  * light fog block after the tiles rises with the scroll and returns the page
  * to light for the next section.
  *
@@ -36,7 +36,7 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
         const el = root.current!;
         const q = <T extends Element = HTMLElement>(s: string) =>
           Array.from(el.querySelectorAll<T & HTMLElement>(s));
-        const hero = el.querySelector<HTMLElement>("[data-w=hero]")!;
+        const stage = el.querySelector<HTMLElement>("[data-w=stage]")!;
         const night = el.querySelector<HTMLElement>("[data-w=night]")!;
         const veil = el.querySelector<HTMLElement>("[data-w=veil]")!;
         const fog = el.querySelector<HTMLElement>("[data-w=fog]")!;
@@ -58,10 +58,12 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
             0.1,
           );
 
-        // 2) The headline resolves word by word as the glass tile rises to it.
+        // 2) The headline resolves word by word as it rises into the middle of the
+        //    screen and settles there (the stage top passing 25% to -30%), so the
+        //    reveal plays where it can be seen.
         const reveal = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: hero, start: "top 95%", end: "top 45%", scrub: true },
+          scrollTrigger: { trigger: stage, start: "top 25%", end: "top -30%", scrub: true },
         });
         reveal.fromTo(veil, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
         sharp.forEach((s, i) => {
@@ -132,7 +134,7 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
       <div data-nav-dark="" aria-hidden="true" className={styles.navDark} />
 
       {/* The stage bounds the sticky headline, so it leaves with the last tiles. */}
-      <div className={styles.stage}>
+      <div data-w="stage" className={styles.stage}>
         {/* Held mid-screen by CSS sticky while the tiles scroll past beneath it. */}
         <div className={styles.stick}>
           <div data-w="veil" aria-hidden="true" className={styles.veil} />

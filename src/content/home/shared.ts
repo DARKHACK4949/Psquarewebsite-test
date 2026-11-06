@@ -32,7 +32,7 @@ const t = (name: string, ratio: WallTile["ratio"], extra = {}): WallTile => ({
 export const wall: HomeContent["wall"] = {
   title: "We design the products behind ambitious businesses.",
   accent: 2,
-  // Three columns, left to right, on every screen size. Up to six tiles each:
+  // Three columns, left to right, on every screen size. Up to seven tiles each:
   // the CSS shows fewer on wider screens so the wall is always about the same
   // number of screens tall. Clips repeat (never next to themselves) until each
   // tile has its own.
@@ -44,6 +44,7 @@ export const wall: HomeContent["wall"] = {
       t("laptop-dashboard", "45"),
       t("sline-tablet", "45"),
       t("sline-mobile", "45"),
+      t("phone-portrait", "portrait", { cover: true }),
     ],
     [
       t("arcgrow-mobile", "43"),
@@ -52,6 +53,7 @@ export const wall: HomeContent["wall"] = {
       t("fintech-mobile", "43"),
       t("laptop-dashboard", "43"),
       t("arcgrow-mobile", "43"),
+      t("sline-mobile", "43"),
     ],
     [
       t("sline-tablet", "45"),
@@ -60,6 +62,7 @@ export const wall: HomeContent["wall"] = {
       t("sline-mobile", "45"),
       t("phone-portrait", "portrait", { cover: true }),
       t("arcgrow-mobile", "45"),
+      t("sline-tablet", "45"),
     ],
   ],
 };
