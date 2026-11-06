@@ -1,1 +1,0 @@
-const wall = await top('[data-screen-label="01b Device wall"]'), what = Math.max(await top('[data-screen-label="03 What we do"]'), await top('
