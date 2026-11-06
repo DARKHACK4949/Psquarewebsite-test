@@ -178,7 +178,7 @@ for (const base of ["", "/ca"]) {
     );
     await expect(page.getByText(/As the way people use software changes/)).toHaveCount(0);
     const clips = page.locator('[data-w="bento"] video');
-    await expect(clips).toHaveCount(18);
+    await expect(clips).toHaveCount(21);
     // Every clip has a WebM and an MP4 fallback, and stays hidden from assistive tech.
     // Each also carries a lighter phone cut, listed first.
     for (const v of await clips.all()) {
@@ -186,7 +186,7 @@ for (const base of ["", "/ca"]) {
       await expect(v).toHaveAttribute("aria-hidden", "true");
     }
     await expect(page.locator('[data-w="bento"] source[media="(max-width: 639px)"]')).toHaveCount(
-      36,
+      42,
     );
   });
 }
@@ -209,9 +209,9 @@ test("device wall scrolls at the page's pace, darkens the page, then hands back"
   const night = () =>
     page.evaluate(() => getComputedStyle(document.querySelector("[data-w=night]")!).opacity);
 
-  // The glass tile at the headline: dark page, headline fully shown.
+  // Once the headline has settled mid-screen: dark page, headline fully shown.
   const vh = await page.evaluate(() => innerHeight);
-  await wheelTo((await at("[data-w=hero]")) - vh * 0.3);
+  await wheelTo((await at("[data-w=stage]")) + vh * 0.4);
   await expect.poll(night).toBe("1");
   await expect
     .poll(() =>
