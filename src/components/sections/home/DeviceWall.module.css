@@ -274,6 +274,33 @@
 }
 
 /*
+ * Dark exit (the dark-chapter preview): the block after the tiles fades to the
+ * night colour instead of paper, so the wall dissolves into the dark section
+ * that follows. It runs only a little past the tiles, and the nav stays light
+ * on dark to the end of the section, where the next section's marker takes over.
+ */
+.dark {
+  --fog-tail: 8svh;
+}
+.dark .navDark {
+  bottom: 0;
+}
+.fade {
+  position: relative;
+  z-index: 3;
+  height: calc(var(--fog-overlap) + var(--fog-tail));
+  margin-top: calc(var(--fog-overlap) * -1);
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--night) 0%, transparent) 0%,
+    color-mix(in srgb, var(--night) 60%, transparent) 30%,
+    color-mix(in srgb, var(--night) 92%, transparent) 55%,
+    var(--night) 70%
+  );
+}
+
+/*
  * Phones: the same three-column wall, scaled down. It is 150% of the screen
  * wide and centred, so the side columns run off both edges.
  */
@@ -281,6 +308,9 @@
   .wall {
     --fog-overlap: 35svh;
     --fog-tail: 20svh;
+  }
+  .wall.dark {
+    --fog-tail: 6svh;
   }
   .bento {
     --bw: 150vw;

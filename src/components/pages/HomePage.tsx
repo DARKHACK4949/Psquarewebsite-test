@@ -7,6 +7,7 @@ import { Hero } from "@/components/sections/home/Hero";
 import { DeviceWall } from "@/components/sections/home/DeviceWall";
 import { WhatWeDo } from "@/components/sections/home/WhatWeDo";
 import { SelectedWork } from "@/components/sections/home/SelectedWork";
+import { SelectedWorkDark } from "@/components/sections/home/SelectedWorkDark";
 import { HowWeWork } from "@/components/sections/home/HowWeWork";
 import { Industries } from "@/components/sections/home/Industries";
 import { TrustedBy } from "@/components/sections/home/TrustedBy";
@@ -30,7 +31,12 @@ export function homeMetadata(region: Region): Metadata {
   };
 }
 
-export function HomePage({ region }: { region: Region }) {
+/**
+ * `preview="dark-chapter"` renders the proposed order for review at
+ * /preview/dark-chapter: the device wall dissolves into a dark Selected work
+ * (one dark chapter), followed by What we do. The live homepage is unchanged.
+ */
+export function HomePage({ region, preview }: { region: Region; preview?: "dark-chapter" }) {
   const c = homeContent(region);
   const { introKey, areaServed } = regions[region];
   const home = alternates(region, "/").canonical;
@@ -57,9 +63,19 @@ export function HomePage({ region }: { region: Region }) {
         <SiteNav region={region} current="home" />
         <main id="main" tabIndex={-1}>
           <Hero hero={c.hero} />
-          <DeviceWall wall={c.wall} />
-          <WhatWeDo what={c.what} />
-          <SelectedWork work={c.work} />
+          {preview === "dark-chapter" ? (
+            <>
+              <DeviceWall wall={c.wall} exit="dark" />
+              <SelectedWorkDark work={c.work} />
+              <WhatWeDo what={c.what} />
+            </>
+          ) : (
+            <>
+              <DeviceWall wall={c.wall} />
+              <WhatWeDo what={c.what} />
+              <SelectedWork work={c.work} />
+            </>
+          )}
           {c.howWeWork && <HowWeWork how={c.howWeWork} />}
           <Industries industries={c.industries} />
           <TrustedBy trusted={c.trusted} />

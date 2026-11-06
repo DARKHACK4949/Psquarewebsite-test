@@ -19,12 +19,24 @@ const RATIO = {
  * Scroll only drives fades: the page goes dark as the wall arrives, the
  * headline resolves word by word as it settles mid-screen, and a
  * light fog block after the tiles rises with the scroll and returns the page
- * to light for the next section.
+ * to light for the next section (or, with exit="dark", a dark fade dissolves
+ * the wall into the dark section that follows).
  *
  * Only opacity animates: the dark page is a fixed night layer, and each word's
  * blur is a pre-blurred copy cross-fading with the sharp one.
  */
-export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
+export function DeviceWall({
+  wall,
+  exit = "light",
+}: {
+  wall: HomeContent["wall"];
+  /**
+   * How the wall ends. "light": a light fog returns the page to light.
+   * "dark": the tiles dissolve into the dark and hand it to a dark section
+   * that follows (the dark-chapter preview).
+   */
+  exit?: "light" | "dark";
+}) {
   const root = useRef<HTMLElement>(null);
   const words = wall.title.split(" ");
   const accentFrom = words.length - wall.accent;
@@ -87,24 +99,51 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
             .to(s, { opacity: 0, duration: 0.2 }, at)
             .to(soft[i], { opacity: 0, duration: 0.3 }, at + 0.15);
         });
-        // The page turns light, and the tiles still above the fog fade a little ahead
-        // of the dark (on the bento, so it never fights the columns' fade-in).
-        gsap
-          .timeline({
-            scrollTrigger: { trigger: fog, start: "top 65%", end: "top 20%", scrub: true },
-          })
-          .fromTo(
-            night,
-            { opacity: 1 },
-            { opacity: 0, ease: "sine.inOut", immediateRender: false, duration: 1 },
-            0,
-          )
-          .fromTo(
+        if (exit === "dark") {
+          // The tiles above the fade dissolve (on the bento, so it never fights the
+          // columns' fade-in) and the page stays dark.
+          gsap.fromTo(
             bento,
             { opacity: 0.8 },
-            { opacity: 0, ease: "sine.inOut", immediateRender: false, duration: 0.7 },
-            0,
+            {
+              opacity: 0,
+              ease: "sine.inOut",
+              immediateRender: false,
+              scrollTrigger: { trigger: fog, start: "top 50%", end: "top 0%", scrub: true },
+            },
           );
+          // Hand the dark to the next section: its own night layer is fully on by
+          // the time this one fades, so the page never brightens in between.
+          gsap.fromTo(
+            night,
+            { opacity: 1 },
+            {
+              opacity: 0,
+              ease: "none",
+              immediateRender: false,
+              scrollTrigger: { trigger: el, start: "bottom 30%", end: "bottom top", scrub: true },
+            },
+          );
+        } else {
+          // The page turns light, and the tiles still above the fog fade a little ahead
+          // of the dark (on the bento, so it never fights the columns' fade-in).
+          gsap
+            .timeline({
+              scrollTrigger: { trigger: fog, start: "top 65%", end: "top 20%", scrub: true },
+            })
+            .fromTo(
+              night,
+              { opacity: 1 },
+              { opacity: 0, ease: "sine.inOut", immediateRender: false, duration: 1 },
+              0,
+            )
+            .fromTo(
+              bento,
+              { opacity: 0.8 },
+              { opacity: 0, ease: "sine.inOut", immediateRender: false, duration: 0.7 },
+              0,
+            );
+        }
 
         // Once the fog covers the wall, stop decoding its clips.
         const videos = q<HTMLVideoElement>("video");
@@ -117,7 +156,7 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
       });
       return () => mm.revert();
     },
-    { scope: root },
+    { scope: root, dependencies: [exit] },
   );
 
   return (
@@ -126,7 +165,7 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
       data-screen-label="01b Device wall"
       data-noband=""
       aria-label={wall.title}
-      className={styles.wall}
+      className={exit === "dark" ? `${styles.wall} ${styles.dark}` : styles.wall}
     >
       {/* Fixed night layer: the page's dark phase. */}
       <div data-w="night" aria-hidden="true" className={styles.night} />
@@ -177,10 +216,14 @@ export function DeviceWall({ wall }: { wall: HomeContent["wall"] }) {
       </div>
 
       {/* The fog: a gradient block after the tiles that rises with the scroll. */}
-      <div data-w="fog" aria-hidden="true" className={styles.fog}>
-        <div className={styles.fogA} />
-        <div className={styles.fogB} />
-        <div className={styles.fogC} />
+      <div data-w="fog" aria-hidden="true" className={exit === "dark" ? styles.fade : styles.fog}>
+        {exit === "light" && (
+          <>
+            <div className={styles.fogA} />
+            <div className={styles.fogB} />
+            <div className={styles.fogC} />
+          </>
+        )}
       </div>
     </section>
   );
