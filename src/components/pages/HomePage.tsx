@@ -71,7 +71,7 @@ export function HomePage({ region, preview }: { region: Region; preview?: "redes
           <main id="main" tabIndex={-1}>
             <HeroCinema hero={c.hero} />
             <TrustedBy trusted={c.trusted} variant="strip" />
-            <DeviceWall wall={c.wall} />
+            <DeviceWall wall={c.wall} enter="dark" />
             <WorkShowcase work={c.work} />
             <Capabilities what={c.what} />
             <CloseCinema nextStep={c.nextStep} />

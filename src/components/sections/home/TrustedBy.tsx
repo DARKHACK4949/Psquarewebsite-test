@@ -91,6 +91,7 @@ export function TrustedBy({
         id="company"
         data-screen-label="01a Trusted by"
         data-noband=""
+        data-nav-dark=""
         aria-labelledby="trusted-strip"
         className={styles.strip}
       >

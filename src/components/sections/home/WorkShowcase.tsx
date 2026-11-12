@@ -8,8 +8,9 @@ import type { HomeContent } from "@/content/home";
 import styles from "./WorkShowcase.module.css";
 
 /**
- * Selected work, light chapter. Client names on the left choose the project;
- * one large film on the right, with its line and link below. Natural scroll on
+ * Selected work, light chapter. A bold list of client names on the left
+ * chooses the project (point, tap or arrow keys); one large film on the right,
+ * with its line and link below. Natural scroll on
  * every screen; on phones the names become a swipeable row above the film.
  * Only the active film is mounted, so one clip decodes at a time.
  */
@@ -43,6 +44,8 @@ export function WorkShowcase({ work }: { work: HomeContent["work"] }) {
                 tabIndex={i === active ? 0 : -1}
                 className={styles.name}
                 onClick={() => setActive(i)}
+                // A mouse previews the project by pointing at its name; touch and keys still select.
+                onPointerEnter={(e) => e.pointerType === "mouse" && setActive(i)}
                 onKeyDown={(e) => {
                   if (
                     e.key !== "ArrowDown" &&

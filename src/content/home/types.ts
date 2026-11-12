@@ -50,13 +50,6 @@ export type HomeContent = {
       icon: "target" | "pen-nib" | "code" | "sparkle";
       lead: string;
       body: string;
-      /**
-       * Film for the tall capability card. Placeholder product clips for now;
-       * swap in real footage of the work (sites, technicians, teams) when it exists.
-       */
-      media?: WallTile["src"];
-      /** Fill the card (cover) instead of fitting the device inside it. */
-      cover?: boolean;
     }[];
     all: Link;
     /** British spelling in the capability illustrations ("enquiry"). */

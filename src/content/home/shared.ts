@@ -73,30 +73,24 @@ export const what = (r: Routes): HomeContent["what"] => ({
   cards: [
     {
       title: "Strategy",
-      media: clip("sline-mobile"),
       icon: "target",
       lead: "Field research, process mapping and requirements.",
       body: "A shared understanding of what the business needs, before the build begins.",
     },
     {
       title: "Design",
-      media: clip("phone-portrait"),
-      cover: true,
       icon: "pen-nib",
       lead: "User journeys, UX, UI and system architecture.",
       body: "Interfaces shaped around the people who will use them every day.",
     },
     {
       title: "Engineering",
-      media: clip("laptop-dashboard"),
       icon: "code",
       lead: "Web and mobile software, integrations and testing.",
       body: "A considered foundation for your product.",
     },
     {
       title: "AI & Automation",
-      media: clip("psquare-glass"),
-      cover: true,
       icon: "sparkle",
       lead: "AI, connected systems and automation.",
       body: "Practical intelligence designed around real workflows.",

@@ -1,13 +1,12 @@
 import { AccentLink } from "@/components/ui/Button";
 import { Words } from "@/components/ui/Words";
-import { LoopVideo } from "@/components/sections/about/LoopVideo";
 import type { HomeContent } from "@/content/home";
 import styles from "./Capabilities.module.css";
 
 /**
- * What we do, light chapter: one statement, then a row of tall film cards,
- * one per capability, each with its name and one line. Not a sequence, so no
- * numbers. Phones swipe through the cards.
+ * What we do, light chapter: one statement, then the four capabilities as
+ * large type rows, each with its line. Type carries it: no cards and no
+ * stand-in media. Not a sequence, so no numbers.
  */
 export function Capabilities({ what }: { what: HomeContent["what"] }) {
   const title = what.lines.join(" ");
@@ -23,14 +22,13 @@ export function Capabilities({ what }: { what: HomeContent["what"] }) {
           </p>
         </div>
 
-        <ul className={styles.row}>
+        <ul className={styles.rows}>
           {what.cards.map((c) => (
-            <li key={c.title} className={styles.card}>
-              <div className={c.cover ? `${styles.media} ${styles.cover}` : styles.media}>
-                {c.media && <LoopVideo src={c.media} className={styles.video} />}
-              </div>
+            <li key={c.title} className={styles.row}>
               <h3 className={styles.name}>{c.title}</h3>
-              <p className={styles.line}>{c.lead}</p>
+              <p className={styles.line}>
+                {c.lead} <span className={styles.more}>{c.body}</span>
+              </p>
             </li>
           ))}
         </ul>

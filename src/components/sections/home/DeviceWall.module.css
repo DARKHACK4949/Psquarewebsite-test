@@ -23,6 +23,14 @@
   pointer-events: none;
   will-change: opacity;
 }
+/* After a dark section: the night is already on, and the nav stays light from the section top. */
+.enterDark .night {
+  opacity: 1;
+}
+.enterDark .navDark {
+  top: 0;
+}
+
 /*
  * Covers the scroll range where the night layer is past half: from the
  * section top at 65% of the viewport until the fog's top is 42% down.

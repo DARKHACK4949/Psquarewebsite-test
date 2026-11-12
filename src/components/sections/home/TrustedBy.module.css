@@ -64,15 +64,18 @@
   opacity: 1;
 }
 
-/* Strip: a thin paper band right under the dark hero, label beside the marquee. */
+/*
+ * Strip: the logo row that closes the dark hero. Same night as the hero above
+ * and the device wall below, logos in white, so the three read as one chapter.
+ */
 .strip {
-  background: var(--paper);
+  background: var(--night);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
-  gap: 4px var(--hero-gap);
-  padding: clamp(20px, 2.4vw, 32px) var(--gutter);
-  border-bottom: 1px solid var(--line);
+  gap: 12px var(--hero-gap);
+  max-width: none;
+  padding: 0 var(--gutter) clamp(56px, 7vw, 112px);
 }
 @media (min-width: 900px) {
   .strip {
@@ -84,11 +87,25 @@
   font-size: var(--fs-small);
   font-weight: 400;
   line-height: 1.4;
-  color: var(--muted);
+  color: var(--night-muted);
   text-wrap: balance;
 }
 .strip .cell {
-  height: clamp(56px, 5vw, 72px);
+  height: clamp(48px, 4.4vw, 64px);
+}
+/* One flat white for every mark: a static filter, nothing animates but opacity. */
+.strip .logo,
+.strip .logo:hover {
+  filter: brightness(0) invert(1);
+}
+.strip .logo {
+  opacity: 0.5;
+  transition: opacity var(--t-color) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .strip .logo:hover {
+    opacity: 0.9;
+  }
 }
 
 /* Reduced motion: no marquee; one static, wrapping row. */

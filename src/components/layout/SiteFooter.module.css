@@ -21,10 +21,14 @@
   --plum-tint: color-mix(in srgb, var(--night-text) 8%, transparent);
   max-width: none;
   background: var(--night);
+  /* Same margin as the sections above, so the footer's edge lines up with the closing text. */
+  padding: 0 var(--gutter) clamp(20px, 2.4vw, 32px);
 }
 .night .card {
-  max-width: var(--container);
+  max-width: calc(var(--container) - 2 * var(--gutter));
   margin: 0 auto;
+  padding-left: 0;
+  padding-right: 0;
   background: transparent;
   border: 0;
   box-shadow: none;

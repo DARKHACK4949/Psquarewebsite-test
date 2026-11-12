@@ -4,6 +4,8 @@
   background: var(--night);
   color: var(--night-text);
   padding-top: var(--hero-top);
+  /* Dark continues under the reel, so its rounded corners sit on night, not on a seam. */
+  padding-bottom: clamp(40px, 5vw, 80px);
   overflow: hidden;
 }
 
@@ -28,9 +30,9 @@
   max-width: 17ch;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(40px, 5.2vw, 92px);
-  line-height: 0.98;
-  letter-spacing: -0.05em;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
   text-wrap: balance;
 }
 .clip {
@@ -89,9 +91,12 @@
   color: var(--night-text);
 }
 
-/* The reel: inset at first, full bleed once it has scrolled up. */
+/* The reel: a rounded frame within the page margin; it settles up to full size as it scrolls in. */
 .reelWrap {
   position: relative;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
 }
 .frame {
   overflow: hidden;

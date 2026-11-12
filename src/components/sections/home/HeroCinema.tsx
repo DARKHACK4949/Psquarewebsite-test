@@ -9,9 +9,10 @@ import styles from "./HeroCinema.module.css";
 
 /**
  * Dark hero: the promise in display type, then the reel, which tells the
- * scattered-to-simple story on its own. The reel starts inset and opens to
- * full bleed as it scrolls up (transform only). The headline rises word by
- * word on load; that is the page's one entrance moment.
+ * scattered-to-simple story on its own. The reel is a rounded frame within
+ * the page margin that settles up to full size as it scrolls in (transform
+ * only). The headline rises word by word on load; that is the page's one
+ * entrance moment.
  */
 export function HeroCinema({ hero }: { hero: HomeContent["hero"] }) {
   const root = useRef<HTMLElement>(null);
@@ -25,11 +26,11 @@ export function HeroCinema({ hero }: { hero: HomeContent["hero"] }) {
         const frame = root.current!.querySelector<HTMLElement>("[data-h=frame]")!;
         gsap.fromTo(
           frame,
-          { scale: 0.88 },
+          { scale: 0.94 },
           {
             scale: 1,
             ease: "none",
-            scrollTrigger: { trigger: frame, start: "top 85%", end: "top 15%", scrub: true },
+            scrollTrigger: { trigger: frame, start: "top 95%", end: "top 30%", scrub: true },
           },
         );
       });

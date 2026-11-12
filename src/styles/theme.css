@@ -38,6 +38,11 @@
   /* Type */
   --font-display: var(--font-funnel-display), "Funnel Display", sans-serif;
   --font-sans: var(--font-funnel-sans), "Funnel Sans", system-ui, sans-serif;
+  /* Homepage redesign: one display size for the big moments (hero, work, close), one for statements. */
+  --fs-display: clamp(42px, 5.6vw, 96px);
+  --fs-statement: clamp(32px, 3.8vw, 64px);
+  --lh-display: 0.98;
+  --ls-display: -0.05em;
   --fs-h1: clamp(40px, 4.6vw, 80px);
   --fs-h2: clamp(36px, 4vw, 64px);
   --fs-h3: clamp(26px, 2.2vw, 32px);
