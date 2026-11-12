@@ -3,8 +3,7 @@ import { SITE_URL } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    // Review-only pages under /preview stay out of search.
-    rules: { userAgent: "*", allow: "/", disallow: ["/api/", "/preview/"] },
+    rules: { userAgent: "*", allow: "/", disallow: "/api/" },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
   };

@@ -1,4 +1,11 @@
-/* Solid night: a clean cut from the light chapter, and the footer continues it. */
+/*
+ * The dark close. The two films are composed differently, so the layout
+ * follows each one:
+ * - Desktop (16:9 cut): the mark settles on the right, about 75% across;
+ *   the text sits on the left, centred against it.
+ * - Phones and portrait tablets (9:16 cut): the mark settles near the top,
+ *   about 30% down; the text sits at the bottom.
+ */
 .section {
   position: relative;
   min-height: 100svh;
@@ -8,27 +15,80 @@
   color: var(--night-text);
   overflow: hidden;
 }
+/* Tablet and up: the same section gap above it as every other section, so the light chapter breathes before the cut. */
+@media (min-width: 640px) {
+  .section {
+    margin-top: var(--section);
+  }
+}
+@media (min-width: 900px) {
+  .section {
+    align-items: center;
+  }
+}
+
+/* Its own stacking context, so the vignette layers stay under the text. */
 .film {
   position: absolute;
   inset: 0;
+  z-index: 0;
 }
 .video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.7;
+  /* Crop from the left, never from the mark. */
+  object-position: 80% 50%;
 }
-/* Keeps the line readable and melts the film into the footer below. */
+@media (max-width: 899px) and (orientation: portrait) {
+  .video {
+    object-position: 45% 30%;
+  }
+}
+/* Very wide, short windows: show the whole frame, anchored right, so the mark is never cut top or bottom. */
+@media (min-width: 900px) and (min-aspect-ratio: 2 / 1) {
+  .video {
+    object-fit: contain;
+    object-position: 100% 50%;
+  }
+}
+
+/*
+ * Telescope vignette: an oval of clear film around where the mark settles,
+ * falling off to night at every edge, which hides the blocky banding the glow
+ * leaves near the frame's borders and corners.
+ */
+.film::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse 34% 62% at 74% 50%,
+    transparent 0%,
+    transparent 35%,
+    color-mix(in srgb, var(--night) 55%, transparent) 70%,
+    var(--night) 100%
+  );
+}
+@media (max-width: 899px) and (orientation: portrait) {
+  .film::before {
+    background: radial-gradient(
+      ellipse 70% 34% at 47% 30%,
+      transparent 0%,
+      transparent 35%,
+      color-mix(in srgb, var(--night) 55%, transparent) 70%,
+      var(--night) 100%
+    );
+  }
+}
+/* Melts the film into the footer below, and keeps the text readable on phones. */
 .film::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--night) 10%, transparent) 0%,
-    color-mix(in srgb, var(--night) 35%, transparent) 55%,
-    var(--night) 100%
-  );
+  z-index: 1;
+  background: linear-gradient(to bottom, transparent 0%, transparent 60%, var(--night) 100%);
 }
 
 .inner {
@@ -38,6 +98,7 @@
   margin: 0 auto;
   padding: var(--section) var(--gutter) clamp(64px, 8vw, 128px);
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
   gap: 24px;
 }

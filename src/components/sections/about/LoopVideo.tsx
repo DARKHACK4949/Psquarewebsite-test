@@ -15,8 +15,16 @@ type Src = VideoSrc & { phone?: { webm: string; mp4: string } };
  */
 export const LoopVideo = forwardRef<
   HTMLVideoElement,
-  { src: Src; className?: string; style?: CSSProperties; label?: string; eager?: boolean }
->(function LoopVideo({ src, className, style, label, eager }, ref) {
+  {
+    src: Src;
+    className?: string;
+    style?: CSSProperties;
+    label?: string;
+    eager?: boolean;
+    /** When the phone cut is used; defaults to phones (below 640px). */
+    phoneQuery?: string;
+  }
+>(function LoopVideo({ src, className, style, label, eager, phoneQuery = PHONE }, ref) {
   const el = useRef<HTMLVideoElement>(null);
   useImperativeHandle(ref, () => el.current!);
 
@@ -51,8 +59,8 @@ export const LoopVideo = forwardRef<
     >
       {src.phone && (
         <>
-          <source src={src.phone.webm} type="video/webm" media={PHONE} />
-          <source src={src.phone.mp4} type="video/mp4" media={PHONE} />
+          <source src={src.phone.webm} type="video/webm" media={phoneQuery} />
+          <source src={src.phone.mp4} type="video/mp4" media={phoneQuery} />
         </>
       )}
       <source src={src.webm} type="video/webm" />

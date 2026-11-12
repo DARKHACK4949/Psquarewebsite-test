@@ -9,10 +9,10 @@ const glass = {
   webm: "/media/home/close-glass.webm",
   mp4: "/media/home/close-glass.mp4",
   poster: "/media/home/close-glass-poster.jpg",
-  // Phones: the portrait cut of the same glass film.
+  // Phones and portrait tablets: the 9:16 cut of the same film.
   phone: {
-    webm: "/media/home/wall/psquare-glass-m.webm",
-    mp4: "/media/home/wall/psquare-glass-m.mp4",
+    webm: "/media/home/close-glass-m.webm",
+    mp4: "/media/home/close-glass-m.mp4",
   },
 };
 
@@ -30,7 +30,11 @@ export function CloseCinema({ nextStep }: { nextStep: HomeContent["nextStep"] })
       className={styles.section}
     >
       <div aria-hidden="true" className={styles.film}>
-        <LoopVideo src={glass} className={styles.video} />
+        <LoopVideo
+          src={glass}
+          phoneQuery="(max-width: 899px) and (orientation: portrait)"
+          className={styles.video}
+        />
       </div>
       <div className={styles.inner}>
         <h2 className={styles.h2} data-split="" aria-label={title}>

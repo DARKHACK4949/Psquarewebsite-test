@@ -37,8 +37,8 @@ function footerLinks(region: Region) {
 
 /** `path` is the region-neutral path of this page, so the switcher lands on its twin. */
 /**
- * `tone="night"`: the footer continues a dark closing section (homepage
- * redesign preview): no white card, light ink, the white mark.
+ * `tone="night"`: the footer continues the homepage's dark closing section:
+ * no white card, light ink, the white mark.
  */
 export function SiteFooter({
   region,

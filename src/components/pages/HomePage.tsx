@@ -7,15 +7,11 @@ import { Hero } from "@/components/sections/home/Hero";
 import { DeviceWall } from "@/components/sections/home/DeviceWall";
 import { WhatWeDo } from "@/components/sections/home/WhatWeDo";
 import { SelectedWork } from "@/components/sections/home/SelectedWork";
-import { HeroCinema } from "@/components/sections/home/HeroCinema";
-import { WorkShowcase } from "@/components/sections/home/WorkShowcase";
-import { Capabilities } from "@/components/sections/home/Capabilities";
 import { CloseCinema } from "@/components/sections/home/CloseCinema";
 import { HowWeWork } from "@/components/sections/home/HowWeWork";
 import { Industries } from "@/components/sections/home/Industries";
 import { TrustedBy } from "@/components/sections/home/TrustedBy";
 import { Faq } from "@/components/sections/home/Faq";
-import { NextStep } from "@/components/sections/home/NextStep";
 import { homeContent } from "@/content/home";
 import { introBootScript } from "@/lib/intro-boot";
 import { regions, type Region } from "@/lib/region";
@@ -34,13 +30,7 @@ export function homeMetadata(region: Region): Metadata {
   };
 }
 
-/**
- * `preview="redesign"` renders the proposed homepage for review at
- * /preview/dark-chapter: a dark cinematic hero, a light logo strip, the device
- * wall, a calm light chapter (work, capabilities), then a dark close with the
- * footer inside it. The live homepage is unchanged.
- */
-export function HomePage({ region, preview }: { region: Region; preview?: "redesign" }) {
+export function HomePage({ region }: { region: Region }) {
   const c = homeContent(region);
   const { introKey, areaServed } = regions[region];
   const home = alternates(region, "/").canonical;
@@ -62,26 +52,6 @@ export function HomePage({ region, preview }: { region: Region; preview?: "redes
     />
   );
 
-  if (preview === "redesign")
-    return (
-      <>
-        {jsonLd}
-        <div id="psq-page" className="page">
-          <SiteNav region={region} current="home" />
-          <main id="main" tabIndex={-1}>
-            <HeroCinema hero={c.hero} />
-            <TrustedBy trusted={c.trusted} variant="strip" />
-            <DeviceWall wall={c.wall} enter="dark" />
-            <WorkShowcase work={c.work} />
-            <Capabilities what={c.what} />
-            <CloseCinema nextStep={c.nextStep} />
-          </main>
-          <SiteFooter region={region} path="/" tone="night" />
-        </div>
-        <PageReveal />
-      </>
-    );
-
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: introBootScript(introKey) }} />
@@ -98,9 +68,9 @@ export function HomePage({ region, preview }: { region: Region; preview?: "redes
           <Industries industries={c.industries} />
           <TrustedBy trusted={c.trusted} />
           <Faq faq={c.faq} />
-          <NextStep nextStep={c.nextStep} />
+          <CloseCinema nextStep={c.nextStep} />
         </main>
-        <SiteFooter region={region} path="/" />
+        <SiteFooter region={region} path="/" tone="night" />
       </div>
       <PageReveal />
     </>

@@ -28,17 +28,8 @@ function LogoSet({ logos, hidden }: { logos: HomeContent["trusted"]["logos"]; hi
   );
 }
 
-/**
- * Client logo marquee: a GSAP loop over a duplicated track; eases to a stop on hover.
- * `variant="strip"`: a thin band right under the hero, a small label beside the marquee.
- */
-export function TrustedBy({
-  trusted,
-  variant = "section",
-}: {
-  trusted: HomeContent["trusted"];
-  variant?: "section" | "strip";
-}) {
+/** Client logo marquee: a GSAP loop over a duplicated track; eases to a stop on hover. */
+export function TrustedBy({ trusted }: { trusted: HomeContent["trusted"] }) {
   const stage = useRef<HTMLDivElement>(null);
   const tween = useRef<gsap.core.Tween | null>(null);
 
@@ -73,7 +64,7 @@ export function TrustedBy({
     <div
       ref={stage}
       className={styles.stage}
-      data-reveal={variant === "section" ? "" : undefined}
+      data-reveal=""
       // Hover pause is for mice only: touch "hover" would stop the marquee until the next tap.
       onPointerEnter={(e) => e.pointerType === "mouse" && setSpeed(0)}
       onPointerLeave={(e) => e.pointerType === "mouse" && setSpeed(1)}
@@ -84,23 +75,6 @@ export function TrustedBy({
       </div>
     </div>
   );
-
-  if (variant === "strip")
-    return (
-      <section
-        id="company"
-        data-screen-label="01a Trusted by"
-        data-noband=""
-        data-nav-dark=""
-        aria-labelledby="trusted-strip"
-        className={styles.strip}
-      >
-        <h2 id="trusted-strip" className={styles.stripLabel}>
-          {trusted.title}
-        </h2>
-        {marquee}
-      </section>
-    );
 
   return (
     <section id="company" data-screen-label="07 Trusted by" className={styles.section}>
