@@ -6,13 +6,13 @@ import { CONTACT_EMAIL } from "@/lib/site";
 import styles from "./CloseCinema.module.css";
 
 const glass = {
-  webm: "/media/home/close-glass.webm",
-  mp4: "/media/home/close-glass.mp4",
-  poster: "/media/home/close-glass-poster.jpg",
+  webm: "/media/home/close-film-2.webm",
+  mp4: "/media/home/close-film-2.mp4",
+  poster: "/media/home/close-film-2-poster.jpg",
   // Phones and portrait tablets: the 9:16 cut of the same film.
   phone: {
-    webm: "/media/home/close-glass-m.webm",
-    mp4: "/media/home/close-glass-m.mp4",
+    webm: "/media/home/close-film-2-m.webm",
+    mp4: "/media/home/close-film-2-m.mp4",
   },
 };
 

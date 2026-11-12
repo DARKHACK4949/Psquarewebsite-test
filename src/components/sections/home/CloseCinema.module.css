@@ -24,6 +24,12 @@
 @media (min-width: 900px) {
   .section {
     align-items: center;
+    /*
+     * The film always fills the width. On very wide, short windows the
+     * section grows a little so at least 80% of the frame's height shows and
+     * the mark (about 15% to 90% down) is never cropped.
+     */
+    min-height: max(100svh, 45vw);
   }
 }
 
@@ -45,18 +51,10 @@
     object-position: 45% 30%;
   }
 }
-/* Very wide, short windows: show the whole frame, anchored right, so the mark is never cut top or bottom. */
-@media (min-width: 900px) and (min-aspect-ratio: 2 / 1) {
-  .video {
-    object-fit: contain;
-    object-position: 100% 50%;
-  }
-}
 
 /*
- * Telescope vignette: an oval of clear film around where the mark settles,
- * falling off to night at every edge, which hides the blocky banding the glow
- * leaves near the frame's borders and corners.
+ * A light vignette: only the corners darken, gently, softening the glow's
+ * banding near the frame's edges. The film stays full width.
  */
 .film::before {
   content: "";
@@ -64,23 +62,10 @@
   inset: 0;
   z-index: 1;
   background: radial-gradient(
-    ellipse 34% 62% at 74% 50%,
-    transparent 0%,
-    transparent 35%,
-    color-mix(in srgb, var(--night) 55%, transparent) 70%,
-    var(--night) 100%
+    ellipse 75% 75% at 50% 50%,
+    transparent 60%,
+    color-mix(in srgb, var(--night) 45%, transparent) 100%
   );
-}
-@media (max-width: 899px) and (orientation: portrait) {
-  .film::before {
-    background: radial-gradient(
-      ellipse 70% 34% at 47% 30%,
-      transparent 0%,
-      transparent 35%,
-      color-mix(in srgb, var(--night) 55%, transparent) 70%,
-      var(--night) 100%
-    );
-  }
 }
 /* Melts the film into the footer below, and keeps the text readable on phones. */
 .film::after {
