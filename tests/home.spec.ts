@@ -211,7 +211,8 @@ test("device wall scrolls at the page's pace, darkens the page, then hands back"
 
   // Once the headline has settled mid-screen: dark page, headline fully shown.
   const vh = await page.evaluate(() => innerHeight);
-  await wheelTo((await at("[data-w=stage]")) + vh * 0.4);
+  // (The reveal ends when the stage top is 55% of a screen above the top.)
+  await wheelTo((await at("[data-w=stage]")) + vh * 0.65);
   await expect.poll(night).toBe("1");
   await expect
     .poll(() =>

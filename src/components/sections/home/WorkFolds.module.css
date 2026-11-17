@@ -3,7 +3,7 @@
   color: var(--night-text);
 }
 
-/* Fixed behind the content; each layer fades in over the previous one. */
+/* Fixed behind the content; each project's layer fades in over the night base. */
 .themes {
   position: fixed;
   inset: 0;
@@ -12,6 +12,7 @@
   /* Off until the night intro covers the screen (the script fades it on). */
   opacity: 0;
   will-change: opacity;
+  overflow: hidden;
 }
 .base {
   position: absolute;
@@ -24,27 +25,79 @@
   opacity: 0;
   will-change: opacity;
 }
+/* The film fills the screen (wide screens only; below that the colour alone). */
+.media {
+  position: absolute;
+  inset: 0;
+  display: none;
+  will-change: transform;
+}
+.film {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Keeps the copy readable: the left edge and the bottom sink a little into the dark. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--night) 55%, transparent) 0%,
+      color-mix(in srgb, var(--night) 18%, transparent) 40%,
+      transparent 62%
+    ),
+    linear-gradient(to top, color-mix(in srgb, var(--night) 45%, transparent) 0%, transparent 30%);
+}
 
-/* "Built for real work.": one line, centred, on night. */
+/* Words: a sharp copy over a blurred one; motion crossfades them. */
+.word {
+  position: relative;
+  display: inline-block;
+}
+.soft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+/*
+ * "Built for real work.": held mid-screen with CSS sticky for a screen of
+ * scrolling while it resolves, then leaves.
+ */
 .intro {
-  min-height: 80svh;
+  position: relative;
+  height: 220svh;
+  background: var(--night);
+}
+.introStick {
+  position: sticky;
+  top: 0;
+  height: 100svh;
   display: grid;
   place-items: center;
-  padding: var(--section) var(--gutter);
-  background: var(--night);
+  padding: 0 var(--gutter);
+  overflow: hidden;
 }
 .introLine {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: var(--fs-h2);
-  line-height: 1.05;
-  letter-spacing: var(--ls-h2);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
   text-align: center;
   text-wrap: balance;
+  will-change: transform;
 }
 
-/* One fold per project: copy on the left, film filling the right. */
+/* One fold per project: copy on the left, film on the right (split layout). */
 .fold {
   position: relative;
   min-height: 100svh;
@@ -109,8 +162,46 @@
   height: 100%;
   object-fit: cover;
 }
+
+/*
+ * Wide screens with motion: scenes. Each fold is a screen and a half tall; its
+ * copy is held for the extra half-screen with CSS sticky while the film (in
+ * the fixed layer) plays, then scrolls away as the next name rises.
+ */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .media,
+  .scrim {
+    display: block;
+  }
+  .fold {
+    min-height: 0;
+    height: 160svh;
+    display: block;
+  }
+  .copy {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    max-width: min(60%, 760px);
+  }
+  .stage {
+    display: none;
+  }
+  .name {
+    text-shadow: 0 2px 40px color-mix(in srgb, var(--night) 40%, transparent);
+  }
+}
+
 /* Phones and narrow tablets: name, film, then the line. */
 @media (max-width: 899px) {
+  .intro {
+    height: 160svh;
+  }
+  .introLine {
+    font-size: var(--fs-h2);
+    letter-spacing: var(--ls-h2);
+    line-height: 1.05;
+  }
   .fold {
     min-height: auto;
     padding-bottom: var(--section);
@@ -135,10 +226,13 @@
   }
 }
 
-/* Reduced motion: no crossfade, the themes sit under each fold directly. */
+/* Reduced motion: no crossfades; the intro is one screen and the folds sit on night. */
 @media (prefers-reduced-motion: reduce) {
   .themes {
     display: none;
+  }
+  .intro {
+    height: auto;
   }
   .work {
     background: var(--night);

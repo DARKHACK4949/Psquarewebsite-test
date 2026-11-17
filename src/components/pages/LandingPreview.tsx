@@ -25,7 +25,7 @@ export function LandingPreview({ region }: { region: Region }) {
       <SiteNav region={region} current="home" />
       <main id="main" tabIndex={-1}>
         <HeroAurora hero={c.hero} lead={previewHero.lead} />
-        <DeviceWall wall={c.wall} exit="dark" />
+        <DeviceWall wall={c.wall} enter="dark" exit="dark" />
         <WorkFolds work={c.work} intro={workIntro} themes={workThemes} />
         <WhatWeDoCards what={whatWeDo} />
         <TrustedBy trusted={c.trusted} />

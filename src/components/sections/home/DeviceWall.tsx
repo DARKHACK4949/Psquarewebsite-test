@@ -27,9 +27,16 @@ const RATIO = {
  */
 export function DeviceWall({
   wall,
+  enter = "light",
   exit = "light",
 }: {
   wall: HomeContent["wall"];
+  /**
+   * What comes before the wall. "light": the page goes dark as the wall
+   * arrives. "dark": a dark section precedes it, so the page is already
+   * dark and stays dark (no light band in between).
+   */
+  enter?: "light" | "dark";
   /**
    * How the wall ends. "light": a light fog returns the page to light.
    * "dark": the tiles dissolve into the dark and hand it to a dark section
@@ -57,25 +64,27 @@ export function DeviceWall({
         const sharp = q("[data-w=sharp]");
         const soft = q("[data-w=soft]");
 
-        // 1) As the wall arrives, the page goes dark and the columns fade in.
-        gsap
-          .timeline({
-            scrollTrigger: { trigger: el, start: "top 95%", end: "top 35%", scrub: true },
-          })
-          .fromTo(night, { opacity: 0 }, { opacity: 1, ease: "sine.inOut", duration: 1 }, 0)
-          .fromTo(
-            cols,
-            { opacity: 0 },
-            { opacity: 1, ease: "power2.out", duration: 0.6, stagger: 0.2 },
-            0.1,
-          );
+        // 1) As the wall arrives, the page goes dark (unless it already is) and
+        //    the columns fade in.
+        const arrive = gsap.timeline({
+          scrollTrigger: { trigger: el, start: "top 95%", end: "top 35%", scrub: true },
+        });
+        if (enter === "dark") gsap.set(night, { opacity: 1 });
+        else
+          arrive.fromTo(night, { opacity: 0 }, { opacity: 1, ease: "sine.inOut", duration: 1 }, 0);
+        arrive.fromTo(
+          cols,
+          { opacity: 0 },
+          { opacity: 1, ease: "power2.out", duration: 0.6, stagger: 0.2 },
+          0.1,
+        );
 
         // 2) The headline resolves word by word as it rises into the middle of the
-        //    screen and settles there (the stage top passing 25% to -30%), so the
-        //    reveal plays where it can be seen.
+        //    screen and settles there (the stage top passing 5% to -55%): it waits
+        //    until the wall has filled the screen, then resolves slowly.
         const reveal = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: stage, start: "top 25%", end: "top -30%", scrub: true },
+          scrollTrigger: { trigger: stage, start: "top 5%", end: "top -55%", scrub: true },
         });
         reveal.fromTo(veil, { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0);
         sharp.forEach((s, i) => {
@@ -156,7 +165,7 @@ export function DeviceWall({
       });
       return () => mm.revert();
     },
-    { scope: root, dependencies: [exit] },
+    { scope: root, dependencies: [enter, exit] },
   );
 
   return (
@@ -165,7 +174,11 @@ export function DeviceWall({
       data-screen-label="01b Device wall"
       data-noband=""
       aria-label={wall.title}
-      className={exit === "dark" ? `${styles.wall} ${styles.dark}` : styles.wall}
+      className={[
+        styles.wall,
+        enter === "dark" ? styles.darkIn : "",
+        exit === "dark" ? styles.dark : "",
+      ].join(" ")}
     >
       {/* Fixed night layer: the page's dark phase. */}
       <div data-w="night" aria-hidden="true" className={styles.night} />

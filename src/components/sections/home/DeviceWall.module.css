@@ -110,7 +110,7 @@
 .bento {
   /* Bento width: the viewport, or wider on phones so the sides run off the edges. */
   --bw: 100vw;
-  --g: 20px;
+  --g: clamp(20px, 2vw, 32px);
   --r: var(--r-card);
   --cw: calc((var(--bw) - 2 * var(--g)) * 0.31);
   --cw2: calc(var(--bw) - 2 * var(--g) - 2 * var(--cw));
@@ -279,6 +279,19 @@
  * that follows. It runs only a little past the tiles, and the nav stays light
  * on dark to the end of the section, where the next section's marker takes over.
  */
+/* Dark entry: the section before is dark, so the wall starts on night and the nav stays light from its top. */
+.darkIn {
+  background: var(--night);
+}
+.darkIn .navDark {
+  top: 0;
+}
+/* Its background sits under the bento; the night layer covers it with motion on. */
+@media (prefers-reduced-motion: no-preference) {
+  .darkIn {
+    background: transparent;
+  }
+}
 .dark {
   --fog-tail: 8svh;
 }

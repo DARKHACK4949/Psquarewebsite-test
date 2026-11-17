@@ -53,8 +53,8 @@
 }
 
 /*
- * A light vignette: only the corners darken, gently, softening the glow's
- * banding near the frame's edges. The film stays full width.
+ * The vignette: the middle stays clear and the corners sink into the night,
+ * hiding the glow's banding near the frame's edges. The film stays full width.
  */
 .film::before {
   content: "";
@@ -62,9 +62,11 @@
   inset: 0;
   z-index: 1;
   background: radial-gradient(
-    ellipse 75% 75% at 50% 50%,
-    transparent 60%,
-    color-mix(in srgb, var(--night) 45%, transparent) 100%
+    ellipse 80% 85% at 50% 50%,
+    transparent 48%,
+    color-mix(in srgb, var(--night) 32%, transparent) 72%,
+    color-mix(in srgb, var(--night) 70%, transparent) 90%,
+    color-mix(in srgb, var(--night) 88%, transparent) 100%
   );
 }
 /* Melts the film into the footer below, and keeps the text readable on phones. */
