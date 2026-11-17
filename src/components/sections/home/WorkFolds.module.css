@@ -1,0 +1,146 @@
+.root {
+  position: relative;
+  color: var(--night-text);
+}
+
+/* Fixed behind the content; each layer fades in over the previous one. */
+.themes {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Off until the night intro covers the screen (the script fades it on). */
+  opacity: 0;
+  will-change: opacity;
+}
+.base {
+  position: absolute;
+  inset: 0;
+  background: var(--night);
+}
+.theme {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* "Built for real work.": one line, centred, on night. */
+.intro {
+  min-height: 80svh;
+  display: grid;
+  place-items: center;
+  padding: var(--section) var(--gutter);
+  background: var(--night);
+}
+.introLine {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* One fold per project: copy on the left, film filling the right. */
+.fold {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 900px) {
+  .fold {
+    grid-template-columns: minmax(0, 0.83fr) minmax(0, 1fr);
+  }
+}
+.copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: calc(var(--nav-h) + clamp(32px, 6vw, 96px)) var(--gutter) clamp(48px, 6vw, 88px);
+}
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.n {
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--night-muted);
+}
+.name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 40ch;
+}
+.line {
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+
+.stage {
+  position: relative;
+  min-height: 60svh;
+  overflow: hidden;
+  background: var(--video-black);
+}
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Phones and narrow tablets: name, film, then the line. */
+@media (max-width: 899px) {
+  .fold {
+    min-height: auto;
+    padding-bottom: var(--section);
+  }
+  .copy {
+    display: contents;
+  }
+  .top {
+    order: 1;
+    padding: var(--section) var(--gutter) 28px;
+  }
+  .stage {
+    order: 2;
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+    margin: 0 var(--gutter);
+    border-radius: var(--r-card);
+  }
+  .bottom {
+    order: 3;
+    padding: 28px var(--gutter) 0;
+  }
+}
+
+/* Reduced motion: no crossfade, the themes sit under each fold directly. */
+@media (prefers-reduced-motion: reduce) {
+  .themes {
+    display: none;
+  }
+  .work {
+    background: var(--night);
+  }
+}

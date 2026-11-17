@@ -1,0 +1,122 @@
+.section {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) 0;
+}
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px var(--hero-gap);
+  align-items: end;
+  margin-bottom: clamp(40px, 4vw, 56px);
+}
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+.titleCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.eyebrow {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--plum);
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--body);
+  text-wrap: pretty;
+}
+
+/* Three tall image cards; phones swipe through them. */
+.cards {
+  list-style: none;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(80vw, 360px);
+  gap: clamp(12px, 1.7vw, 24px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.cards::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 900px) {
+  .cards {
+    margin: 0;
+    padding: 0;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+  }
+}
+.card {
+  position: relative;
+  scroll-snap-align: start;
+  aspect-ratio: 427 / 674;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--night);
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--card-shadow);
+}
+.img {
+  object-fit: cover;
+  object-position: 50% 30%;
+  z-index: -2;
+}
+/* Ink rises from the bottom so the text reads over the image. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    var(--night) 0%,
+    color-mix(in srgb, var(--night) 85%, transparent) 35%,
+    transparent 100%
+  );
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(20px, 1.7vw, 24px);
+  color: var(--night-text);
+}
+.name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: 1.1;
+  letter-spacing: var(--ls-title);
+}
+.line {
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--night-body);
+  text-wrap: pretty;
+}

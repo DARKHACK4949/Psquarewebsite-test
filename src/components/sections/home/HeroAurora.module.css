@@ -1,0 +1,168 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  background: var(--night);
+  color: var(--night-text);
+  overflow: hidden;
+}
+
+/* The aurora: three soft bands, each a pre-blurred gradient (nothing repaints a blur). */
+.aurora {
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+}
+.field {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.field > div {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+.bandA {
+  left: -10%;
+  top: 18%;
+  width: 120%;
+  height: 34%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklch, var(--aurora-a) 90%, transparent),
+    transparent
+  );
+  transform: rotate(-6deg);
+  animation: driftA 22s ease-in-out infinite alternate;
+}
+.bandB {
+  left: 20%;
+  top: 34%;
+  width: 95%;
+  height: 26%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklch, var(--aurora-c) 75%, transparent),
+    transparent
+  );
+  transform: rotate(8deg);
+  animation: driftB 28s ease-in-out infinite alternate;
+}
+.bandC {
+  left: -15%;
+  top: 70%;
+  width: 90%;
+  height: 30%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklch, var(--aurora-b) 80%, transparent),
+    transparent
+  );
+  transform: rotate(-3deg);
+  animation: driftC 34s ease-in-out infinite alternate;
+}
+@keyframes driftA {
+  to {
+    transform: translate3d(8%, 6%, 0) rotate(-2deg) scale(1.08);
+  }
+}
+@keyframes driftB {
+  to {
+    transform: translate3d(-10%, -8%, 0) rotate(3deg) scale(0.95);
+  }
+}
+@keyframes driftC {
+  to {
+    transform: translate3d(12%, -10%, 0) rotate(2deg) scale(1.1);
+  }
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--hero-top) var(--gutter) clamp(48px, 5vw, 72px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px var(--hero-gap);
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+.h1 {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-wrap: balance;
+}
+.clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.word {
+  display: inline-block;
+}
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-bottom: 8px;
+}
+.lead {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-text);
+  text-wrap: pretty;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+}
+/* Scoped to the link: its underline reads these, and the light button keeps plum text. */
+.hero .link {
+  --border: var(--night-border);
+  --plum: var(--night-accent);
+  color: var(--night-text);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .word {
+    animation: rise 0.9s var(--ease) backwards;
+    animation-delay: calc(0.1s + var(--i, 0) * 0.06s);
+  }
+  .side {
+    animation: fade 0.8s var(--ease) 0.6s backwards;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .field > div {
+    animation: none;
+  }
+}

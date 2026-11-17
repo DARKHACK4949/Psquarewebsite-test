@@ -24,6 +24,18 @@
   --night-accent: oklch(0.82 0.06 318);
   --night-line: rgba(250, 250, 248, 0.14);
   --night-border: rgba(250, 250, 248, 0.24);
+  /*
+   * Landing preview: each project's own dark background in the work section,
+   * a deep tint of the product's colour. The hero gradient's light sources.
+   */
+  --work-tathasthu: oklch(0.23 0.035 60);
+  --work-sline: oklch(0.21 0.05 262);
+  --work-arcgrow: oklch(0.2 0.012 285);
+  --work-suryacon: oklch(0.23 0.045 205);
+  --work-sline-services: oklch(0.19 0.07 295);
+  --aurora-a: oklch(0.42 0.2 305);
+  --aurora-b: oklch(0.32 0.16 290);
+  --aurora-c: oklch(0.5 0.2 318);
   /* Homepage device wall: tile backing that blends with the clips' black, and the night accent for its headline. */
   --video-black: #000;
   --wall-accent: oklch(0.82 0.07 318);
