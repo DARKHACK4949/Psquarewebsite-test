@@ -6,7 +6,7 @@ import { prefersReducedMotion } from "@/lib/motion";
 /**
  * Soft plum ribbons drifting sideways across the dark hero, drawn by a small
  * WebGL shader: domain-warped noise bent into long horizontal bands. The
- * pointer stirs the flow where it moves (a swirl that eases in and settles
+ * pointer disturbs the flow where it moves (soft local turbulence, like fog, that eases in and settles
  * back). Colours come from the theme tokens. It renders at a fraction of the
  * screen's resolution (the image is soft anyway), pauses off screen and in
  * background tabs, and under reduced motion draws a single still frame.
@@ -56,10 +56,14 @@ float fbm(vec2 p) {
 
 // One ribbon family: soft bands along a warped vertical coordinate,
 // broken into long segments that slide sideways.
-float ribbons(vec2 p, float t, float freq, float seed) {
+// stir (0..1) adds a gentle, flowing turbulence: the ribbons ripple and
+// drift locally, like fog a hand has passed through.
+float ribbons(vec2 p, float t, float freq, float seed, float stir) {
   vec2 w = vec2(fbm(p * vec2(0.55, 1.6) + vec2(t * 0.9, seed)),
                 fbm(p * vec2(0.55, 1.6) + vec2(-t * 0.6, seed + 4.1)));
-  float y = p.y + 0.55 * (w.x - 0.5) + 0.08 * sin(p.x * 1.7 + t * 3.0 + seed);
+  float eddy = fbm(p * 2.2 + vec2(t * 5.0, -t * 3.0) + seed) - 0.5;
+  float y = p.y + 0.55 * (w.x - 0.5) + 0.08 * sin(p.x * 1.7 + t * 3.0 + seed)
+          + eddy * stir * 0.22;
   float band = 0.5 + 0.5 * sin(y * freq + w.y * 4.0);
   band = pow(band, 4.0);
   float seg = smoothstep(0.26, 0.7, fbm(vec2(p.x * 0.75 - t * 2.2 + seed, y * 2.4)));
@@ -71,22 +75,24 @@ void main() {
   float aspect = uRes.x / uRes.y;
   vec2 p = vec2(uv.x * aspect, uv.y);
 
-  // The pointer: a soft swirl around it, pushed along the way it moves.
+  // The pointer disturbs the flow softly, like fog: a wide, gentle falloff,
+  // a slight drift along the way it moves, and local turbulence (no swirl,
+  // so nothing stretches).
   vec2 m = vec2(uMouse.x * aspect, uMouse.y);
   vec2 d = p - m;
-  float fall = exp(-dot(d, d) * 5.0) * uStir;
-  p += vec2(-d.y, d.x) * fall * 0.45;
-  p -= uVel * fall * 0.6;
+  float fall = exp(-dot(d, d) * 2.5) * uStir;
+  p -= uVel * fall * 0.12;
 
   float t = uTime * 0.035;
-  float r1 = ribbons(p * 1.0, t, 7.0, 1.3);
-  float r2 = ribbons(p * 1.35 + vec2(3.1, 0.7), t * 1.3, 9.0, 7.9);
+  float r1 = ribbons(p * 1.0, t, 7.0, 1.3, fall);
+  float r2 = ribbons(p * 1.35 + vec2(3.1, 0.7), t * 1.3, 9.0, 7.9, fall);
+  // The fog thins a little where the pointer passes.
+  r1 *= 1.0 - 0.25 * fall;
+  r2 *= 1.0 - 0.25 * fall;
 
   vec3 col = uBg;
   col += uB * r1 * 1.1;
   col += mix(uA, uC, smoothstep(0.2, 0.8, uv.x)) * r2 * 0.95;
-  // A little more glow where the pointer stirs.
-  col += uC * fall * (r1 + r2) * 0.35;
 
   // Calm the bottom-left, where the headline sits, and the very top under the nav.
   float calm = smoothstep(0.0, 0.55, uv.y) * 0.55 + 0.45;
@@ -173,15 +179,16 @@ export function HeroRibbons({ className }: { className?: string }) {
     const offset = 40;
 
     const draw = (now: number) => {
-      cur.x += (target.x - cur.x) * 0.08;
-      cur.y += (target.y - cur.y) * 0.08;
-      cur.stir += (target.stir - cur.stir) * 0.05;
-      cur.vx += (target.vx - cur.vx) * 0.08;
-      cur.vy += (target.vy - cur.vy) * 0.08;
-      // The stir and the push settle back when the pointer rests.
-      target.stir *= 0.985;
-      target.vx *= 0.92;
-      target.vy *= 0.92;
+      // Slow, heavy easing: the fog follows the pointer lazily.
+      cur.x += (target.x - cur.x) * 0.035;
+      cur.y += (target.y - cur.y) * 0.035;
+      cur.stir += (target.stir - cur.stir) * 0.025;
+      cur.vx += (target.vx - cur.vx) * 0.04;
+      cur.vy += (target.vy - cur.vy) * 0.04;
+      // The disturbance settles back when the pointer rests.
+      target.stir *= 0.992;
+      target.vx *= 0.95;
+      target.vy *= 0.95;
       gl.uniform1f(uTime, offset + (now - start) / 1000);
       gl.uniform2f(uMouse, cur.x, cur.y);
       gl.uniform1f(uStir, cur.stir);
@@ -234,8 +241,8 @@ export function HeroRibbons({ className }: { className?: string }) {
       target.x = x;
       target.y = y;
       if (last) {
-        target.vx = Math.max(-0.4, Math.min(0.4, target.vx + (x - last.x) * 3));
-        target.vy = Math.max(-0.4, Math.min(0.4, target.vy + (y - last.y) * 3));
+        target.vx = Math.max(-0.25, Math.min(0.25, target.vx + (x - last.x) * 1.5));
+        target.vy = Math.max(-0.25, Math.min(0.25, target.vy + (y - last.y) * 1.5));
       }
       last = { x, y };
       target.stir = 1;
