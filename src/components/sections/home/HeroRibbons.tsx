@@ -109,52 +109,62 @@ void main() {
 `;
 
 /**
- * "aura": a minimal sheen. One fine, softly lit edge sweeps from the top-left
- * to the bottom-right with a faint violet haze just inside it, slowly breathing.
+ * "aura": one soft violet sheet with a fine lit edge, after the reference
+ * film. It swings slowly forward and back (about 26 s): the edge sweeps from
+ * entering at the top to hooking round the left, soft folds slide inside it,
+ * and faint flame-like lobes rise low on the dark side while it is away.
  */
 const AURA = `
 void main() {
   vec2 uv = gl_FragCoord.xy / uRes;
+
+  // The pointer disturbs the sheet softly, like fog.
   float aspect = uRes.x / uRes.y;
-  vec2 p = vec2(uv.x * aspect, uv.y);
-
-  // The pointer disturbs the fold softly, like fog (as in the ribbons).
-  vec2 m = vec2(uMouse.x * aspect, uMouse.y);
-  vec2 d = p - m;
+  vec2 d = (uv - uMouse) * vec2(aspect, 1.0);
   float fall = exp(-dot(d, d) * 2.5) * uStir;
-  p -= uVel * fall * 0.12;
+  uv -= uVel * fall * 0.04;
 
-  float t = uTime * 0.05;
-  float x = p.x / aspect;
+  float t = uTime;
+  // One slow swing, forward and back (about 26 s): the fold's edge sweeps from
+  // entering at the top to hooking round the left, as in the reference film.
+  float ph = 0.5 - 0.5 * cos(t * 0.24);
+  float ph2 = 0.5 - 0.5 * cos(t * 0.15 + 1.1);
+  vec2 c = mix(vec2(1.35, 1.25), vec2(1.08, 0.98), ph) + vec2(0.04, -0.03) * (ph2 - 0.5);
+  float R = mix(1.12, 1.03, ph);
 
-  // The fold's edge: a slow-breathing arc with an organic wobble.
-  float bend = 0.62 + 0.1 * sin(t * 1.3);
-  float tilt = 1.45 + 0.12 * sin(t * 0.9 + 1.0);
-  float edge = 1.1 - tilt * x + bend * x * x;
-  edge += 0.07 * (fbm(vec2(x * 1.4 - t * 0.7, t * 0.4)) - 0.5);
-  float eddy = fbm(p * 2.4 + vec2(t * 4.0, -t * 3.0)) - 0.5;
-  // Distance past the edge (> 0 inside the fold).
-  float f = p.y - edge + eddy * fall * 0.12;
+  // Distance inside the sheet (> 0), its edge wobbling gently.
+  vec2 q = uv - c;
+  float r = length(q * vec2(1.0, 1.08));
+  float ang = atan(q.y, q.x);
+  float wob = noise(vec2(ang * 1.6 - t * 0.1, t * 0.06)) - 0.5;
+  float eddy = fbm(uv * 3.0 + vec2(t * 0.25, -t * 0.18)) - 0.5;
+  float f = R - r + wob * 0.035 + eddy * fall * 0.06;
 
-  // Minimal: no glowing body, just a quiet sheen. A faint violet haze sits
-  // only right inside the edge, softly shaded so it never reads as a flat fill.
-  float shade = 0.6 + 0.8 * fbm(p * vec2(1.4, 2.0) + vec2(t * 0.6, -t * 0.4));
-  float inside = smoothstep(-0.01, 0.05, f);
-  float haze = inside * exp(-max(f, 0.0) * 4.5) * shade;
-  haze *= 1.0 - 0.3 * fall;
+  // The sheet: soft folds running along the edge, sliding as it moves.
+  vec2 w = vec2(fbm(uv * 1.3 + vec2(t * 0.05, 0.0)), fbm(uv * 1.3 + vec2(0.0, -t * 0.04) + 3.3));
+  float grooves = 0.5 + 0.5 * sin(f * 9.0 + (w.x - 0.5) * 6.0 + ang * 3.0 - t * 0.35);
+  float inside = smoothstep(-0.005, 0.05, f);
+  float band = exp(-pow((f - 0.16) / 0.2, 2.0));
+  float body = inside * (0.35 + 0.65 * band) * mix(0.3, 1.05, grooves) * (0.7 + 0.5 * w.y);
+  body *= 1.0 - 0.3 * fall;
 
-  // The edge: a fine, soft-white line, as if light caught the rim of a dark
-  // sheet; it brightens and fades along its length.
-  float along = smoothstep(0.25, 0.8, fbm(vec2(x * 2.0 - t * 0.9, 1.7)));
-  float rim = exp(-abs(f) * 220.0) * (0.08 + 0.55 * along) + exp(-abs(f) * 30.0) * 0.05;
+  // The rim: a fine light along the edge, brighter in places.
+  float along = smoothstep(0.25, 0.8, fbm(vec2(ang * 3.0 + t * 0.1, 1.7)));
+  float rim = exp(-abs(f) * 200.0) * (0.2 + 0.6 * along) + exp(-abs(f) * 25.0) * 0.08;
+
+  // Flame-like lobes rising low on the dark side, fading as the sheet swings in.
+  float lobes = fbm(vec2(uv.x * 6.0, uv.y * 1.2 - t * 0.18));
+  lobes = smoothstep(0.5, 0.8, lobes) * smoothstep(0.45, 0.0, uv.y) * (1.0 - inside);
+  lobes *= 1.0 - smoothstep(0.3, 0.9, ph);
 
   vec3 col = uBg;
-  col += uB * haze * 0.3;
-  col += mix(uC, vec3(1.0), 0.55) * rim * 0.6;
+  col += mix(uB, uA, band * 0.35) * body * 0.75;
+  col += mix(uC, vec3(1.0), 0.18) * rim * 0.7;
+  col += uB * lobes * 0.55;
 
-  // Keep the headline's corner (bottom-left) entirely quiet.
-  float corner = smoothstep(0.8, 0.0, length(vec2(uv.x * 1.2, uv.y * 1.7)));
-  col = mix(col, uBg, corner * 0.8);
+  // Keep the headline's corner (bottom-left) calm.
+  float corner = smoothstep(0.7, 0.0, length(vec2(uv.x * 1.2, uv.y * 1.8)));
+  col = mix(col, uBg, corner * 0.55);
 
   col += (hash(gl_FragCoord.xy + uTime) - 0.5) * 0.012;
   gl_FragColor = vec4(col, 1.0);
