@@ -4,8 +4,14 @@
  */
 export const previewHero = {
   lead: "We turn complex business processes into clear, useful digital products and systems.",
-  /** The hero's background field (see HeroRibbons). */
-  look: "silk" as const,
+  /** The hero's background: the aura film, made interactive (see HeroFilm). */
+  look: "film" as const,
+  film: {
+    webm: "/media/home/hero-aura-2.webm",
+    mp4: "/media/home/hero-aura-2.mp4",
+    poster: "/media/home/hero-aura-2-poster.jpg",
+    phone: { webm: "/media/home/hero-aura-2-m.webm", mp4: "/media/home/hero-aura-2-m.mp4" },
+  },
 };
 
 export const workIntro = "Built for real work.";

@@ -5,11 +5,14 @@ import type { HomeContent } from "@/content/home";
 import { ButtonLink, TextLink } from "@/components/ui/Button";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { HeroRibbons } from "./HeroRibbons";
-import { HeroSilk } from "./HeroSilk";
+import { HeroFilm } from "./HeroFilm";
+import type { VideoSrc } from "@/content/about";
+
+type Film = VideoSrc & { phone?: { webm: string; mp4: string } };
 import styles from "./HeroAurora.module.css";
 
 /**
- * Dark hero over a live background (WebGL ribbons or a lit 3D silk cloth that the pointer stirs; three
+ * Dark hero over a live background (WebGL ribbons, or the aura film, that the pointer stirs; three
  * soft CSS bands stand in until it draws, or if WebGL is missing). Headline
  * bottom-left, line and actions bottom-right. The headline rises word by word
  * on load.
@@ -18,11 +21,14 @@ export function HeroAurora({
   hero,
   lead,
   look = "ribbons",
+  film,
 }: {
   hero: HomeContent["hero"];
   lead: string;
-  /** The background: drifting plum ribbons (a shader), or a lit 3D silk cloth. */
-  look?: "ribbons" | "silk";
+  /** The background: drifting plum ribbons (a shader), or a film. */
+  look?: "ribbons" | "film";
+  /** The film, when look is "film". */
+  film?: Film;
 }) {
   const { scrollTo } = useSmoothScroll();
   const title = hero.lines.join(" ");
@@ -36,8 +42,12 @@ export function HeroAurora({
           <div className={styles.bandB} />
           <div className={styles.bandC} />
         </div>
-        {look === "silk" ? (
-          <HeroSilk className={styles.ribbons} />
+        {look === "film" && film ? (
+          <HeroFilm
+            film={film}
+            videoClassName={styles.filmVideo}
+            canvasClassName={styles.ribbons}
+          />
         ) : (
           <HeroRibbons className={styles.ribbons} />
         )}
