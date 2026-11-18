@@ -1,66 +1,177 @@
 import * as THREE from "three";
 
 /**
- * The hero silk: a real 3D cloth, lit like fabric. One large sheet enters from
- * the top-right with its lower edge rolling toward the camera (the bright
- * crest, and in places its darker underside); a second cloth hangs low on the
- * left in soft folds whose tops fade out of focus. The sheet swings slowly
- * forward and back (about 26 s) while its folds drift, and the pointer pushes
- * the cloth gently where it passes. Loaded on demand by HeroSilk.
+ * The hero silk: a real 3D cloth, after the reference film. Measured from
+ * that film, and kept here:
+ * - Colour: matte fabric, no shine. Faces turned toward the light reach the
+ *   silk violet and stop there (nothing brighter); faces turned away fall
+ *   through navy into the page's dark. More than half the frame stays dark.
+ * - Motion: one slow, steady glide. The cloth drifts up and to the right at a
+ *   constant speed while its edge sweeps across, its folds riding along with
+ *   it (they barely change shape). It eases only where the glide turns back,
+ *   about every 12 s.
+ * - Edge: the sheet's lower edge rolls toward the camera, so a crisp lit
+ *   crest sits on a band of shadow.
+ * A second cloth hangs low on the left in soft folds whose tops fade out.
+ * The pointer presses a soft dent into the sheet. The cloth bends on the GPU
+ * (displacement and normals in the vertex shader), so it stays smooth on
+ * phones. Loaded on demand by HeroSilk.
  */
 
 export type SilkColors = {
+  /** The page behind the cloth. */
   bg: string;
-  silk: string;
-  sheen: string;
-  key: string;
-  rim: string;
+  /** The deepest shadow on the cloth. */
   shade: string;
+  /** The midtone the shading passes through. */
+  mid: string;
+  /** The lit fabric: the brightest the cloth gets. */
+  silk: string;
 };
 
 export type SilkScene = {
   /** Draw the frame for time t (seconds). */
   render(t: number): void;
   resize(width: number, height: number): void;
-  /** The pointer in CSS pixels relative to the canvas, or null when it leaves. */
+  /** The pointer in CSS pixels relative to the canvas. */
   pointer(x: number, y: number): void;
   dispose(): void;
 };
 
+const VERT = /* glsl */ `
+uniform float uTime;
+uniform int uKind;      // 0 = the main sheet, 1 = the hanging cloth
+uniform vec3 uDent;     // x, y (local), strength
+varying vec3 vNormal;
+varying vec2 vUv;
+varying float vTop;
+varying float vX;
+
+// Height of the cloth at local (x, y) and its slope, computed together.
+vec3 sheetHeight(vec2 p) {
+  float x = p.x, y = p.y;
+  float t = uTime;
+  // Long folds running diagonally; they live with the cloth and change only slowly.
+  float u = x * 0.55 + y * 0.8;
+  float a1 = u * 1.1 - t * 0.06, a2 = u * 2.3 + 1.3 - t * 0.09, a3 = x * 0.7 - y * 0.4 + t * 0.05;
+  float z = 0.5 * sin(a1) + 0.26 * sin(a2) + 0.18 * sin(a3);
+  float dx = 0.5 * cos(a1) * 1.1 * 0.55 + 0.26 * cos(a2) * 2.3 * 0.55 + 0.18 * cos(a3) * 0.7;
+  float dy = 0.5 * cos(a1) * 1.1 * 0.8 + 0.26 * cos(a2) * 2.3 * 0.8 - 0.18 * cos(a3) * 0.4;
+  // The lower edge rolls toward the camera: the crest.
+  float e = max((y + 4.15) / 6.5, 0.0);
+  float roll = 1.6 * exp(-e * 7.0);
+  z += roll;
+  dy += roll * (-7.0 / 6.5);
+  // The pointer's dent.
+  vec2 d = p - uDent.xy;
+  float dent = 0.3 * uDent.z * exp(-dot(d, d) / 1.6);
+  z -= dent;
+  dx += dent * (2.0 * d.x / 1.6);
+  dy += dent * (2.0 * d.y / 1.6);
+  return vec3(z, dx, dy);
+}
+
+vec3 hangHeight(vec2 p) {
+  float x = p.x, y = p.y, t = uTime;
+  float a = x * 1.6 + 0.25 * sin(y * 0.6 + t * 0.08);
+  float z = 0.42 * cos(a) + 0.12 * sin(x * 4.7 + t * 0.06);
+  float dx = -0.42 * sin(a) * 1.6 + 0.12 * cos(x * 4.7 + t * 0.06) * 4.7;
+  float dy = -0.42 * sin(a) * 0.25 * cos(y * 0.6 + t * 0.08) * 0.6;
+  return vec3(z, dx, dy);
+}
+
+void main() {
+  vec3 h = uKind == 0 ? sheetHeight(position.xy) : hangHeight(position.xy);
+  vec3 pos = vec3(position.xy, h.x);
+  vNormal = normalize(normalMatrix * normalize(vec3(-h.y, -h.z, 1.0)));
+  vUv = uv;
+  // Distance below the hanging cloth's top edge, in scene units.
+  float k = 0.35 + 0.65 * pow(max(0.0, 0.5 + 0.5 * cos(position.x * 1.6)), 0.8);
+  vTop = (1.0 - uv.y) * 4.0 * k;
+  vX = position.x;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+}
+`;
+
+const FRAG = /* glsl */ `
+uniform vec3 uShade;
+uniform vec3 uMid;
+uniform vec3 uSilk;
+uniform vec3 uLight;    // light direction, view space
+uniform int uKind;
+varying vec3 vNormal;
+varying vec2 vUv;
+varying float vTop;
+varying float vX;
+
+void main() {
+  vec3 n = normalize(vNormal);
+  // The underside of the cloth (seen where it rolls over) sits in shadow.
+  float under = gl_FrontFacing ? 1.0 : 0.45;
+  if (!gl_FrontFacing) n = -n;
+  // Soft, wrapped diffuse light: no specular, nothing shinier than the fabric.
+  float l = clamp(dot(n, uLight) * 0.85 + 0.15, 0.0, 1.0) * under;
+  // Shade -> mid -> silk, capped at the silk violet.
+  vec3 c = mix(uShade, uMid, smoothstep(0.12, 0.5, l));
+  c = mix(c, uSilk, smoothstep(0.5, 0.85, l));
+  float alpha = 1.0;
+  // The hanging cloth's tops fade out, as if out of focus.
+  // ...and its two ends fade too, so no straight cut shows.
+  if (uKind == 1) alpha = smoothstep(0.0, 1.1, vTop) * smoothstep(4.5, 3.0, abs(vX));
+  gl_FragColor = vec4(c, alpha);
+}
+`;
+
+/** The hanging cloth's height profile across x (its rounded tops), 0.35..1. */
+function topK(x: number) {
+  return 0.35 + 0.65 * Math.pow(Math.max(0, 0.5 + 0.5 * Math.cos(x * 1.6)), 0.8);
+}
+
 export function createSilk(canvas: HTMLCanvasElement, colors: SilkColors): SilkScene {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-  renderer.toneMapping = THREE.NeutralToneMapping;
-  renderer.toneMappingExposure = 0.8;
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  // Colours are written as given: the tokens are the final colours.
+  renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+  renderer.toneMapping = THREE.NoToneMapping;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(colors.bg);
+  const hex = (c: string) => new THREE.Color().setStyle(c, THREE.LinearSRGBColorSpace);
+  scene.background = hex(colors.bg);
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
   camera.position.set(0, 0, 9);
 
   const small = Math.min(window.innerWidth, window.innerHeight) < 700;
+  // Low and from the top-left, so the folds fall into navy shadow.
+  const light = new THREE.Vector3(-0.62, 0.55, 0.42).normalize();
+  const dent = new THREE.Vector3(0, 0, 0);
 
-  const mat = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color(colors.silk),
-    roughness: 0.42,
-    metalness: 0,
-    sheen: 1,
-    sheenRoughness: 0.35,
-    sheenColor: new THREE.Color(colors.sheen),
-    side: THREE.DoubleSide,
-  });
+  const make = (kind: number) =>
+    new THREE.ShaderMaterial({
+      vertexShader: VERT,
+      fragmentShader: FRAG,
+      side: THREE.DoubleSide,
+      transparent: kind === 1,
+      depthWrite: kind === 0,
+      uniforms: {
+        uTime: { value: 0 },
+        uKind: { value: kind },
+        uDent: { value: dent },
+        uShade: { value: hex(colors.shade) },
+        uMid: { value: hex(colors.mid) },
+        uSilk: { value: hex(colors.silk) },
+        uLight: { value: light },
+      },
+    });
 
   // The main sheet, its outline curved in-plane so the edge reads as an arc.
-  const W = 10;
-  const H = 6.5;
-  const geo = new THREE.PlaneGeometry(W, H, small ? 140 : 220, small ? 90 : 140);
+  const geo = new THREE.PlaneGeometry(10, 6.5, small ? 140 : 220, small ? 90 : 140);
   {
     const a = geo.attributes.position.array as Float32Array;
     for (let i = 0; i < a.length; i += 3) a[i + 1] += 0.07 * a[i] * a[i] - 0.9;
   }
-  const base = (geo.attributes.position.array as Float32Array).slice();
+  const mat = make(0);
   const sheet = new THREE.Mesh(geo, mat);
+  sheet.frustumCulled = false;
   scene.add(sheet);
 
   // The hanging cloth: rounded tops that rise and fall with its folds.
@@ -68,43 +179,17 @@ export function createSilk(canvas: HTMLCanvasElement, colors: SilkColors): SilkS
   {
     const a = geo2.attributes.position.array as Float32Array;
     for (let i = 0; i < a.length; i += 3) {
-      const k = 0.45 + 0.55 * Math.sqrt(Math.max(0, Math.cos(a[i] * 2.2)));
+      const k = topK(a[i]);
       a[i + 1] = -2 + (a[i + 1] + 2) * k;
     }
   }
-  const base2 = (geo2.attributes.position.array as Float32Array).slice();
-  const mat2 = mat.clone();
-  // Soft, out-of-focus tops: the folds fade out toward their upper edge.
-  const fade = document.createElement("canvas");
-  fade.width = 1;
-  fade.height = 256;
-  const g = fade.getContext("2d")!;
-  const grad = g.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0, "#000");
-  grad.addColorStop(0.18, "#888");
-  grad.addColorStop(0.35, "#fff");
-  grad.addColorStop(1, "#fff");
-  g.fillStyle = grad;
-  g.fillRect(0, 0, 1, 256);
-  const fadeTex = new THREE.CanvasTexture(fade);
-  mat2.alphaMap = fadeTex;
-  mat2.transparent = true;
-  mat2.depthWrite = false;
+  const mat2 = make(1);
   const back = new THREE.Mesh(geo2, mat2);
+  back.frustumCulled = false;
   scene.add(back);
 
-  // Light: a dim shadow fill, a soft key from the top-left, a violet rim from behind.
-  scene.add(new THREE.AmbientLight(new THREE.Color(colors.shade), 0.6));
-  const key = new THREE.DirectionalLight(new THREE.Color(colors.key), 1.5);
-  key.position.set(-4, 5, 6);
-  scene.add(key);
-  const rim = new THREE.DirectionalLight(new THREE.Color(colors.rim), 1.3);
-  rim.position.set(3, -2, -5);
-  scene.add(rim);
-
-  // Pointer, eased: where it is on the sheet (local x, y) and how strongly it pushes.
+  // Pointer, eased: where it is on the sheet (local x, y) and how strongly it presses.
   const target = { x: 0, y: 0, push: 0 };
-  const cur = { x: 0, y: 0, push: 0 };
   let portrait = false;
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
@@ -112,65 +197,44 @@ export function createSilk(canvas: HTMLCanvasElement, colors: SilkColors): SilkS
   const hit = new THREE.Vector3();
   const normal = new THREE.Vector3();
 
-  function bend(t: number) {
-    const p = geo.attributes.position.array as Float32Array;
-    for (let i = 0; i < p.length; i += 3) {
-      const x = base[i];
-      const y = base[i + 1];
-      // Long folds running diagonally, drifting.
-      const u = x * 0.55 + y * 0.8;
-      let z =
-        0.5 * Math.sin(u * 1.1 - t * 0.35) +
-        0.26 * Math.sin(u * 2.3 + 1.3 - t * 0.5) +
-        0.18 * Math.sin(x * 0.7 - y * 0.4 + t * 0.25);
-      // The lower edge rolls toward the camera: the crest.
-      const e = (y + H / 2 + 0.9) / H;
-      z += 1.6 * Math.exp(-Math.max(e, 0) * 7);
-      // The pointer presses a soft dent into the cloth.
-      if (cur.push > 0.001) {
-        const dx = x - cur.x;
-        const dy = y - cur.y;
-        z -= 0.45 * cur.push * Math.exp(-(dx * dx + dy * dy) / 1.6);
-      }
-      p[i + 2] = z;
-    }
-    geo.attributes.position.needsUpdate = true;
-    geo.computeVertexNormals();
-
-    const q = geo2.attributes.position.array as Float32Array;
-    for (let i = 0; i < q.length; i += 3) {
-      const x = base2[i];
-      const y = base2[i + 1];
-      q[i + 2] =
-        0.42 * Math.cos(x * 2.2 + 0.25 * Math.sin(y * 0.6 + t * 0.3)) +
-        0.15 * Math.sin(x * 4.7 + t * 0.2);
-    }
-    geo2.attributes.position.needsUpdate = true;
-    geo2.computeVertexNormals();
+  /**
+   * The glide: 0..1 and back, at constant speed, easing only near the turns
+   * (a triangle wave with rounded corners), about 12 s each way.
+   */
+  function glide(t: number) {
+    const half = 12;
+    const k = (t / half) % 2;
+    const tri = k < 1 ? k : 2 - k;
+    // Round only the last 12% at each end.
+    const r = 0.12;
+    if (tri < r) return (tri * tri) / (2 * r) / (1 - r);
+    if (tri > 1 - r) return 1 - ((1 - tri) * (1 - tri)) / (2 * r) / (1 - r);
+    return (tri - r / 2) / (1 - r);
   }
 
   function place(t: number) {
-    const ph = 0.5 - 0.5 * Math.cos(t * 0.24);
-    sheet.rotation.z = -0.45 - 0.35 * ph;
-    sheet.rotation.x = -0.3;
+    const g = glide(t);
+    // The sheet turns a little as it drifts, so its edge sweeps across.
+    sheet.rotation.set(-0.3, 0, -0.3 - 0.62 * g);
     if (portrait) {
-      // Tall screens: the sheet sweeps across the top-right corner, the folds sit low behind the actions.
-      sheet.position.set(3.4 - 0.7 * ph, 4.1 - 0.4 * ph, 0);
-      back.position.set(-0.6, -5.4 - 0.5 * ph, -2);
+      // Tall screens: the sheet sweeps across the top-right corner, the folds sit low.
+      sheet.position.set(3.8 - 1.3 * g, 4.1 - 0.4 * g, 0);
+      back.position.set(-0.9 + 0.8 * g, -5.6 + 0.3 * g, -2);
     } else {
-      sheet.position.set(3.4 - 1.2 * ph, 2.6 - 0.5 * ph, 0);
-      back.position.set(-2.2, -2.7 - 0.9 * ph, -2);
+      sheet.position.set(4.1 - 2.2 * g, 2.6 - 0.6 * g, 0);
+      back.position.set(-3.0 + 1.4 * g, -3.1 + 0.5 * g, -2);
     }
   }
 
   return {
     render(t) {
-      cur.x += (target.x - cur.x) * 0.06;
-      cur.y += (target.y - cur.y) * 0.06;
-      cur.push += (target.push - cur.push) * 0.04;
+      dent.x += (target.x - dent.x) * 0.06;
+      dent.y += (target.y - dent.y) * 0.06;
+      dent.z += (target.push - dent.z) * 0.04;
       target.push *= 0.985;
+      mat.uniforms.uTime.value = t;
+      mat2.uniforms.uTime.value = t;
       place(t);
-      bend(t);
       renderer.render(scene, camera);
     },
     resize(width, height) {
@@ -201,7 +265,6 @@ export function createSilk(canvas: HTMLCanvasElement, colors: SilkColors): SilkS
       geo2.dispose();
       mat.dispose();
       mat2.dispose();
-      fadeTex.dispose();
       renderer.dispose();
     },
   };

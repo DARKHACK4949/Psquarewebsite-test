@@ -27,11 +27,9 @@ export function HeroSilk({ className }: { className?: string }) {
       const tok = (n: string) => css.getPropertyValue(n).trim();
       const colors: SilkColors = {
         bg: tok("--night"),
-        silk: tok("--silk"),
-        sheen: tok("--silk-sheen"),
-        key: tok("--silk-key"),
-        rim: tok("--silk-rim"),
         shade: tok("--silk-shade"),
+        mid: tok("--silk-mid"),
+        silk: tok("--silk"),
       };
       let silk: ReturnType<typeof createSilk>;
       try {
