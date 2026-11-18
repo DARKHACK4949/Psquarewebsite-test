@@ -16,6 +16,24 @@
   isolation: isolate;
   background: var(--night);
 }
+/*
+ * The background melts into the page's dark over the hero's last quarter, so
+ * it never ends in a hard line where the next section begins (eased stops, no
+ * banding).
+ */
+.aurora::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--night) 0%,
+    color-mix(in srgb, var(--night) 85%, transparent) 8%,
+    color-mix(in srgb, var(--night) 55%, transparent) 17%,
+    color-mix(in srgb, var(--night) 22%, transparent) 26%,
+    transparent 36%
+  );
+}
 /* The ribbon field covers the CSS bands once its first frame is drawn. */
 .ribbons {
   position: absolute;
