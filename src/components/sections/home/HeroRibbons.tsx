@@ -109,8 +109,8 @@ void main() {
 `;
 
 /**
- * "aura": one large plum fold sweeping from the top-left to the bottom-right,
- * edged by a thin bright rim, its soft inner folds slowly breathing.
+ * "aura": a minimal sheen. One fine, softly lit edge sweeps from the top-left
+ * to the bottom-right with a faint violet haze just inside it, slowly breathing.
  */
 const AURA = `
 void main() {
@@ -136,37 +136,25 @@ void main() {
   // Distance past the edge (> 0 inside the fold).
   float f = p.y - edge + eddy * fall * 0.12;
 
-  // The body: a band of light just inside the edge over a broad, dim fill,
-  // shaded by slow noise so it reads as a soft, lit fabric.
-  vec2 w = vec2(fbm(p * 1.1 + vec2(t, 0.0)), fbm(p * 1.1 + vec2(0.0, -t) + 3.3));
-  float shade = 0.45 + 1.0 * fbm(p * vec2(1.6, 2.2) + vec2(t * 0.8, -t * 0.5) + w * 0.6);
-  float inside = smoothstep(-0.01, 0.06, f);
-  float band = exp(-pow((f - 0.14 - 0.05 * (w.x - 0.5)) / 0.16, 2.0));
-  float fill = exp(-max(f, 0.0) * 1.1) * 0.45;
-  float body = inside * (band + fill) * shade;
-  // An inner crease: a second, softer edge further in.
-  float f2 = f - 0.36 - 0.06 * sin(x * 3.0 + t * 1.7);
-  float crease = exp(-abs(f2) * 10.0) * smoothstep(0.35, 0.75, w.y) * 0.45;
-  body += crease * inside;
-  body *= 1.0 - 0.25 * fall;
+  // Minimal: no glowing body, just a quiet sheen. A faint violet haze sits
+  // only right inside the edge, softly shaded so it never reads as a flat fill.
+  float shade = 0.6 + 0.8 * fbm(p * vec2(1.4, 2.0) + vec2(t * 0.6, -t * 0.4));
+  float inside = smoothstep(-0.01, 0.05, f);
+  float haze = inside * exp(-max(f, 0.0) * 4.5) * shade;
+  haze *= 1.0 - 0.3 * fall;
 
-  // The rim: a fine line that brightens and fades along its length, with a halo.
-  float along = smoothstep(0.2, 0.75, fbm(vec2(x * 2.2 - t * 1.1, 1.7)));
-  float rim = exp(-abs(f) * 170.0) * (0.15 + 0.9 * along) + exp(-abs(f) * 20.0) * 0.14;
-
-  // Faint glows drifting low on the dark side.
-  float lobes = smoothstep(0.55, 0.85, fbm(vec2(x * 3.0 + t * 0.6, uv.y * 1.5 - t * 0.3)));
-  lobes *= smoothstep(0.4, 0.0, uv.y) * smoothstep(0.0, -0.1, f);
+  // The edge: a fine, soft-white line, as if light caught the rim of a dark
+  // sheet; it brightens and fades along its length.
+  float along = smoothstep(0.25, 0.8, fbm(vec2(x * 2.0 - t * 0.9, 1.7)));
+  float rim = exp(-abs(f) * 220.0) * (0.08 + 0.55 * along) + exp(-abs(f) * 30.0) * 0.05;
 
   vec3 col = uBg;
-  // Deep violet overall; the brighter plum only where the light band peaks.
-  col += mix(uB, uA, band * 0.55) * body * 0.8;
-  col += mix(uC, vec3(1.0), 0.1) * rim * 0.85;
-  col += uB * lobes * 0.45;
+  col += uB * haze * 0.3;
+  col += mix(uC, vec3(1.0), 0.55) * rim * 0.6;
 
-  // Keep the headline's corner (bottom-left) calm.
-  float corner = smoothstep(0.75, 0.0, length(vec2(uv.x * 1.2, uv.y * 1.7)));
-  col = mix(col, uBg, corner * 0.6);
+  // Keep the headline's corner (bottom-left) entirely quiet.
+  float corner = smoothstep(0.8, 0.0, length(vec2(uv.x * 1.2, uv.y * 1.7)));
+  col = mix(col, uBg, corner * 0.8);
 
   col += (hash(gl_FragCoord.xy + uTime) - 0.5) * 0.012;
   gl_FragColor = vec4(col, 1.0);
