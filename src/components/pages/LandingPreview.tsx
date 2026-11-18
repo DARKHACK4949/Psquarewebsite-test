@@ -24,7 +24,7 @@ export function LandingPreview({ region }: { region: Region }) {
     <div id="psq-page" className="page">
       <SiteNav region={region} current="home" />
       <main id="main" tabIndex={-1}>
-        <HeroAurora hero={c.hero} lead={previewHero.lead} />
+        <HeroAurora hero={c.hero} lead={previewHero.lead} film={previewHero.film} />
         <DeviceWall wall={c.wall} enter="dark" exit="dark" />
         <WorkFolds work={c.work} intro={workIntro} themes={workThemes} />
         <WhatWeDoCards what={whatWeDo} />
