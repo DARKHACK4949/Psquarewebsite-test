@@ -46,6 +46,7 @@ varying vec3 vNormal;
 varying vec2 vUv;
 varying float vTop;
 varying float vX;
+varying float vEdge;
 
 // Height of the cloth at local (x, y) and its slope, computed together.
 vec3 sheetHeight(vec2 p) {
@@ -89,6 +90,8 @@ void main() {
   float k = 0.35 + 0.65 * pow(max(0.0, 0.5 + 0.5 * cos(position.x * 1.6)), 0.8);
   vTop = (1.0 - uv.y) * 4.0 * k;
   vX = position.x;
+  // Distance in from the sheet's rolled edge, in scene units.
+  vEdge = position.y + 4.15;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }
 `;
@@ -103,6 +106,7 @@ varying vec3 vNormal;
 varying vec2 vUv;
 varying float vTop;
 varying float vX;
+varying float vEdge;
 
 void main() {
   vec3 n = normalize(vNormal);
@@ -112,8 +116,13 @@ void main() {
   // Soft, wrapped diffuse light: no specular, nothing shinier than the fabric.
   float l = clamp(dot(n, uLight) * 0.85 + 0.15, 0.0, 1.0) * under;
   // Shade -> mid -> silk, capped at the silk violet.
-  vec3 c = mix(uShade, uMid, smoothstep(0.12, 0.5, l));
-  c = mix(c, uSilk, smoothstep(0.5, 0.85, l));
+  // Calm: most of the cloth rests in navy shadow; only the ridges reach the violet.
+  // The sheet also sinks into shadow away from its lit edge, and the hanging
+  // cloth sits dimmer, further back.
+  float depth = uKind == 0 ? mix(1.0, 0.6, smoothstep(1.4, 5.0, vEdge)) : 0.72;
+  l *= depth;
+  vec3 c = mix(uShade, uMid, smoothstep(0.15, 0.6, l));
+  c = mix(c, uSilk, smoothstep(0.56, 0.9, l));
   float alpha = 1.0;
   // The hanging cloth's tops fade out, as if out of focus.
   // ...and its two ends fade too, so no straight cut shows.
