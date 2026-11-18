@@ -5,7 +5,7 @@
 export const previewHero = {
   lead: "We turn complex business processes into clear, useful digital products and systems.",
   /** The hero's background field (see HeroRibbons). */
-  look: "aura" as const,
+  look: "silk" as const,
 };
 
 export const workIntro = "Built for real work.";

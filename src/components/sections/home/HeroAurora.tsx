@@ -5,10 +5,11 @@ import type { HomeContent } from "@/content/home";
 import { ButtonLink, TextLink } from "@/components/ui/Button";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { HeroRibbons } from "./HeroRibbons";
+import { HeroSilk } from "./HeroSilk";
 import styles from "./HeroAurora.module.css";
 
 /**
- * Dark hero over a live plum field (WebGL ribbons or an aura fold that the pointer stirs; three
+ * Dark hero over a live background (WebGL ribbons or a lit 3D silk cloth that the pointer stirs; three
  * soft CSS bands stand in until it draws, or if WebGL is missing). Headline
  * bottom-left, line and actions bottom-right. The headline rises word by word
  * on load.
@@ -20,8 +21,8 @@ export function HeroAurora({
 }: {
   hero: HomeContent["hero"];
   lead: string;
-  /** The background field: drifting ribbons, or one large aura fold. */
-  look?: "ribbons" | "aura";
+  /** The background: drifting plum ribbons (a shader), or a lit 3D silk cloth. */
+  look?: "ribbons" | "silk";
 }) {
   const { scrollTo } = useSmoothScroll();
   const title = hero.lines.join(" ");
@@ -35,7 +36,11 @@ export function HeroAurora({
           <div className={styles.bandB} />
           <div className={styles.bandC} />
         </div>
-        <HeroRibbons className={styles.ribbons} look={look} />
+        {look === "silk" ? (
+          <HeroSilk className={styles.ribbons} />
+        ) : (
+          <HeroRibbons className={styles.ribbons} />
+        )}
       </div>
 
       <div className={styles.inner}>
