@@ -4,13 +4,8 @@
  */
 export const previewHero = {
   lead: "We turn complex business processes into clear, useful digital products and systems.",
-  /** The aura film behind the hero: a seamless 18 s loop; a 9:16 cut for portrait screens. */
-  film: {
-    webm: "/media/home/hero-aura.webm",
-    mp4: "/media/home/hero-aura.mp4",
-    poster: "/media/home/hero-aura-poster.jpg",
-    phone: { webm: "/media/home/hero-aura-m.webm", mp4: "/media/home/hero-aura-m.mp4" },
-  },
+  /** The hero's background field (see HeroRibbons). */
+  look: "aura" as const,
 };
 
 export const workIntro = "Built for real work.";

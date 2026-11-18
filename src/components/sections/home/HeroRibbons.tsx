@@ -18,7 +18,7 @@ attribute vec2 p;
 void main() { gl_Position = vec4(p, 0.0, 1.0); }
 `;
 
-const FRAG = `
+const HEAD = `
 precision highp float;
 uniform vec2 uRes;
 uniform float uTime;
@@ -53,7 +53,10 @@ float fbm(vec2 p) {
   }
   return v;
 }
+`;
 
+/** "ribbons": soft plum bands drifting sideways. */
+const RIBBONS = `
 // One ribbon family: soft bands along a warped vertical coordinate,
 // broken into long segments that slide sideways.
 // stir (0..1) adds a gentle, flowing turbulence: the ribbons ripple and
@@ -105,6 +108,73 @@ void main() {
 }
 `;
 
+/**
+ * "aura": one large plum fold sweeping from the top-left to the bottom-right,
+ * edged by a thin bright rim, its soft inner folds slowly breathing.
+ */
+const AURA = `
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes;
+  float aspect = uRes.x / uRes.y;
+  vec2 p = vec2(uv.x * aspect, uv.y);
+
+  // The pointer disturbs the fold softly, like fog (as in the ribbons).
+  vec2 m = vec2(uMouse.x * aspect, uMouse.y);
+  vec2 d = p - m;
+  float fall = exp(-dot(d, d) * 2.5) * uStir;
+  p -= uVel * fall * 0.12;
+
+  float t = uTime * 0.05;
+  float x = p.x / aspect;
+
+  // The fold's edge: a slow-breathing arc with an organic wobble.
+  float bend = 0.62 + 0.1 * sin(t * 1.3);
+  float tilt = 1.45 + 0.12 * sin(t * 0.9 + 1.0);
+  float edge = 1.1 - tilt * x + bend * x * x;
+  edge += 0.07 * (fbm(vec2(x * 1.4 - t * 0.7, t * 0.4)) - 0.5);
+  float eddy = fbm(p * 2.4 + vec2(t * 4.0, -t * 3.0)) - 0.5;
+  // Distance past the edge (> 0 inside the fold).
+  float f = p.y - edge + eddy * fall * 0.12;
+
+  // The body: a band of light just inside the edge over a broad, dim fill,
+  // shaded by slow noise so it reads as a soft, lit fabric.
+  vec2 w = vec2(fbm(p * 1.1 + vec2(t, 0.0)), fbm(p * 1.1 + vec2(0.0, -t) + 3.3));
+  float shade = 0.45 + 1.0 * fbm(p * vec2(1.6, 2.2) + vec2(t * 0.8, -t * 0.5) + w * 0.6);
+  float inside = smoothstep(-0.01, 0.06, f);
+  float band = exp(-pow((f - 0.14 - 0.05 * (w.x - 0.5)) / 0.16, 2.0));
+  float fill = exp(-max(f, 0.0) * 1.1) * 0.45;
+  float body = inside * (band + fill) * shade;
+  // An inner crease: a second, softer edge further in.
+  float f2 = f - 0.36 - 0.06 * sin(x * 3.0 + t * 1.7);
+  float crease = exp(-abs(f2) * 10.0) * smoothstep(0.35, 0.75, w.y) * 0.45;
+  body += crease * inside;
+  body *= 1.0 - 0.25 * fall;
+
+  // The rim: a fine line that brightens and fades along its length, with a halo.
+  float along = smoothstep(0.2, 0.75, fbm(vec2(x * 2.2 - t * 1.1, 1.7)));
+  float rim = exp(-abs(f) * 170.0) * (0.15 + 0.9 * along) + exp(-abs(f) * 20.0) * 0.14;
+
+  // Faint glows drifting low on the dark side.
+  float lobes = smoothstep(0.55, 0.85, fbm(vec2(x * 3.0 + t * 0.6, uv.y * 1.5 - t * 0.3)));
+  lobes *= smoothstep(0.4, 0.0, uv.y) * smoothstep(0.0, -0.1, f);
+
+  vec3 col = uBg;
+  // Deep violet overall; the brighter plum only where the light band peaks.
+  col += mix(uB, uA, band * 0.55) * body * 0.8;
+  col += mix(uC, vec3(1.0), 0.1) * rim * 0.85;
+  col += uB * lobes * 0.45;
+
+  // Keep the headline's corner (bottom-left) calm.
+  float corner = smoothstep(0.75, 0.0, length(vec2(uv.x * 1.2, uv.y * 1.7)));
+  col = mix(col, uBg, corner * 0.6);
+
+  col += (hash(gl_FragCoord.xy + uTime) - 0.5) * 0.012;
+  gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+const FRAG = { ribbons: HEAD + RIBBONS, aura: HEAD + AURA };
+
 /** A theme colour as 0..1 RGB, resolved by the browser (works for oklch too). */
 function tokenRgb(el: Element, name: string): [number, number, number] {
   const value = getComputedStyle(el).getPropertyValue(name).trim();
@@ -117,7 +187,14 @@ function tokenRgb(el: Element, name: string): [number, number, number] {
   return [r / 255, g / 255, b / 255];
 }
 
-export function HeroRibbons({ className }: { className?: string }) {
+export function HeroRibbons({
+  className,
+  look = "ribbons",
+}: {
+  className?: string;
+  /** Which field to draw: drifting ribbons, or one large aura fold. */
+  look?: "ribbons" | "aura";
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -134,7 +211,7 @@ export function HeroRibbons({ className }: { className?: string }) {
     };
     const prog = gl.createProgram()!;
     gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG[look]));
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
     gl.useProgram(prog);
@@ -260,7 +337,7 @@ export function HeroRibbons({ className }: { className?: string }) {
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("pointermove", onMove);
     };
-  }, []);
+  }, [look]);
 
   return <canvas ref={ref} aria-hidden="true" className={className} />;
 }

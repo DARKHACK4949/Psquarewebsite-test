@@ -13,8 +13,6 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  isolation: isolate;
-  background: var(--night);
 }
 /* The ribbon field covers the CSS bands once its first frame is drawn. */
 .ribbons {
@@ -28,34 +26,6 @@
 }
 .ribbons[data-ready] {
   opacity: 1;
-}
-/* The film: full bleed, slightly enlarged so the pointer drift never shows an edge. */
-.drift {
-  position: absolute;
-  inset: 0;
-  transform: scale(1.06);
-  will-change: transform;
-}
-.film {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  /* The film's pure black becomes the page's dark (the brighter of the two wins). */
-  mix-blend-mode: lighten;
-}
-@media (max-width: 899px) and (orientation: portrait) {
-  .film {
-    object-position: 60% 50%;
-  }
-}
-/* Grounds the headline and actions at the bottom, and hands the film's black to the page's dark. */
-.shade {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to top, color-mix(in srgb, var(--night) 70%, transparent) 0%, transparent 45%),
-    color-mix(in srgb, var(--night) 12%, transparent);
 }
 .field {
   position: absolute;
