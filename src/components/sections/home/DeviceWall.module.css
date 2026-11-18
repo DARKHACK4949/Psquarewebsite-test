@@ -286,6 +286,8 @@
  */
 /* Dark entry: the section before is dark, so the wall starts on night and the nav stays light from its top. */
 .darkIn {
+  /* The site's section gap after the hero, so the wall doesn't sit tight against it. */
+  padding-top: var(--section);
   background: var(--night);
 }
 .darkIn .navDark {
