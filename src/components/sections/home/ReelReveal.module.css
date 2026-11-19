@@ -20,7 +20,7 @@
   overflow: hidden;
   isolation: isolate;
   background: var(--night-surface);
-  transform-origin: 50% 0%;
+  transform-origin: 50% 50%;
 }
 /*
  * Wide screens: the reel gets a screen to itself. It finishes a little inside

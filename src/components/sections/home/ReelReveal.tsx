@@ -55,21 +55,45 @@ export function ReelReveal({ reel }: { reel: typeof ShowreelContent }) {
       const mm = gsap.matchMedia();
       mm.add(GROW, () => {
         const el = card.current!;
-        // The card is laid out at its full size; it starts scaled down to
-        // about 80% of the screen's width and grows into place.
+        // The card is laid out at its full size. As on the old homepage it
+        // rises into place while it grows: it starts lower down, dimmed and
+        // scaled to about 80% of the screen's width, and lands centred.
         const start = () => Math.min(1, (window.innerWidth * 0.8) / el.offsetWidth);
-        gsap.fromTo(
-          el,
-          { scale: start },
-          {
-            scale: 1,
-            ease: "power3.inOut",
+        gsap
+          .timeline({
+            // The section, not the moving card, drives it (the card's own
+            // offset would delay the start); its centre is the card's resting centre.
             scrollTrigger: {
-              trigger: el,
-              start: "top 92%",
+              trigger: root.current,
+              start: "top bottom",
               end: "center center",
               scrub: true,
               invalidateOnRefresh: true,
+            },
+          })
+          .fromTo(el, { scale: start }, { scale: 1, ease: "power3.inOut", duration: 1 }, 0)
+          .fromTo(
+            el,
+            { y: () => window.innerHeight * 0.14 },
+            { y: 0, ease: "power2.out", duration: 1 },
+            0,
+          )
+          .fromTo(el, { opacity: 0.35 }, { opacity: 1, ease: "power1.out", duration: 0.45 }, 0);
+      });
+      // Phones: a gentle rise and fade as the card comes into view.
+      mm.add("(max-width: 899px) and (prefers-reduced-motion: no-preference)", () => {
+        gsap.fromTo(
+          card.current,
+          { y: 40, opacity: 0.4 },
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card.current,
+              start: "top bottom",
+              end: "top 60%",
+              scrub: true,
             },
           },
         );
