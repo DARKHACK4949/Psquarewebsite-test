@@ -132,11 +132,6 @@ export function ReelReveal({ reel }: { reel: typeof ShowreelContent }) {
         {/* The whole card opens the player; the corner button is its visible, focusable handle. */}
         <div aria-hidden="true" className={styles.hit} onClick={open} />
         <div aria-hidden="true" className={styles.shade} />
-
-        <span className={styles.eyebrow}>
-          {reel.eyebrow}
-          <span className={styles.dur}>{reel.duration}</span>
-        </span>
         <button type="button" onClick={open} className={styles.play}>
           <span aria-hidden="true" className={styles.icon} />
           {reel.play}

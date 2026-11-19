@@ -14,10 +14,10 @@ export const previewHero = {
   },
 };
 
-/** The showreel after the hero: a card that opens to full screen on scroll. */
+/** The showreel after the hero: a card that rises and grows into its own fold. */
 export const showreel = {
+  /** Names the section for screen readers. */
   eyebrow: "Showreel",
-  duration: "0:40",
   play: "Play with sound",
   /** Accessible name of the silent, looping reel. */
   label: "PSQUARE COMPANY showreel, playing silently",

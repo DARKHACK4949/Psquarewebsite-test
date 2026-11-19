@@ -57,7 +57,7 @@
   cursor: pointer;
 }
 
-/* Keeps the caption and the button readable over the reel. */
+/* Keeps the button readable over the reel. */
 .shade {
   position: absolute;
   inset: auto 0 0 0;
@@ -68,22 +68,6 @@
     color-mix(in srgb, var(--night) 60%, transparent),
     transparent
   );
-}
-
-.eyebrow {
-  position: absolute;
-  left: clamp(16px, 2.2vw, 32px);
-  bottom: clamp(18px, 2.2vw, 32px);
-  display: inline-flex;
-  align-items: baseline;
-  gap: 12px;
-  font-size: var(--fs-small);
-  color: var(--night-body);
-  pointer-events: none;
-}
-.dur {
-  font-variant-numeric: tabular-nums;
-  color: var(--night-muted);
 }
 
 .play {
@@ -124,14 +108,11 @@
   clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 
-/* Small phones: a smaller button, the caption tucked in. */
+/* Small phones: a smaller button. */
 @media (max-width: 479px) {
   .play {
     height: 36px;
     padding: 0 14px 0 12px;
     gap: 8px;
-  }
-  .eyebrow {
-    display: none;
   }
 }
