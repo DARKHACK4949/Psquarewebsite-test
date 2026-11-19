@@ -2,6 +2,7 @@ import { SiteNav } from "@/components/layout/SiteNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { PageReveal } from "@/components/providers/PageReveal";
 import { HeroAurora } from "@/components/sections/home/HeroAurora";
+import { ReelReveal } from "@/components/sections/home/ReelReveal";
 import { DeviceWall } from "@/components/sections/home/DeviceWall";
 import { WorkFolds } from "@/components/sections/home/WorkFolds";
 import { WhatWeDoCards } from "@/components/sections/home/WhatWeDoCards";
@@ -9,12 +10,12 @@ import { TrustedBy } from "@/components/sections/home/TrustedBy";
 import { Faq } from "@/components/sections/home/Faq";
 import { CloseCinema } from "@/components/sections/home/CloseCinema";
 import { homeContent } from "@/content/home";
-import { previewHero, whatWeDo, workIntro, workThemes } from "@/content/home/preview";
+import { previewHero, showreel, whatWeDo, workIntro, workThemes } from "@/content/home/preview";
 import type { Region } from "@/lib/region";
 
 /**
  * Temporary review page for the new landing design (/preview/landing): dark
- * aurora hero, the device wall running straight into the dark work chapter
+ * aurora hero, the showreel opening to full screen, the device wall running straight into the dark work chapter
  * (one screen per project, each in its own colour), then What we do, Trusted
  * by, FAQ and the dark close. The live homepage is unchanged.
  */
@@ -30,6 +31,7 @@ export function LandingPreview({ region }: { region: Region }) {
           look={previewHero.look}
           film={previewHero.film}
         />
+        <ReelReveal reel={showreel} />
         <DeviceWall wall={c.wall} enter="dark" exit="dark" />
         <WorkFolds work={c.work} intro={workIntro} themes={workThemes} />
         <WhatWeDoCards what={whatWeDo} />

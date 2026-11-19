@@ -14,6 +14,24 @@ export const previewHero = {
   },
 };
 
+/** The showreel after the hero: a card that opens to full screen on scroll. */
+export const showreel = {
+  eyebrow: "Showreel",
+  duration: "0:40",
+  play: "Play with sound",
+  /** Accessible name of the silent, looping reel. */
+  label: "PSQUARE COMPANY showreel, playing silently",
+  /** Silent loop for the page; phones get a lighter cut. */
+  video: {
+    webm: "/media/home/showreel.webm",
+    mp4: "/media/home/showreel.mp4",
+    poster: "/media/home/showreel-poster.jpg",
+    phone: { webm: "/media/home/showreel-m.webm", mp4: "/media/home/showreel-m.mp4" },
+  },
+  /** The cut with music, sound design and voice-over, opened in the player. */
+  sound: "/media/home/showreel-sound.mp4",
+};
+
 export const workIntro = "Built for real work.";
 
 /** Each project's background while it fills the screen (tokens in theme.css). */

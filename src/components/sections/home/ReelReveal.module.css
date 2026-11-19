@@ -1,0 +1,137 @@
+.root {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+  padding: clamp(64px, 12vw, 96px) var(--gutter);
+}
+
+/*
+ * A 16:9 card laid out at its largest: the whole screen less a small margin,
+ * and never taller than the screen. On wide screens it starts scaled down and
+ * grows into this size as it scrolls into view.
+ */
+.card {
+  --m: clamp(12px, 1.6vw, 24px);
+  position: relative;
+  width: min(100%, calc(100vw - 2 * var(--m)), calc((100svh - 2 * var(--m)) * 16 / 9));
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--night-surface);
+  transform-origin: 50% 0%;
+}
+/*
+ * Wide screens: the reel gets a screen to itself. It finishes a little inside
+ * the screen (a clear margin all round) and the section gives it room above
+ * and below, so at rest the fold shows only the reel.
+ */
+@media (min-width: 900px) {
+  .root {
+    --fold: clamp(40px, 7svh, 88px);
+    padding: var(--fold) 0;
+  }
+  .card {
+    width: min(calc(100vw - 4 * var(--m)), calc((100svh - 2 * var(--fold)) * 16 / 9));
+  }
+}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .card {
+    will-change: transform;
+  }
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hit {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+/* Keeps the caption and the button readable over the reel. */
+.shade {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 32%;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--night) 60%, transparent),
+    transparent
+  );
+}
+
+.eyebrow {
+  position: absolute;
+  left: clamp(16px, 2.2vw, 32px);
+  bottom: clamp(18px, 2.2vw, 32px);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: var(--fs-small);
+  color: var(--night-body);
+  pointer-events: none;
+}
+.dur {
+  font-variant-numeric: tabular-nums;
+  color: var(--night-muted);
+}
+
+.play {
+  position: absolute;
+  right: clamp(12px, 1.8vw, 28px);
+  bottom: clamp(12px, 1.8vw, 28px);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 20px 0 16px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--night-text);
+  background: color-mix(in srgb, var(--night-text) 14%, transparent);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 0 0 1px var(--night-border);
+  transition:
+    background-color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+.play:hover,
+.hit:hover ~ .play {
+  background: color-mix(in srgb, var(--night-text) 24%, transparent);
+}
+.play:active {
+  transform: scale(0.97);
+}
+.play:focus-visible {
+  outline: 2px solid var(--night-accent);
+  outline-offset: 3px;
+}
+.icon {
+  width: 10px;
+  height: 12px;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* Small phones: a smaller button, the caption tucked in. */
+@media (max-width: 479px) {
+  .play {
+    height: 36px;
+    padding: 0 14px 0 12px;
+    gap: 8px;
+  }
+  .eyebrow {
+    display: none;
+  }
+}

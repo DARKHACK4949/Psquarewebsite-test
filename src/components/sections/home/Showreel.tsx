@@ -34,10 +34,13 @@ export function reelBoxFrom(card: HTMLElement): ReelBox {
 export function Showreel({
   box,
   src,
+  poster,
   onClose,
 }: {
   box: ReelBox;
   src: string;
+  /** Shown while the film loads. */
+  poster?: string;
   onClose: () => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -110,7 +113,14 @@ export function Showreel({
           clipPath: open ? "inset(0px 0px 0px 0px round 20px)" : box.from,
         }}
       >
-        <video ref={video} src={src} controls playsInline className={styles.video} />
+        <video
+          ref={video}
+          src={src}
+          poster={poster}
+          controls
+          playsInline
+          className={styles.video}
+        />
       </div>
       <button
         ref={closeBtn}
