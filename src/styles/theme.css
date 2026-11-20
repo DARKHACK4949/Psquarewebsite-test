@@ -36,9 +36,9 @@
   --aurora-a: oklch(0.42 0.2 305);
   --aurora-b: oklch(0.32 0.16 290);
   --aurora-c: oklch(0.5 0.2 318);
-  /* Video letterbox black, and the night accent for the device wall headline. */
+  /* Homepage device wall: tile backing that blends with the clips' black, and the night accent for its headline. */
   --video-black: #000;
-  /* Device-wall card: the flat studio grey every tile film is rendered on. */
+  /* Studio device wall (landing preview): the flat grey every tile film is rendered on. */
   --wall-card: #121619;
   --wall-accent: oklch(0.82 0.07 318);
   /* Deep plum gradient for feature cards. */

@@ -10,7 +10,14 @@ import { TrustedBy } from "@/components/sections/home/TrustedBy";
 import { Faq } from "@/components/sections/home/Faq";
 import { CloseCinema } from "@/components/sections/home/CloseCinema";
 import { homeContent } from "@/content/home";
-import { previewHero, showreel, whatWeDo, workIntro, workThemes } from "@/content/home/preview";
+import {
+  previewHero,
+  showreel,
+  studioWall,
+  whatWeDo,
+  workIntro,
+  workThemes,
+} from "@/content/home/preview";
 import type { Region } from "@/lib/region";
 
 /**
@@ -32,7 +39,7 @@ export function LandingPreview({ region }: { region: Region }) {
           film={previewHero.film}
         />
         <ReelReveal reel={showreel} />
-        <DeviceWall wall={c.wall} enter="dark" exit="dark" />
+        <DeviceWall wall={studioWall} enter="dark" exit="dark" studio />
         <WorkFolds work={c.work} intro={workIntro} themes={workThemes} />
         <WhatWeDoCards what={whatWeDo} />
         <TrustedBy trusted={c.trusted} />

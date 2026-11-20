@@ -95,7 +95,7 @@ export type WallTile = {
     phone: { webm: string; mp4: string };
   };
   /** Tile shape: the portrait phone clip, 4:3, 4:5 or 9:16. */
-  ratio: "43" | "45" | "916";
+  ratio: "portrait" | "43" | "45" | "916";
   /** Fill the tile (abstract or exact-ratio clips); devices are never cropped otherwise. */
   cover?: boolean;
   /** The tile the scroll centres while the headline shows. */

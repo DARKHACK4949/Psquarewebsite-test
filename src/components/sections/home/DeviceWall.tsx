@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { HomeContent } from "@/content/home";
 import { LoopVideo } from "@/components/sections/about/LoopVideo";
 import { gsap, ScrollTrigger, useGSAP, FULL } from "@/lib/motion";
 import styles from "./DeviceWall.module.css";
 
 const RATIO = {
+  portrait: styles.rPortrait,
   "43": styles.r43,
   "45": styles.r45,
   "916": styles.r916,
@@ -28,6 +29,7 @@ export function DeviceWall({
   wall,
   enter = "light",
   exit = "light",
+  studio = false,
 }: {
   wall: HomeContent["wall"];
   /**
@@ -42,10 +44,39 @@ export function DeviceWall({
    * that follows (the dark-chapter preview).
    */
   exit?: "light" | "dark";
+  /**
+   * Studio wall (the landing preview): every tile is a device film rendered on
+   * the same grey card, so tiles drop the vignette and blend, the headline gets
+   * a darker curtain, and the bento is cut at its shortest column so all three
+   * columns run into the exit together with no empty gap.
+   */
+  studio?: boolean;
 }) {
   const root = useRef<HTMLElement>(null);
   const words = wall.title.split(" ");
   const accentFrom = words.length - wall.accent;
+
+  useEffect(() => {
+    const bento = root.current?.querySelector<HTMLElement>("[data-w=bento]");
+    if (!studio || !bento) return;
+    const cols = Array.from(bento.querySelectorAll<HTMLElement>("[data-w=col]"));
+    let last = "";
+    const fit = () => {
+      bento.style.height = "";
+      const ends = cols.map((c) => c.offsetTop + c.offsetHeight).filter((h) => h > 0);
+      const h = ends.length ? `${Math.min(...ends)}px` : "";
+      bento.style.height = h;
+      // The wall's scroll triggers were measured at its full height: re-measure.
+      if (h !== last) {
+        last = h;
+        ScrollTrigger.refresh();
+      }
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    cols.forEach((c) => ro.observe(c));
+    return () => ro.disconnect();
+  }, [studio]);
 
   useGSAP(
     () => {
@@ -177,6 +208,7 @@ export function DeviceWall({
         styles.wall,
         enter === "dark" ? styles.darkIn : "",
         exit === "dark" ? styles.dark : "",
+        studio ? styles.studio : "",
       ].join(" ")}
     >
       {/* Fixed night layer: the page's dark phase. */}

@@ -33,36 +33,36 @@ export const wall: HomeContent["wall"] = {
   title: "We design the products behind ambitious businesses.",
   accent: 2,
   // Three columns, left to right, on every screen size. Up to seven tiles each:
-  // the CSS shows fewer on wider screens (three per column on a laptop), so the
-  // first three of each column are the core set. Every tile is a real product
-  // in a still device on the same grey card; the centre phone is the hero.
+  // the CSS shows fewer on wider screens so the wall is always about the same
+  // number of screens tall. Clips repeat (never next to themselves) until each
+  // tile has its own.
   tiles: [
     [
-      t("wall-arcgrow-dash", "45", { cover: true }),
-      t("wall-sos", "45", { cover: true }),
-      t("wall-pipeline", "45", { cover: true }),
-      t("wall-tathasthu", "45", { cover: true }),
-      t("wall-board", "45", { cover: true }),
-      t("wall-livemap", "45", { cover: true }),
-      t("wall-sales-home", "45", { cover: true }),
+      t("phone-portrait", "portrait", { cover: true }),
+      t("fintech-mobile", "45"),
+      t("arcgrow-mobile", "45"),
+      t("laptop-dashboard", "45"),
+      t("sline-tablet", "45"),
+      t("sline-mobile", "45"),
+      t("phone-portrait", "portrait", { cover: true }),
     ],
     [
-      t("wall-tathasthu", "45", { cover: true }),
-      t("wall-nav", "916", { cover: true, hero: true }),
-      t("wall-board", "45", { cover: true }),
-      t("wall-sos", "45", { cover: true }),
-      t("wall-suryacon", "45", { cover: true }),
-      t("wall-arcgrow-dash", "45", { cover: true }),
-      t("wall-pipeline", "45", { cover: true }),
+      t("arcgrow-mobile", "43"),
+      t("psquare-glass", "916", { cover: true, hero: true }),
+      t("sline-mobile", "43"),
+      t("fintech-mobile", "43"),
+      t("laptop-dashboard", "43"),
+      t("arcgrow-mobile", "43"),
+      t("sline-mobile", "43"),
     ],
     [
-      t("wall-sales-home", "45", { cover: true }),
-      t("wall-livemap", "45", { cover: true }),
-      t("wall-suryacon", "45", { cover: true }),
-      t("wall-arcgrow-dash", "45", { cover: true }),
-      t("wall-pipeline", "45", { cover: true }),
-      t("wall-tathasthu", "45", { cover: true }),
-      t("wall-board", "45", { cover: true }),
+      t("sline-tablet", "45"),
+      t("laptop-dashboard", "45"),
+      t("fintech-mobile", "45"),
+      t("sline-mobile", "45"),
+      t("phone-portrait", "portrait", { cover: true }),
+      t("arcgrow-mobile", "45"),
+      t("sline-tablet", "45"),
     ],
   ],
 };
