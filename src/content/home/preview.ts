@@ -86,15 +86,19 @@ const tile = (name: string, ratio: WallTile["ratio"], hero = false): WallTile =>
  * The studio device wall: real products in real device mockups on one grey
  * card, the breathing navigation phone as the hero. Angled devices face the
  * centre: the left column turns right, the right column (the mirrored "-l"
- * cuts) turns left. A few devices drift slowly; the rest hold still.
+ * cuts) turns left. The phones turn slowly in place; laptops hold still while
+ * their screens play.
  */
 export const studioWall: HomeContent["wall"] = {
   title: wall.title,
   accent: wall.accent,
+  // The first row is the entry point, so it carries the most vivid tiles, all
+  // moving: the SOS press, Tathasthu's design renders and the turning ArcGrow
+  // phone. The 3/4 laptops flank the hero phone as a mirrored pair.
   tiles: [
     [
-      tile("wall-arcgrow-dash", "45"),
       tile("wall-sos", "45"),
+      tile("wall-arcgrow-dash", "45"),
       tile("wall-pipeline-r", "45"),
       tile("wall-tathasthu", "45"),
       tile("wall-board", "45"),
@@ -104,20 +108,20 @@ export const studioWall: HomeContent["wall"] = {
     [
       tile("wall-tathasthu", "45"),
       tile("wall-nav", "916", true),
-      tile("wall-board", "45"),
       tile("wall-suryacon", "45"),
       tile("wall-sales-home", "45"),
+      tile("wall-pipeline", "45"),
       tile("wall-tathasthu", "45"),
       tile("wall-board", "45"),
     ],
     [
-      tile("wall-sales-home", "45"),
+      tile("wall-board", "45"),
       tile("wall-livemap-l", "45"),
-      tile("wall-suryacon", "45"),
+      tile("wall-sales-home", "45"),
       tile("wall-arcgrow-dash-l", "45"),
       tile("wall-sos-l", "45"),
       tile("wall-pipeline", "45"),
-      tile("wall-tathasthu", "45"),
+      tile("wall-suryacon", "45"),
     ],
   ],
 };
