@@ -69,13 +69,19 @@ export const whatWeDo = {
   ],
 };
 
-/** A studio-wall film: full cut, lighter phone cut and poster. */
+/**
+ * A studio-wall film: full cut, lighter phone cut and poster. /media is cached
+ * as immutable, so a re-rendered film always ships under a new file name.
+ */
 const tile = (name: string, ratio: WallTile["ratio"], hero = false): WallTile => ({
   src: {
-    webm: `/media/home/wall/${name}.webm`,
-    mp4: `/media/home/wall/${name}.mp4`,
-    poster: `/media/home/wall/${name}-poster.jpg`,
-    phone: { webm: `/media/home/wall/${name}-m.webm`, mp4: `/media/home/wall/${name}-m.mp4` },
+    webm: `/media/home/wall/studio-${name}.webm`,
+    mp4: `/media/home/wall/studio-${name}.mp4`,
+    poster: `/media/home/wall/studio-${name}-poster.jpg`,
+    phone: {
+      webm: `/media/home/wall/studio-${name}-m.webm`,
+      mp4: `/media/home/wall/studio-${name}-m.mp4`,
+    },
   },
   ratio,
   cover: true,
@@ -97,31 +103,31 @@ export const studioWall: HomeContent["wall"] = {
   // phone. The 3/4 laptops flank the hero phone as a mirrored pair.
   tiles: [
     [
-      tile("wall-sos", "45"),
-      tile("wall-arcgrow-dash", "45"),
-      tile("wall-pipeline-r", "45"),
-      tile("wall-tathasthu", "45"),
-      tile("wall-board", "45"),
-      tile("wall-livemap", "45"),
-      tile("wall-sales-home", "45"),
+      tile("sos", "45"),
+      tile("arcgrow-dash", "45"),
+      tile("pipeline-r", "45"),
+      tile("tathasthu", "45"),
+      tile("board", "45"),
+      tile("livemap", "45"),
+      tile("sales-home", "45"),
     ],
     [
-      tile("wall-tathasthu", "45"),
-      tile("wall-nav", "916", true),
-      tile("wall-suryacon", "45"),
-      tile("wall-sales-home", "45"),
-      tile("wall-pipeline", "45"),
-      tile("wall-tathasthu", "45"),
-      tile("wall-board", "45"),
+      tile("tathasthu", "45"),
+      tile("nav", "916", true),
+      tile("suryacon", "45"),
+      tile("sales-home", "45"),
+      tile("pipeline", "45"),
+      tile("tathasthu", "45"),
+      tile("board", "45"),
     ],
     [
-      tile("wall-board", "45"),
-      tile("wall-livemap-l", "45"),
-      tile("wall-sales-home", "45"),
-      tile("wall-arcgrow-dash-l", "45"),
-      tile("wall-sos-l", "45"),
-      tile("wall-pipeline", "45"),
-      tile("wall-suryacon", "45"),
+      tile("board", "45"),
+      tile("livemap-l", "45"),
+      tile("sales-home", "45"),
+      tile("arcgrow-dash-l", "45"),
+      tile("sos-l", "45"),
+      tile("pipeline", "45"),
+      tile("suryacon", "45"),
     ],
   ],
 };
