@@ -7,7 +7,6 @@ import { gsap, ScrollTrigger, useGSAP, FULL } from "@/lib/motion";
 import styles from "./DeviceWall.module.css";
 
 const RATIO = {
-  portrait: styles.rPortrait,
   "43": styles.r43,
   "45": styles.r45,
   "916": styles.r916,

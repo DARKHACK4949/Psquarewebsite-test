@@ -150,14 +150,10 @@
   width: 100%;
   border-radius: var(--r);
   overflow: hidden;
-  /* The page's own dark, so the tiles melt into it. */
-  background: var(--night);
-  isolation: isolate;
+  /* The same flat grey the films are rendered on, so the card and film are one surface. */
+  background: var(--wall-card);
 }
-/*
- * Devices are never cropped. "Lighten" keeps the brighter of film and tile,
- * so the films' pure black becomes the page's dark and the device stays as it is.
- */
+/* Each film is rendered at its tile's exact shape, so filling the tile crops nothing. */
 .tile video {
   position: absolute;
   inset: 0;
@@ -165,26 +161,9 @@
   height: 100%;
   object-fit: contain;
   display: block;
-  mix-blend-mode: lighten;
 }
 .cover video {
   object-fit: cover;
-}
-/* Soft vignette tames bright clips, toward the page dark (never darker than it). */
-.tile::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(
-    120% 90% at 50% 40%,
-    color-mix(in srgb, var(--night) 8%, transparent) 0%,
-    color-mix(in srgb, var(--night) 34%, transparent) 100%
-  );
-}
-.rPortrait {
-  aspect-ratio: 608 / 1080;
 }
 .r43 {
   aspect-ratio: 4 / 3;
