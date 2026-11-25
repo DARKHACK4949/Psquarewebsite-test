@@ -30,7 +30,7 @@ export function LandingPreview({ region }: { region: Region }) {
   const c = homeContent(region);
   return (
     <div id="psq-page" className="page">
-      <SiteNav region={region} current="home" />
+      <SiteNav region={region} current="home" startDark />
       <main id="main" tabIndex={-1}>
         <HeroAurora
           hero={c.hero}

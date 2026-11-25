@@ -41,12 +41,24 @@ function cx(...c: (string | false | undefined | null)[]) {
  * turns translucent-solid once the page scrolls. Desktop mega menus for
  * Solutions / Industries / Capabilities; full-screen accordion menu on mobile.
  */
-export function SiteNav({ region, current = "none" }: { region: Region; current?: NavCurrent }) {
+export function SiteNav({
+  region,
+  current = "none",
+  startDark = false,
+}: {
+  region: Region;
+  current?: NavCurrent;
+  /**
+   * The page opens on a dark section, so the bar renders in light ink from the
+   * server on: no light-ink flash before the scroll check runs on the client.
+   */
+  startDark?: boolean;
+}) {
   const routes = routesFor(region);
   const menus = FULL_NAV ? megaMenus(region) : [];
   const [solid, setSolid] = useState(false);
   // True while the bar sits over a section marked [data-nav-dark].
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(startDark);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState<MenuKey | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
