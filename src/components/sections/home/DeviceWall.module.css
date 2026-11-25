@@ -328,6 +328,10 @@
 .studio .bento {
   overflow: clip;
 }
+/* A wider pause after the section before (the showreel), so the wall arrives as its own chapter. */
+.studio.darkIn {
+  padding-top: calc(var(--section) * 1.8);
+}
 .studio .tile {
   background: var(--wall-card);
 }
