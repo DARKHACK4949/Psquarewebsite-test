@@ -10,10 +10,10 @@ export const previewHero = {
   /** The hero's background: the aura film, made interactive (see HeroFilm). */
   look: "film" as const,
   film: {
-    webm: "/media/home/hero-aura-2.webm",
-    mp4: "/media/home/hero-aura-2.mp4",
+    webm: "/media/home/hero-aura-3.webm",
+    mp4: "/media/home/hero-aura-3.mp4",
     poster: "/media/home/hero-aura-2-poster.jpg",
-    phone: { webm: "/media/home/hero-aura-2-m.webm", mp4: "/media/home/hero-aura-2-m.mp4" },
+    phone: { webm: "/media/home/hero-aura-3-m.webm", mp4: "/media/home/hero-aura-3-m.mp4" },
   },
 };
 
@@ -26,10 +26,10 @@ export const showreel = {
   label: "PSQUARE COMPANY showreel, playing silently",
   /** Silent loop for the page; phones get a lighter cut. */
   video: {
-    webm: "/media/home/showreel.webm",
-    mp4: "/media/home/showreel.mp4",
+    webm: "/media/home/showreel-2.webm",
+    mp4: "/media/home/showreel-2.mp4",
     poster: "/media/home/showreel-poster.jpg",
-    phone: { webm: "/media/home/showreel-m.webm", mp4: "/media/home/showreel-m.mp4" },
+    phone: { webm: "/media/home/showreel-2-m.webm", mp4: "/media/home/showreel-2-m.mp4" },
   },
   /** The cut with music, sound design and voice-over, opened in the player. */
   sound: "/media/home/showreel-sound.mp4",
