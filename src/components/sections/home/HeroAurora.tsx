@@ -14,8 +14,8 @@ import styles from "./HeroAurora.module.css";
 /**
  * Dark hero over a live background (WebGL ribbons, or the aura film, that the pointer stirs; three
  * soft CSS bands stand in until it draws, or if WebGL is missing). Headline
- * bottom-left, line and actions bottom-right. The headline rises word by word
- * on load.
+ * bottom-left, line and actions bottom-right. The headline resolves from blur
+ * word by word on load.
  */
 export function HeroAurora({
   hero,
@@ -56,12 +56,13 @@ export function HeroAurora({
       <div className={styles.inner}>
         <h1 className={styles.h1} aria-label={title}>
           {title.split(" ").map((w, j, arr) => (
-            // The space sits outside the clipping box: inside an inline-block it collapses.
+            // The space sits outside the word box: inside an inline-block it collapses.
+            // Each word is a sharp copy over a pre-blurred one; they cross-fade, so the
+            // word resolves from blur while only opacity animates.
             <span key={j} aria-hidden="true">
-              <span className={styles.clip}>
-                <span className={styles.word} style={{ "--i": i++ } as CSSProperties}>
-                  {w}
-                </span>
+              <span className={styles.word} style={{ "--i": i++ } as CSSProperties}>
+                <span className={styles.sharp}>{w}</span>
+                <span className={styles.soft}>{w}</span>
               </span>
               {j < arr.length - 1 ? " " : null}
             </span>
