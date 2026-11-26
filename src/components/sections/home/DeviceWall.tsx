@@ -102,12 +102,27 @@ export function DeviceWall({
         if (enter === "dark") gsap.set(night, { opacity: 1 });
         else
           arrive.fromTo(night, { opacity: 0 }, { opacity: 1, ease: "sine.inOut", duration: 1 }, 0);
+        // Studio wall: the camera starts close on the hero phone and pulls back
+        // to the whole wall, so the hero's column leads and the others join it.
+        const hero = el.querySelector<HTMLElement>("[data-w=hero]");
+        const lead = studio && hero ? cols.find((c) => c.contains(hero)) : undefined;
+        const order = lead ? [lead, ...cols.filter((c) => c !== lead)] : cols;
         arrive.fromTo(
-          cols,
+          order,
           { opacity: 0 },
           { opacity: 1, ease: "power2.out", duration: 0.6, stagger: 0.2 },
           0.1,
         );
+        if (studio && hero) {
+          const ox = hero.offsetLeft + hero.offsetWidth / 2 + (lead?.offsetLeft ?? 0);
+          const oy = hero.offsetTop + hero.offsetHeight / 2 + (lead?.offsetTop ?? 0);
+          arrive.fromTo(
+            bento,
+            { scale: 1.6, transformOrigin: `${ox}px ${oy}px` },
+            { scale: 1, ease: "power2.out", duration: 1 },
+            0,
+          );
+        }
 
         // 2) The headline resolves word by word as it rises into the middle of the
         //    screen and settles there (the stage top passing 5% to -55%): it waits
@@ -195,7 +210,7 @@ export function DeviceWall({
       });
       return () => mm.revert();
     },
-    { scope: root, dependencies: [enter, exit] },
+    { scope: root, dependencies: [enter, exit, studio] },
   );
 
   return (

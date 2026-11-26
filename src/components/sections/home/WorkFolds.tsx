@@ -44,10 +44,17 @@ export function WorkFolds({
   work,
   intro,
   themes,
+  exit = "light",
 }: {
   work: HomeContent["work"];
   intro: string;
   themes: Record<string, string>;
+  /**
+   * "light": the colours hand back to the light page as the last project leaves.
+   * "dark": a night section follows, so the colours stay until it covers the
+   * screen and only then switch off, with no light band in between.
+   */
+  exit?: "light" | "dark";
 }) {
   const root = useRef<HTMLDivElement>(null);
 
@@ -106,7 +113,10 @@ export function WorkFolds({
             opacity: 0,
             ease: "none",
             immediateRender: false,
-            scrollTrigger: { trigger: last, start: "bottom 70%", end: "bottom 20%", scrub: true },
+            scrollTrigger:
+              exit === "dark"
+                ? { trigger: last, start: "bottom top", end: "bottom -20%", scrub: true }
+                : { trigger: last, start: "bottom 70%", end: "bottom 20%", scrub: true },
           },
         );
       });
@@ -227,7 +237,7 @@ export function WorkFolds({
       });
       return () => mm.revert();
     },
-    { scope: root },
+    { scope: root, dependencies: [exit] },
   );
 
   return (

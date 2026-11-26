@@ -47,38 +47,38 @@ export const workThemes: Record<string, string> = {
 };
 
 export const whatWeDo = {
-  eyebrow: "What we do",
-  title: ["From problem", "to production."],
-  lead: "One team takes a product from the first conversation to software running in your business.",
-  /** Each capability points at the project it powered (a work item key). */
+  statement: "From problem to production.",
+  all: "All capabilities",
+  /** Each capability is shown through the project it powered (a work item key). */
   capabilities: [
     {
       name: "ERP & operations",
-      line: "Sites, stock and spend in one system, instead of ten spreadsheets.",
+      items: ["Sites and stock", "Purchase and vendors", "Approvals and spend"],
       work: "suryacon",
     },
     {
       name: "Field service",
-      line: "Breakdowns logged, technicians routed, clients kept in the loop.",
+      items: ["Breakdown and SOS logging", "Technician routing", "Live client updates"],
       work: "sline-services",
     },
     {
       name: "Sales & CRM",
-      line: "Every lead and every deal, from the first call to the site.",
+      items: ["Leads and pipeline", "Quotes and orders", "Team performance"],
       work: "sline",
     },
     {
       name: "Project management",
-      line: "Projects, deadlines and teams on one board everyone trusts.",
+      items: ["Boards and deadlines", "Calendars and site visits", "Team chat"],
       work: "arcgrow",
     },
     {
       name: "AI products",
-      line: "Generative tools that turn a sentence into a finished design.",
+      items: ["Prompt to design", "Generative renders", "Style variations"],
       work: "tathasthu",
     },
   ],
 };
+
 
 /**
  * A studio-wall film: full cut, lighter phone cut and poster. /media is cached

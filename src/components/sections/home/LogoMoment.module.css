@@ -1,0 +1,56 @@
+.stage {
+  position: relative;
+  width: 100%;
+  height: clamp(96px, 12vw, 160px);
+}
+.logos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  inset: 0;
+}
+.logo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity var(--t-reveal) var(--ease),
+    transform 1.2s var(--ease);
+}
+.logo[data-on] {
+  opacity: 1;
+  transform: scale(1);
+}
+.img {
+  width: auto;
+  max-width: 80vw;
+  /* Client marks are dark artwork; on night they render as solid white. */
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    height: auto;
+  }
+  .logos {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px 48px;
+  }
+  .logo {
+    position: static;
+    opacity: 1;
+    transform: none;
+  }
+  .img {
+    max-width: 160px;
+    height: auto !important;
+  }
+}

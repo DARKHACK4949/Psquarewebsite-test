@@ -2,55 +2,51 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Words } from "@/components/ui/Words";
-import type { WorkItem } from "@/content/home/types";
+import { ButtonLink } from "@/components/ui/Button";
+import type { Link, WorkItem } from "@/content/home/types";
 import type { whatWeDo } from "@/content/home/preview";
 import styles from "./CapabilityIndex.module.css";
 
-const FOLLOW = "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)";
-
 /**
- * "What we do" as a capability index: one large row per capability, each tied to
- * the project it powered. With a fine pointer, a clip of that project follows the
- * cursor on a critically damped spring and tilts with its velocity; elsewhere each
- * row carries a still of the work instead.
+ * What we do, after the statement: on night, a sticky film on the left and the
+ * capabilities on the right. The capability crossing the middle of the screen
+ * lights up and the film changes to the project it powered; the others recede.
+ * Phones and reduced motion: each capability stacks with its own still.
  */
-export function CapabilityIndex({ what, work }: { what: typeof whatWeDo; work: WorkItem[] }) {
+export function CapabilityIndex({
+  what,
+  work,
+  all,
+}: {
+  what: typeof whatWeDo;
+  work: WorkItem[];
+  all: Link;
+}) {
   // A region that shows fewer projects shows only the capabilities it can prove.
   const rows = what.capabilities.flatMap((c) => {
     const item = work.find((w) => w.key === c.work);
     return item ? [{ ...c, item }] : [];
   });
-  const title = what.title.join(" ");
-  const [active, setActive] = useState(-1);
-  const index = useRef<HTMLDivElement>(null);
-  const preview = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const list = useRef<HTMLOListElement>(null);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
-  const target = useRef({ x: 0, y: 0 });
-  const live = useRef({ x: 0, y: 0, r: 0, on: false });
 
-  // The preview chases the pointer; transform only, one rAF loop while it is shown.
+  // The capability crossing the middle of the viewport is the active one.
   useEffect(() => {
-    const mq = window.matchMedia(FOLLOW);
-    if (!mq.matches || active < 0) return;
-    let raf = 0;
-    const tick = () => {
-      const p = live.current;
-      const t = target.current;
-      const dx = t.x - p.x;
-      p.x += dx * 0.16;
-      p.y += (t.y - p.y) * 0.16;
-      p.r += (Math.max(-6, Math.min(6, dx * 0.035)) - p.r) * 0.12;
-      if (preview.current) {
-        preview.current.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) rotate(${p.r}deg)`;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [active]);
+    const items = Array.from(list.current?.querySelectorAll<HTMLElement>("[data-i]") ?? []);
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.i));
+        }
+      },
+      { rootMargin: "-50% 0px -50% 0px" },
+    );
+    items.forEach((it) => io.observe(it));
+    return () => io.disconnect();
+  }, []);
 
-  // Only the shown clip plays.
+  // Only the shown film plays.
   useEffect(() => {
     videos.current.forEach((v, i) => {
       if (!v) return;
@@ -59,82 +55,24 @@ export function CapabilityIndex({ what, work }: { what: typeof whatWeDo; work: W
     });
   }, [active]);
 
-  const move = (e: React.PointerEvent) => {
-    const box = index.current?.getBoundingClientRect();
-    if (!box) return;
-    // Keep the clip inside the index, so it never pushes past the page edge.
-    // Keep it left of the description column too, so the active line stays readable.
-    const w = (preview.current?.firstElementChild as HTMLElement | null)?.offsetWidth ?? 0;
-    const meta = index.current?.querySelector(`.${styles.meta}`)?.getBoundingClientRect();
-    const stop = meta ? meta.left - box.left - 24 : box.width;
-    target.current = {
-      x: Math.min(e.clientX - box.left, stop - w - 40),
-      y: e.clientY - box.top,
-    };
-    // First frame: appear under the pointer instead of flying in from a corner.
-    if (!live.current.on) {
-      live.current = { ...live.current, ...target.current, on: true };
-    }
-  };
-  const leave = () => {
-    live.current.on = false;
-    setActive(-1);
-  };
-
   return (
-    <section data-screen-label="05 What we do" className={styles.section}>
-      <div className={styles.head}>
-        <div className={styles.titleCol}>
-          <span className={styles.eyebrow}>{what.eyebrow}</span>
-          <h2 className={styles.h2} data-split="" aria-label={title}>
-            <Words text={what.title[0]} /> <br />
-            <Words text={what.title[1]} />
-          </h2>
-        </div>
-        <p className={styles.lead} data-reveal="">
-          {what.lead}
-        </p>
-      </div>
-
-      <div ref={index} className={styles.index} onPointerMove={move} onPointerLeave={leave}>
-        <ol className={styles.rows} data-dim={active >= 0 || undefined}>
-          {rows.map((r, i) => (
-            <li key={r.name} className={styles.row} data-on={active === i || undefined} data-reveal="">
-              <a
-                href={r.item.href}
-                className={styles.link}
-                onPointerEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
-                onBlur={() => setActive(-1)}
-              >
-                <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
-                <span className={styles.name}>{r.name}</span>
-                <span className={styles.meta}>
-                  <span className={styles.line}>{r.line}</span>
-                  <span className={styles.proj}>
-                    {r.item.name}
-                    <span aria-hidden="true" className={styles.arrow}>
-                      →
-                    </span>
-                  </span>
-                </span>
-                <span className={styles.thumb} aria-hidden="true">
-                  <Image src={r.item.video.poster} alt="" fill sizes="120px" />
-                </span>
-              </a>
-            </li>
-          ))}
-        </ol>
-
-        <div ref={preview} className={styles.preview} aria-hidden="true">
-          <div className={styles.frame} data-show={active >= 0 || undefined}>
+    <section
+      data-screen-label="05 What we do"
+      data-noband=""
+      data-nav-dark=""
+      aria-label={what.statement}
+      className={styles.section}
+    >
+      <div className={styles.grid}>
+        <div className={styles.stage} aria-hidden="true">
+          <div className={styles.frame}>
             {rows.map((r, i) => (
               <video
                 key={r.name}
                 ref={(el) => {
                   videos.current[i] = el;
                 }}
-                className={styles.clip}
+                className={styles.film}
                 data-on={active === i || undefined}
                 poster={r.item.video.poster}
                 muted
@@ -148,6 +86,35 @@ export function CapabilityIndex({ what, work }: { what: typeof whatWeDo; work: W
             ))}
           </div>
         </div>
+
+        <ol ref={list} className={styles.list}>
+          {rows.map((r, i) => (
+            <li key={r.name} data-i={i} className={styles.cap} data-on={active === i || undefined}>
+              <div className={styles.still} aria-hidden="true">
+                <Image src={r.item.video.poster} alt="" fill sizes="(min-width: 900px) 1px, 90vw" />
+              </div>
+              <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
+              <h3 className={styles.name}>{r.name}</h3>
+              <ul className={styles.items}>
+                {r.items.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
+              <a href={r.item.href} className={styles.proj}>
+                {r.item.name}
+                <span aria-hidden="true" className={styles.arrow}>
+                  →
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className={styles.foot}>
+        <ButtonLink href={all.href} tone="light">
+          {what.all}
+        </ButtonLink>
       </div>
     </section>
   );

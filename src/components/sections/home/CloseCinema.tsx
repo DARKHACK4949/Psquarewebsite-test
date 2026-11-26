@@ -22,12 +22,17 @@ const glass = {
  */
 export function CloseCinema({
   nextStep,
-  fade = false,
+  join,
 }: {
   nextStep: HomeContent["nextStep"];
-  /** Lead in with a slow paper-to-night fade instead of a hard cut (the lights going down). */
-  fade?: boolean;
+  /**
+   * How the close meets the section before it. "fade": a slow paper-to-night
+   * fade (the lights going down). "night": a dark section precedes it, so it
+   * follows on with no gap. Omitted: the usual section gap, then a hard cut.
+   */
+  join?: "fade" | "night";
 }) {
+  const fade = join === "fade";
   const title = nextStep.title.join(" ");
   return (
     <>
@@ -36,7 +41,7 @@ export function CloseCinema({
         data-screen-label="09 Next step"
         data-noband=""
         data-nav-dark=""
-        className={fade ? `${styles.section} ${styles.joined}` : styles.section}
+        className={join ? `${styles.section} ${styles.joined}` : styles.section}
       >
         <div aria-hidden="true" className={styles.film}>
           <LoopVideo

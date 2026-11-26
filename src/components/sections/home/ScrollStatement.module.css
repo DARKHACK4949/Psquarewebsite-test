@@ -1,0 +1,69 @@
+.section {
+  position: relative;
+  height: 200svh;
+  background: var(--night);
+  color: var(--night-text);
+}
+.stick {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 6vw, 88px);
+  padding: 0 var(--gutter);
+  overflow: hidden;
+}
+.line {
+  margin: 0;
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-align: center;
+  text-wrap: balance;
+}
+.word {
+  position: relative;
+  display: inline-block;
+}
+.soft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  filter: blur(14px);
+  pointer-events: none;
+}
+.after {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Phones: a shorter hold. */
+@media (max-width: 899px) {
+  .section {
+    height: 150svh;
+  }
+  .line {
+    font-size: var(--fs-h2);
+    letter-spacing: var(--ls-h2);
+    line-height: 1.05;
+  }
+}
+
+/* Reduced motion: the line simply sits in its own screen, fully resolved. */
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    height: auto;
+  }
+  .stick {
+    position: relative;
+    min-height: 100svh;
+  }
+}

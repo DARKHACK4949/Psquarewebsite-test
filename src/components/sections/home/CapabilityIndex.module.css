@@ -1,233 +1,166 @@
+/*
+ * What we do on night. Wide screens: the film holds still mid-screen on the left
+ * while the capabilities scroll past on the right, each one tall enough to own
+ * the moment it crosses the middle of the screen.
+ */
 .section {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+  padding: 0 var(--gutter) var(--section);
+}
+.grid {
   max-width: var(--container);
   margin: 0 auto;
-  padding: var(--section) var(--gutter) 0;
 }
-.head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 20px var(--hero-gap);
-  align-items: end;
-  margin-bottom: clamp(48px, 5vw, 80px);
+.stage {
+  display: none;
 }
-@media (min-width: 900px) {
-  .head {
-    grid-template-columns: minmax(0, 1fr) var(--aside-w);
-  }
-}
-.titleCol {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.eyebrow {
-  font-size: var(--fs-caption);
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--plum);
-}
-.h2 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--fs-h2);
-  line-height: 1.05;
-  letter-spacing: var(--ls-h2);
-}
-.lead {
-  margin: 0;
-  font-size: var(--fs-lead);
-  line-height: var(--lh-lead);
-  color: var(--body);
-  text-wrap: pretty;
-}
-
-/* The index: hairline-ruled rows, one per capability. */
-.index {
-  position: relative;
-}
-.rows {
+.list {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(64px, 10vw, 112px);
 }
-.row {
-  border-top: 1px solid var(--line);
-  transition: opacity var(--t-color) var(--ease);
+.cap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-.link {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  grid-template-areas:
-    "num name thumb"
-    "num meta thumb";
-  column-gap: clamp(14px, 2vw, 24px);
-  row-gap: 8px;
-  align-items: center;
-  padding: clamp(22px, 2.6vw, 40px) 0;
-  color: var(--ink);
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
+.still {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-bottom: 12px;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  background: var(--video-black);
 }
-.link:focus-visible {
-  outline: 2px solid var(--plum);
-  outline-offset: 4px;
-  border-radius: var(--r-item);
+.still img {
+  object-fit: cover;
 }
 .num {
-  grid-area: num;
-  align-self: start;
-  padding-top: 0.6em;
   font-size: var(--fs-caption);
   font-weight: 600;
   letter-spacing: 0.16em;
-  color: var(--muted);
+  color: var(--night-muted);
   font-variant-numeric: tabular-nums;
 }
 .name {
-  grid-area: name;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(28px, 4.6vw, 80px);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(30px, 3.6vw, 56px);
   line-height: 1;
-  letter-spacing: var(--ls-h2);
-  transition: transform var(--t-move) var(--ease);
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
 }
-.meta {
-  grid-area: meta;
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-.line {
+  gap: 6px;
   font-size: var(--fs-small);
   line-height: var(--lh-body);
-  color: var(--body);
-  text-wrap: pretty;
-  max-width: 44ch;
+  color: var(--night-body);
+}
+.items li::before {
+  content: "·";
+  margin-right: 10px;
+  color: var(--night-muted);
 }
 .proj {
+  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin-top: 8px;
   font-size: var(--fs-small);
   font-weight: 600;
-  color: var(--plum);
+  color: var(--night-accent);
+  text-decoration: none;
+}
+.proj:focus-visible {
+  outline: 2px solid var(--night-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 .arrow {
   display: inline-block;
   transition: transform var(--t-move) var(--ease);
 }
-.thumb {
-  grid-area: thumb;
-  position: relative;
-  width: clamp(88px, 22vw, 132px);
-  aspect-ratio: 16 / 10;
-  border-radius: var(--r-item);
-  overflow: hidden;
-  background: var(--night);
+@media (hover: hover) and (pointer: fine) {
+  .proj:hover .arrow {
+    transform: translateX(4px);
+  }
 }
-.thumb img {
-  object-fit: cover;
+.foot {
+  max-width: var(--container);
+  margin: clamp(64px, 8vw, 120px) auto 0;
+  display: flex;
+  justify-content: flex-start;
 }
 
-/* Wide screens: number, name, then the line and its project on the right. */
-@media (min-width: 900px) {
-  .link {
-    grid-template-columns: clamp(48px, 5vw, 88px) minmax(0, 1fr) var(--aside-w);
-    grid-template-areas: "num name meta";
-    align-items: end;
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(340px, 34vw, 560px);
+    column-gap: var(--hero-gap);
   }
-  .num {
-    align-self: end;
-    padding: 0 0 0.9em;
-  }
-  .thumb {
-    display: none;
-  }
-}
-
-/* The floating clip lives only where it can follow a fine pointer. */
-.preview {
-  display: none;
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .preview {
+  .stage {
     display: block;
-    position: absolute;
+    position: sticky;
     top: 0;
-    left: 0;
-    z-index: 2;
-    pointer-events: none;
-    will-change: transform;
+    height: 100svh;
+    align-self: start;
+    display: flex;
+    align-items: center;
   }
   .frame {
     position: relative;
-    width: clamp(280px, 24vw, 420px);
+    width: 100%;
     aspect-ratio: 16 / 10;
     border-radius: var(--r-media);
     overflow: hidden;
-    background: var(--night);
-    box-shadow: var(--lift-shadow);
-    transform-origin: 0 60%;
-    opacity: 0;
-    transform: translate(40px, -62%) scale(0.86);
-    transition:
-      opacity 0.2s var(--ease),
-      transform 0.3s var(--ease);
+    background: var(--video-black);
   }
-  .frame[data-show] {
-    opacity: 1;
-    transform: translate(40px, -62%) scale(1);
-    transition:
-      opacity var(--t-color) var(--ease),
-      transform var(--t-reveal) var(--ease);
-  }
-  .clip {
+  .film {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transform: scale(1.08);
+    transform: scale(1.06);
     transition:
-      opacity 0.3s var(--ease),
-      transform var(--t-reveal) var(--ease);
+      opacity var(--t-reveal) var(--ease),
+      transform 1.2s var(--ease);
   }
-  .clip[data-on] {
+  .film[data-on] {
     opacity: 1;
     transform: scale(1);
   }
-
-  /* Hovering one row sets the others back, and the row leans in. */
-  .rows[data-dim] .row:not([data-on]) {
-    opacity: 0.3;
+  .list {
+    gap: 0;
+    padding: 30svh 0;
   }
-  .row[data-on] .name {
-    transform: translateX(clamp(8px, 1.2vw, 20px));
+  .cap {
+    min-height: 62svh;
+    justify-content: center;
+    opacity: 0.2;
+    transition: opacity var(--t-reveal) var(--ease);
   }
-  .row[data-on] .arrow {
-    transform: translateX(4px);
+  .cap[data-on] {
+    opacity: 1;
   }
-}
-@media (prefers-reduced-motion: reduce) and (min-width: 900px) {
-  .thumb {
-    display: block;
+  .still {
+    display: none;
   }
-  .link {
-    grid-template-columns: clamp(48px, 5vw, 88px) minmax(0, 1fr) var(--aside-w) auto;
-    grid-template-areas: "num name meta thumb";
-  }
-}
-@media (hover: none) and (min-width: 900px) {
-  .thumb {
-    display: block;
-  }
-  .link {
-    grid-template-columns: clamp(48px, 5vw, 88px) minmax(0, 1fr) var(--aside-w) auto;
-    grid-template-areas: "num name meta thumb";
+  .foot {
+    margin-top: 0;
+    justify-content: flex-end;
   }
 }
