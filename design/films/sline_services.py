@@ -26,15 +26,15 @@ def vblur(c, r):                              # vertical motion smear across a c
     if r < 1: return c
     p = np.pad(c, ((r + 1, r), (0, 0), (0, 0)), mode='edge'); s = np.cumsum(p, axis=0)
     return (s[2 * r + 1:] - s[:-2 * r - 1]) / (2 * r + 1)
-CX, TOP, SC = 1290, 70, 0.64
+CX, TOP, SC = 1300, 75, 0.405              # the whole phone in frame, right of centre
 def shotA(t, scr):
     c = BG.copy(); place(c, device(m1, scr), CX, TOP, SC)
     z = 1 + 0.05 * ease(clamp(t / CB)) + 0.09 * ein((t - (CB - 0.9)) / 0.9)   # accelerates into the cut
-    c = cam(c, z, CX, 560)
+    c = cam(c, z, CX, 540)
     return vblur(c, 14 * ein((t - (CB - 0.25)) / 0.25))
 BX, BY = quadpt(m1, 0.5, 0.585)
 def macro(t, scr):
-    s = SC * (2.7 + 0.12 * (t - C1) / (C2 - C1))
+    s = 0.64 * (2.7 + 0.12 * (t - C1) / (C2 - C1))
     c = BG.copy(); place(c, device(m1, scr), W / 2 + 140 + (m1['w'] / 2 - BX) * s, H / 2 - BY * s + 30, s)
     blur = np.array(Image.fromarray((c * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(9))).astype(np.float32) / 255
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
