@@ -253,17 +253,23 @@ export function WorkFolds({
             style={{ background: themes[it.key] ?? "var(--night)" }}
           >
             <div data-w="media" className={styles.media}>
-              <video
-                muted
-                loop
-                playsInline
-                preload="none"
-                poster={it.video.poster}
-                className={styles.film}
-              >
-                <source src={it.video.webm} type="video/webm" />
-                <source src={it.video.mp4} type="video/mp4" />
-              </video>
+              {it.placeholder ? (
+                <div className={styles.hold}>
+                  <span>Project film</span>
+                </div>
+              ) : (
+                <video
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  poster={it.video.poster}
+                  className={styles.film}
+                >
+                  <source src={it.video.webm} type="video/webm" />
+                  <source src={it.video.mp4} type="video/mp4" />
+                </video>
+              )}
             </div>
             <div className={styles.scrim} />
           </div>
@@ -315,13 +321,23 @@ export function WorkFolds({
               </div>
               <div data-w="meta" className={styles.bottom}>
                 <p className={styles.line}>{it.copy}</p>
-                <ButtonLink href={it.href} tone="light" size="nav" arrow>
-                  Explore
-                </ButtonLink>
+                {it.placeholder ? (
+                  <span className={styles.soon}>Case study coming soon</span>
+                ) : (
+                  <ButtonLink href={it.href} tone="light" size="nav" arrow>
+                    Explore
+                  </ButtonLink>
+                )}
               </div>
             </div>
             <div className={styles.stage}>
-              <LoopVideo src={it.video} className={styles.video} label={`${it.name} in use`} />
+              {it.placeholder ? (
+                <div className={`${styles.video} ${styles.hold}`}>
+                  <span>Project film</span>
+                </div>
+              ) : (
+                <LoopVideo src={it.video} className={styles.video} label={`${it.name} in use`} />
+              )}
             </div>
           </article>
         ))}

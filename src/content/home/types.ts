@@ -8,6 +8,8 @@ export type WorkItem = {
   bg: string;
   ratio: string;
   video: { webm: string; mp4: string; poster: string };
+  /** A slot held for a case study that is not ready: no film, no link. */
+  placeholder?: boolean;
 };
 
 export type Link = { label: string; href: string };

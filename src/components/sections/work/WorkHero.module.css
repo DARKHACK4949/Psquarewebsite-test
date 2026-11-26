@@ -1,0 +1,64 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  background: var(--night);
+  color: var(--night-text);
+  overflow: hidden;
+  isolation: isolate;
+}
+.film {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The bottom and the left sink into the night, under the title. */
+.film::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      var(--night) 0%,
+      color-mix(in srgb, var(--night) 55%, transparent) 32%,
+      transparent 62%
+    ),
+    linear-gradient(to right, color-mix(in srgb, var(--night) 50%, transparent), transparent 55%);
+}
+.inner {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--hero-top) var(--gutter) clamp(40px, 6vw, 88px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px var(--hero-gap);
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(88px, 14vw, 220px);
+  line-height: 0.86;
+  letter-spacing: var(--ls-display);
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
