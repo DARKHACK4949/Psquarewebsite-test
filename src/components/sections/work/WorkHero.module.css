@@ -42,16 +42,25 @@
   gap: 20px var(--hero-gap);
   align-items: end;
 }
+/* Wide screens: the line sits top right, the title spans the full width beneath it. */
 @media (min-width: 900px) {
   .inner {
     grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+  .lead {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .title {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 }
 .title {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(88px, 14vw, 220px);
+  font-size: clamp(64px, 13vw, 220px);
   line-height: 0.86;
   letter-spacing: var(--ls-display);
 }

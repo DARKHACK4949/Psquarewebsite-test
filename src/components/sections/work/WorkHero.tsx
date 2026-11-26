@@ -4,18 +4,19 @@ import type { workHero } from "@/content/work";
 import styles from "./WorkHero.module.css";
 
 /**
- * The Work page opens on the showreel filling the screen, the page's one word
+ * An index page (Work, Capabilities) opens on a film filling the screen, the page's one word
  * set very large at the bottom left and a single line beside it. The film sinks
  * into the night at the bottom so the first project chapter follows on.
  */
-export function WorkHero({ hero }: { hero: typeof workHero }) {
+export function WorkHero({
+  hero,
+  label = "01 Work hero",
+}: {
+  hero: typeof workHero;
+  label?: string;
+}) {
   return (
-    <section
-      data-screen-label="01 Work hero"
-      data-noband=""
-      data-nav-dark=""
-      className={styles.hero}
-    >
+    <section data-screen-label={label} data-noband="" data-nav-dark="" className={styles.hero}>
       <div aria-hidden="true" className={styles.film}>
         <LoopVideo src={hero.film} className={styles.video} eager />
       </div>

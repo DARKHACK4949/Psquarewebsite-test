@@ -74,16 +74,6 @@
 .img {
   object-fit: cover;
 }
-.index {
-  position: absolute;
-  left: 20px;
-  bottom: 14px;
-  font-family: var(--font-display);
-  font-size: clamp(56px, 6vw, 96px);
-  line-height: 1;
-  letter-spacing: var(--ls-display);
-  color: color-mix(in oklab, var(--night-text) 22%, transparent);
-}
 .name {
   margin: 0;
   font-family: var(--font-display);

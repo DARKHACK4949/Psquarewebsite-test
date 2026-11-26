@@ -190,3 +190,45 @@
     gap: 28px;
   }
 }
+
+/* Night: the same accordion on the dark pages, the night running edge to edge. */
+.night .wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+}
+.night {
+  max-width: none;
+  background: var(--night);
+  color: var(--night-text);
+  padding-bottom: var(--section);
+}
+.night .note {
+  color: var(--night-muted);
+}
+.night .note a {
+  color: var(--night-accent);
+  border-bottom-color: var(--night-border);
+}
+.night .note a:hover {
+  border-bottom-color: var(--night-accent);
+}
+.night .list,
+.night .item {
+  border-color: var(--night-line);
+}
+.night .bar {
+  background: var(--night-accent);
+}
+.night .q {
+  color: var(--night-text);
+}
+.night .item[data-on] .q,
+.night .q:hover {
+  color: var(--night-accent);
+}
+.night .num {
+  color: var(--night-muted);
+}
+.night .a p {
+  color: var(--night-body);
+}

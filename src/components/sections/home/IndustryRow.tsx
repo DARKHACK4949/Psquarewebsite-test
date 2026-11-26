@@ -54,13 +54,11 @@ export function IndustryRow({ industries }: { industries: Industries }) {
         onPointerCancel={up}
         aria-label="Industries"
       >
-        {industries.items.map((it, i) => (
+        {industries.items.map((it) => (
           <li key={it.name} className={styles.card} data-reveal="">
             <div className={styles.plate} style={{ background: it.plate }} aria-hidden="true">
-              {it.image ? (
+              {it.image && (
                 <Image src={it.image} alt="" fill sizes="340px" className={styles.img} />
-              ) : (
-                <span className={styles.index}>{String(i + 1).padStart(2, "0")}</span>
               )}
             </div>
             <h3 className={styles.name}>{it.name}</h3>

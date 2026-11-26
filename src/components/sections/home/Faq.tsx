@@ -7,7 +7,14 @@ import { CONTACT_EMAIL } from "@/lib/site";
 import styles from "./Faq.module.css";
 
 /** "Questions, answered." Accordion with one item open at a time. */
-export function Faq({ faq }: { faq: HomeContent["faq"] }) {
+export function Faq({
+  faq,
+  tone = "light",
+}: {
+  faq: HomeContent["faq"];
+  /** "night": the same accordion on the dark pages (capabilities). */
+  tone?: "light" | "night";
+}) {
   const [open, setOpen] = useState(-1);
   const [side, setSide] = useState(false);
   const head = useRef<HTMLDivElement>(null);
@@ -27,7 +34,11 @@ export function Faq({ faq }: { faq: HomeContent["faq"] }) {
   }, []);
 
   return (
-    <section data-screen-label="08 Questions" className={styles.section}>
+    <section
+      data-screen-label="08 Questions"
+      data-nav-dark={tone === "night" || undefined}
+      className={tone === "night" ? `${styles.section} ${styles.night}` : styles.section}
+    >
       <div className={styles.wrap}>
         <div ref={head} className={side ? `${styles.head} ${styles.sticky}` : styles.head}>
           <h2 className={styles.h2} data-split="" aria-label={faq.title}>
