@@ -30,7 +30,7 @@ export function LogoMoment({ logos }: { logos: Logo[] }) {
               width={l.w}
               height={l.h}
               className={styles.img}
-              style={{ height: `calc(${l.size} * 1.6)` }}
+              style={{ height: `calc(${l.size} * 2.3)` }}
             />
           </li>
         ))}

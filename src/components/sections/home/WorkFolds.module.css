@@ -38,7 +38,7 @@
   object-fit: cover;
   display: block;
 }
-/* Keeps the copy readable: the left edge and the bottom sink a little into the dark. */
+/* Keeps the copy readable over bright films too: the left edge and the bottom sink into the dark. */
 .scrim {
   position: absolute;
   inset: 0;
@@ -46,11 +46,12 @@
   background:
     linear-gradient(
       to right,
-      color-mix(in srgb, var(--night) 55%, transparent) 0%,
-      color-mix(in srgb, var(--night) 18%, transparent) 40%,
-      transparent 62%
+      color-mix(in srgb, var(--night) 80%, transparent) 0%,
+      color-mix(in srgb, var(--night) 58%, transparent) 30%,
+      color-mix(in srgb, var(--night) 22%, transparent) 52%,
+      transparent 70%
     ),
-    linear-gradient(to top, color-mix(in srgb, var(--night) 45%, transparent) 0%, transparent 30%);
+    linear-gradient(to top, color-mix(in srgb, var(--night) 62%, transparent) 0%, transparent 36%);
 }
 
 /* Words: a sharp copy over a blurred one; motion crossfades them. */
