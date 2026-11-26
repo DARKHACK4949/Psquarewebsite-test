@@ -44,7 +44,7 @@ export function LandingPreview({ region }: { region: Region }) {
         <CapabilityIndex what={whatWeDo} work={c.work.items} />
         <TrustedBy trusted={c.trusted} />
         <Faq faq={c.faq} />
-        <CloseCinema nextStep={c.nextStep} />
+        <CloseCinema nextStep={c.nextStep} fade />
       </main>
       <SiteFooter region={region} path="/" tone="night" />
       <PageReveal />

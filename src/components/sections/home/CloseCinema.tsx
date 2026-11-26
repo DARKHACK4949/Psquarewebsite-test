@@ -20,36 +20,46 @@ const glass = {
  * The dark close: the glass film assembling the PSQUARE mark behind the last
  * line and the one call to action. The footer follows inside the same dark.
  */
-export function CloseCinema({ nextStep }: { nextStep: HomeContent["nextStep"] }) {
+export function CloseCinema({
+  nextStep,
+  fade = false,
+}: {
+  nextStep: HomeContent["nextStep"];
+  /** Lead in with a slow paper-to-night fade instead of a hard cut (the lights going down). */
+  fade?: boolean;
+}) {
   const title = nextStep.title.join(" ");
   return (
-    <section
-      data-screen-label="09 Next step"
-      data-noband=""
-      data-nav-dark=""
-      className={styles.section}
-    >
-      <div aria-hidden="true" className={styles.film}>
-        <LoopVideo
-          src={glass}
-          phoneQuery="(max-width: 899px) and (orientation: portrait)"
-          className={styles.video}
-        />
-      </div>
-      <div className={styles.inner}>
-        <h2 className={styles.h2} data-split="" aria-label={title}>
-          <Words text={title} />
-        </h2>
-        <p className={styles.lead}>{nextStep.lead}</p>
-        <div className={styles.actions}>
-          <ButtonLink href={nextStep.cta.href} tone="light" data-track="cta_book_demo_click">
-            {nextStep.cta.label}
-          </ButtonLink>
-          <TextLink href={`mailto:${CONTACT_EMAIL}`} arrow={false} className={styles.link}>
-            {CONTACT_EMAIL}
-          </TextLink>
+    <>
+      {fade && <div aria-hidden="true" className={styles.fade} />}
+      <section
+        data-screen-label="09 Next step"
+        data-noband=""
+        data-nav-dark=""
+        className={fade ? `${styles.section} ${styles.joined}` : styles.section}
+      >
+        <div aria-hidden="true" className={styles.film}>
+          <LoopVideo
+            src={glass}
+            phoneQuery="(max-width: 899px) and (orientation: portrait)"
+            className={styles.video}
+          />
         </div>
-      </div>
-    </section>
+        <div className={styles.inner}>
+          <h2 className={styles.h2} data-split="" aria-label={title}>
+            <Words text={title} />
+          </h2>
+          <p className={styles.lead}>{nextStep.lead}</p>
+          <div className={styles.actions}>
+            <ButtonLink href={nextStep.cta.href} tone="light" data-track="cta_book_demo_click">
+              {nextStep.cta.label}
+            </ButtonLink>
+            <TextLink href={`mailto:${CONTACT_EMAIL}`} arrow={false} className={styles.link}>
+              {CONTACT_EMAIL}
+            </TextLink>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

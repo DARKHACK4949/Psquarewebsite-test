@@ -120,3 +120,37 @@
   --plum: var(--night-accent);
   color: var(--night-text);
 }
+
+/*
+ * Preview landing: the light chapter dims into the close instead of cutting to
+ * it, like house lights going down. Eased stops keep the middle from turning grey.
+ */
+.fade {
+  height: clamp(280px, 42vh, 480px);
+  margin-top: var(--section);
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    color-mix(in oklab, var(--night) 8%, var(--paper)) 22%,
+    color-mix(in oklab, var(--night) 28%, var(--paper)) 42%,
+    color-mix(in oklab, var(--night) 58%, var(--paper)) 62%,
+    color-mix(in oklab, var(--night) 86%, var(--paper)) 82%,
+    var(--night) 100%
+  );
+}
+.section.joined {
+  margin-top: 0;
+}
+/* The film's top edge sinks below the night; lift it back so the fade meets it without a seam. */
+.section.joined::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 32%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--night), transparent);
+}
+.section.joined .inner {
+  z-index: 2;
+}
