@@ -5,7 +5,7 @@ import { HeroAurora } from "@/components/sections/home/HeroAurora";
 import { ReelReveal } from "@/components/sections/home/ReelReveal";
 import { DeviceWall } from "@/components/sections/home/DeviceWall";
 import { WorkFolds } from "@/components/sections/home/WorkFolds";
-import { WhatWeDoCards } from "@/components/sections/home/WhatWeDoCards";
+import { CapabilityIndex } from "@/components/sections/home/CapabilityIndex";
 import { TrustedBy } from "@/components/sections/home/TrustedBy";
 import { Faq } from "@/components/sections/home/Faq";
 import { CloseCinema } from "@/components/sections/home/CloseCinema";
@@ -41,7 +41,7 @@ export function LandingPreview({ region }: { region: Region }) {
         <ReelReveal reel={showreel} />
         <DeviceWall wall={studioWall} enter="dark" exit="dark" studio />
         <WorkFolds work={c.work} intro={workIntro} themes={workThemes} />
-        <WhatWeDoCards what={whatWeDo} />
+        <CapabilityIndex what={whatWeDo} work={c.work.items} />
         <TrustedBy trusted={c.trusted} />
         <Faq faq={c.faq} />
         <CloseCinema nextStep={c.nextStep} />

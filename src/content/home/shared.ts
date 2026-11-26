@@ -103,19 +103,19 @@ export const faq: HomeContent["faq"] = {
   title: "Questions, answered.",
   items: [
     {
-      q: "What kind of consultancy does PSQUARE COMPANY offer?",
+      q: "What kind of consultancy do you offer?",
       a: "IT and ERP consultancy. We map how your business runs today, then design and build the software that fits it, from ERP and field service tools to fully custom systems.",
     },
     {
-      q: "How can PSQUARE COMPANY help my business?",
+      q: "How can you help my business?",
       a: "We replace scattered spreadsheets, chats and manual follow-ups with one system your team actually uses. You get clearer status, fewer repeated tasks and decisions based on real data.",
     },
     {
-      q: "Do you work with startups as well?",
+      q: "Do you work with startups?",
       a: "Yes, we work with startups and help them build scalable systems right from the beginning.",
     },
     {
-      q: "Is there a fee for the first consultation?",
+      q: "Is the first consultation free?",
       a: "The first consultation is free. It helps us understand your needs and propose the best solution.",
     },
   ],

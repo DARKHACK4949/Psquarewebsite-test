@@ -1,0 +1,233 @@
+.section {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) 0;
+}
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px var(--hero-gap);
+  align-items: end;
+  margin-bottom: clamp(48px, 5vw, 80px);
+}
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+  }
+}
+.titleCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.eyebrow {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--plum);
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--body);
+  text-wrap: pretty;
+}
+
+/* The index: hairline-ruled rows, one per capability. */
+.index {
+  position: relative;
+}
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+}
+.row {
+  border-top: 1px solid var(--line);
+  transition: opacity var(--t-color) var(--ease);
+}
+.link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "num name thumb"
+    "num meta thumb";
+  column-gap: clamp(14px, 2vw, 24px);
+  row-gap: 8px;
+  align-items: center;
+  padding: clamp(22px, 2.6vw, 40px) 0;
+  color: var(--ink);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.link:focus-visible {
+  outline: 2px solid var(--plum);
+  outline-offset: 4px;
+  border-radius: var(--r-item);
+}
+.num {
+  grid-area: num;
+  align-self: start;
+  padding-top: 0.6em;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.name {
+  grid-area: name;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 4.6vw, 80px);
+  line-height: 1;
+  letter-spacing: var(--ls-h2);
+  transition: transform var(--t-move) var(--ease);
+}
+.meta {
+  grid-area: meta;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.line {
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--body);
+  text-wrap: pretty;
+  max-width: 44ch;
+}
+.proj {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--plum);
+}
+.arrow {
+  display: inline-block;
+  transition: transform var(--t-move) var(--ease);
+}
+.thumb {
+  grid-area: thumb;
+  position: relative;
+  width: clamp(88px, 22vw, 132px);
+  aspect-ratio: 16 / 10;
+  border-radius: var(--r-item);
+  overflow: hidden;
+  background: var(--night);
+}
+.thumb img {
+  object-fit: cover;
+}
+
+/* Wide screens: number, name, then the line and its project on the right. */
+@media (min-width: 900px) {
+  .link {
+    grid-template-columns: clamp(48px, 5vw, 88px) minmax(0, 1fr) var(--aside-w);
+    grid-template-areas: "num name meta";
+    align-items: end;
+  }
+  .num {
+    align-self: end;
+    padding: 0 0 0.9em;
+  }
+  .thumb {
+    display: none;
+  }
+}
+
+/* The floating clip lives only where it can follow a fine pointer. */
+.preview {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .preview {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .frame {
+    position: relative;
+    width: clamp(280px, 24vw, 420px);
+    aspect-ratio: 16 / 10;
+    border-radius: var(--r-media);
+    overflow: hidden;
+    background: var(--night);
+    box-shadow: var(--lift-shadow);
+    transform-origin: 0 60%;
+    opacity: 0;
+    transform: translate(40px, -62%) scale(0.86);
+    transition:
+      opacity 0.2s var(--ease),
+      transform 0.3s var(--ease);
+  }
+  .frame[data-show] {
+    opacity: 1;
+    transform: translate(40px, -62%) scale(1);
+    transition:
+      opacity var(--t-color) var(--ease),
+      transform var(--t-reveal) var(--ease);
+  }
+  .clip {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.08);
+    transition:
+      opacity 0.3s var(--ease),
+      transform var(--t-reveal) var(--ease);
+  }
+  .clip[data-on] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Hovering one row sets the others back, and the row leans in. */
+  .rows[data-dim] .row:not([data-on]) {
+    opacity: 0.3;
+  }
+  .row[data-on] .name {
+    transform: translateX(clamp(8px, 1.2vw, 20px));
+  }
+  .row[data-on] .arrow {
+    transform: translateX(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) and (min-width: 900px) {
+  .thumb {
+    display: block;
+  }
+  .link {
+    grid-template-columns: clamp(48px, 5vw, 88px) minmax(0, 1fr) var(--aside-w) auto;
+    grid-template-areas: "num name meta thumb";
+  }
+}
+@media (hover: none) and (min-width: 900px) {
+  .thumb {
+    display: block;
+  }
+  .link {
+    grid-template-columns: clamp(48px, 5vw, 88px) minmax(0, 1fr) var(--aside-w) auto;
+    grid-template-areas: "num name meta thumb";
+  }
+}

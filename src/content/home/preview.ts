@@ -50,21 +50,32 @@ export const whatWeDo = {
   eyebrow: "What we do",
   title: ["From problem", "to production."],
   lead: "One team takes a product from the first conversation to software running in your business.",
-  cards: [
+  /** Each capability points at the project it powered (a work item key). */
+  capabilities: [
     {
-      title: "Digital Products",
-      line: "We turn complex ideas into digital products people can actually use.",
-      image: "/images/home/capability-hand.webp",
+      name: "ERP & operations",
+      line: "Sites, stock and spend in one system, instead of ten spreadsheets.",
+      work: "suryacon",
     },
     {
-      title: "Digital Experiences",
-      line: "We create cohesive digital experiences that bring brands, people and technology together.",
-      image: "/images/home/capability-hand.webp",
+      name: "Field service",
+      line: "Breakdowns logged, technicians routed, clients kept in the loop.",
+      work: "sline-services",
     },
     {
-      title: "Intelligent Solutions",
-      line: "We use emerging technology to make products smarter, workflows simpler and businesses more capable.",
-      image: "/images/home/capability-hand.webp",
+      name: "Sales & CRM",
+      line: "Every lead and every deal, from the first call to the site.",
+      work: "sline",
+    },
+    {
+      name: "Project management",
+      line: "Projects, deadlines and teams on one board everyone trusts.",
+      work: "arcgrow",
+    },
+    {
+      name: "AI products",
+      line: "Generative tools that turn a sentence into a finished design.",
+      work: "tathasthu",
     },
   ],
 };
