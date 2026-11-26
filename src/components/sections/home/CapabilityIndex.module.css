@@ -1,7 +1,7 @@
 /*
- * What we do on night. Wide screens: the film holds still mid-screen on the left
- * while the capabilities scroll past on the right, each one tall enough to own
- * the moment it crosses the middle of the screen.
+ * What we do on night. Wide screens: the still holds mid-screen on the left
+ * while the disciplines scroll past on the right, each tall enough to own the
+ * moment it crosses the middle of the screen.
  */
 .section {
   position: relative;
@@ -22,20 +22,24 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: clamp(64px, 10vw, 112px);
+  gap: clamp(72px, 12vw, 120px);
 }
 .cap {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 .still {
   position: relative;
-  aspect-ratio: 1 / 1;
-  margin-bottom: 12px;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 14px;
   border-radius: var(--r-media);
   overflow: hidden;
-  background: var(--video-black);
+  background: var(--night-surface);
+}
+.img {
+  object-fit: cover;
+  object-position: 50% 30%;
 }
 .num {
   font-size: var(--fs-caption);
@@ -47,62 +51,47 @@
 .name {
   margin: 0;
   font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: clamp(30px, 3.6vw, 56px);
-  line-height: 1;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  font-size: clamp(34px, 4.2vw, 64px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 .items {
   list-style: none;
-  margin: 0;
+  margin: 6px 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: var(--fs-small);
-  line-height: var(--lh-body);
+  gap: 8px;
+  font-size: var(--fs-body);
+  line-height: 1.4;
   color: var(--night-body);
 }
+.items li {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+/* A small solid triangle marker, as an index tab. */
 .items li::before {
-  content: "·";
-  margin-right: 10px;
-  color: var(--night-muted);
-}
-.proj {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-  font-size: var(--fs-small);
-  font-weight: 600;
-  color: var(--night-accent);
-  text-decoration: none;
-}
-.proj:focus-visible {
-  outline: 2px solid var(--night-accent);
-  outline-offset: 4px;
-  border-radius: 4px;
-}
-.arrow {
-  display: inline-block;
-  transition: transform var(--t-move) var(--ease);
-}
-@media (hover: hover) and (pointer: fine) {
-  .proj:hover .arrow {
-    transform: translateX(4px);
-  }
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 7px;
+  background: var(--night-muted);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transform: translateY(-1px);
 }
 
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(340px, 34vw, 560px);
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
     column-gap: var(--hero-gap);
   }
   .stage {
-    display: block;
     position: sticky;
     top: 0;
     height: 100svh;
@@ -113,20 +102,37 @@
   .frame {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    max-height: 84svh;
+    height: min(84svh, 56vw);
     border-radius: var(--r-media);
     overflow: hidden;
-    background: var(--video-black);
+    background: var(--night-surface);
+  }
+  .shot {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.9s var(--ease);
+  }
+  .shot[data-on] {
+    opacity: 1;
+  }
+  /* The active still pushes in slowly, like a camera settling on it. */
+  .shot .img {
+    transform: scale(1.04);
+    transition: transform 1.2s var(--ease);
+  }
+  .shot[data-on] .img {
+    transform: scale(1.12);
+    transition: transform 12s linear;
   }
   .list {
     gap: 0;
-    padding: 30svh 0;
+    padding: 34svh 0;
   }
   .cap {
-    min-height: 62svh;
+    min-height: 66svh;
     justify-content: center;
-    opacity: 0.2;
+    opacity: 0.18;
     transition: opacity var(--t-reveal) var(--ease);
   }
   .cap[data-on] {
@@ -134,32 +140,5 @@
   }
   .still {
     display: none;
-  }
-}
-
-/* The capability films: square loops of each project's screen wall. */
-.filmStill {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
-  .film {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transform: scale(1.05);
-    transition:
-      opacity var(--t-reveal) var(--ease),
-      transform 1.2s var(--ease);
-  }
-  .film[data-on] {
-    opacity: 1;
-    transform: scale(1);
   }
 }

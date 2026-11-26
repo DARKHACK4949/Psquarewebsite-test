@@ -48,37 +48,77 @@ export const workThemes: Record<string, string> = {
 
 export const whatWeDo = {
   statement: "From problem to production.",
-  all: "All capabilities",
-  /** Each capability is shown through the project it powered (a work item key). */
+  /** Three disciplines, each shown through one real screen until product footage lands. */
   capabilities: [
     {
-      name: "ERP & operations",
-      items: ["Sites and stock", "Purchase and vendors", "Approvals and spend"],
-      work: "suryacon",
+      name: "Strategy & Consulting",
+      items: ["Process mapping", "ERP and IT consultancy", "Product strategy", "AI strategy"],
+      image: "/images/home/capabilities/strategy.webp",
+      w: 1800,
+      h: 1012,
     },
     {
-      name: "Field service",
-      items: ["Breakdown and SOS logging", "Technician routing", "Live client updates"],
-      work: "sline-services",
+      name: "Design",
+      items: ["Experience design", "Design systems", "Interface and interaction", "Prototyping"],
+      image: "/images/home/capabilities/design.webp",
+      w: 1800,
+      h: 1125,
     },
     {
-      name: "Sales & CRM",
-      items: ["Leads and pipeline", "Quotes and orders", "Team performance"],
-      work: "sline",
-    },
-    {
-      name: "Project management",
-      items: ["Boards and deadlines", "Calendars and site visits", "Team chat"],
-      work: "arcgrow",
-    },
-    {
-      name: "AI products",
-      items: ["Prompt to design", "Generative renders", "Style variations"],
-      work: "tathasthu",
+      name: "Engineering",
+      items: [
+        "Web and mobile apps",
+        "ERP and custom platforms",
+        "AI and LLM integration",
+        "Integrations and data",
+      ],
+      image: "/images/home/capabilities/engineering.webp",
+      w: 1800,
+      h: 1125,
     },
   ],
+  industries: {
+    statement: ["Built around how each industry", "actually runs."],
+    /** `plate` is a theme token; `image` takes an object render when one is ready. */
+    items: [
+      {
+        name: "Elevator services",
+        line: "From the breakdown call to the signed service report.",
+        plate: "var(--work-sline-services)",
+      },
+      {
+        name: "Construction",
+        line: "Sites, stock and spend in one picture.",
+        plate: "var(--work-suryacon)",
+      },
+      {
+        name: "Architecture",
+        line: "Many drawings, one version of the truth.",
+        plate: "var(--work-arcgrow)",
+      },
+      {
+        name: "Interior design",
+        line: "Describe a room and see it designed.",
+        plate: "var(--work-tathasthu)",
+      },
+      {
+        name: "Sales teams",
+        line: "Every lead and every deal, straight to site.",
+        plate: "var(--work-sline)",
+      },
+      {
+        name: "Automobile service",
+        line: "Car in the bay, status where everyone can see it.",
+        plate: "var(--night-surface)",
+      },
+      {
+        name: "Gym & lifestyle",
+        line: "Members who join, and stay.",
+        plate: "var(--night-surface)",
+      },
+    ] as { name: string; line: string; plate: string; image?: string }[],
+  },
 };
-
 
 /**
  * A studio-wall film: full cut, lighter phone cut and poster. /media is cached

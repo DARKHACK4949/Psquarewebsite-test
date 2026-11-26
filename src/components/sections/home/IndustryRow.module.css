@@ -1,0 +1,101 @@
+.section {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+  padding: 0 0 var(--section);
+}
+.statement {
+  max-width: var(--container);
+  margin: 0 auto clamp(40px, 5vw, 72px);
+  padding: 0 var(--gutter);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-statement);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+  text-wrap: balance;
+}
+.statement span {
+  display: block;
+}
+.dim {
+  color: var(--night-muted);
+}
+
+/* The row starts on the page's left edge and runs off the right one. */
+.row {
+  list-style: none;
+  margin: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: clamp(240px, 21vw, 340px);
+  gap: clamp(14px, 1.6vw, 24px);
+  padding: 0 max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding: 0 max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+}
+.row::-webkit-scrollbar {
+  display: none;
+}
+.row:active {
+  cursor: grabbing;
+}
+.card {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.plate {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 8px;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* A soft light from the top, so a bare plate reads as a lit surface. */
+.plate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 80% at 30% 0%,
+    color-mix(in oklab, var(--night-text) 14%, transparent),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+.img {
+  object-fit: cover;
+}
+.index {
+  position: absolute;
+  left: 20px;
+  bottom: 14px;
+  font-family: var(--font-display);
+  font-size: clamp(56px, 6vw, 96px);
+  line-height: 1;
+  letter-spacing: var(--ls-display);
+  color: color-mix(in oklab, var(--night-text) 22%, transparent);
+}
+.name {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(16px, 1.2vw, 19px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.line {
+  margin: 0;
+  max-width: 30ch;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--night-body);
+}

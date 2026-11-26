@@ -6,6 +6,7 @@ import { ReelReveal } from "@/components/sections/home/ReelReveal";
 import { DeviceWall } from "@/components/sections/home/DeviceWall";
 import { WorkFolds } from "@/components/sections/home/WorkFolds";
 import { CapabilityIndex } from "@/components/sections/home/CapabilityIndex";
+import { IndustryRow } from "@/components/sections/home/IndustryRow";
 import { ScrollStatement } from "@/components/sections/home/ScrollStatement";
 import { LogoMoment } from "@/components/sections/home/LogoMoment";
 import { CloseCinema } from "@/components/sections/home/CloseCinema";
@@ -42,7 +43,8 @@ export function LandingPreview({ region }: { region: Region }) {
         <DeviceWall wall={studioWall} enter="dark" exit="dark" studio />
         <WorkFolds work={c.work} intro={workIntro} themes={workThemes} exit="dark" />
         <ScrollStatement text={whatWeDo.statement} label="05a What we do" />
-        <CapabilityIndex what={whatWeDo} work={c.work.items} />
+        <CapabilityIndex what={whatWeDo} />
+        <IndustryRow industries={whatWeDo.industries} />
         <ScrollStatement text={c.trusted.title} label="06 Trusted by">
           <LogoMoment logos={c.trusted.logos} />
         </ScrollStatement>
