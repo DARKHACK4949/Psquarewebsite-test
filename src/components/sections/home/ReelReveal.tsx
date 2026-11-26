@@ -54,25 +54,32 @@ export function ReelReveal({ reel }: { reel: typeof ShowreelContent }) {
     () => {
       const mm = gsap.matchMedia();
       mm.add(GROW, () => {
-        // The section holds the reel on screen (CSS sticky) while the scroll
-        // passes through it: the reel starts as a small card in the middle of
-        // the dark and opens out to fill the screen edge to edge, the footage
-        // inside settling a touch slower so the frame reads as a window opening.
+        // One continuous move, no hold: as the page scrolls on from the hero,
+        // the reel rises from below and keeps growing until it sits full width
+        // in the middle of the screen. The footage inside settles a touch
+        // slower, so the frame reads as a window opening.
         const el = card.current!;
         const film = video.current!;
         gsap
           .timeline({
-            defaults: { ease: "power2.inOut" },
+            defaults: { ease: "none" },
             scrollTrigger: {
               trigger: root.current,
-              start: "top top",
-              end: "bottom bottom",
+              start: "top bottom",
+              end: "center center",
               scrub: true,
+              invalidateOnRefresh: true,
             },
           })
-          .fromTo(el, { scale: 0.46 }, { scale: 1, duration: 1 }, 0)
+          .fromTo(el, { scale: 0.5 }, { scale: 1, duration: 1, ease: "power1.inOut" }, 0)
+          .fromTo(
+            el,
+            { y: () => window.innerHeight * 0.22 },
+            { y: 0, duration: 1, ease: "power2.out" },
+            0,
+          )
           .fromTo(film, { scale: 1.18 }, { scale: 1, duration: 1 }, 0)
-          .to({}, { duration: 0.25 });
+          .fromTo(el, { opacity: 0.4 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0);
       });
       // Phones: a gentle rise and fade as the card comes into view.
       mm.add("(max-width: 899px) and (prefers-reduced-motion: no-preference)", () => {
@@ -106,32 +113,30 @@ export function ReelReveal({ reel }: { reel: typeof ShowreelContent }) {
       aria-label={reel.eyebrow}
       className={styles.root}
     >
-      <div className={styles.stick}>
-        <div ref={card} className={styles.card}>
-          <video
-            ref={video}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster={reel.video.poster}
-            aria-label={reel.label}
-            className={styles.video}
-          >
-            <source src={reel.video.phone.webm} type="video/webm" media={PHONE} />
-            <source src={reel.video.phone.mp4} type="video/mp4" media={PHONE} />
-            <source src={reel.video.webm} type="video/webm" />
-            <source src={reel.video.mp4} type="video/mp4" />
-          </video>
+      <div ref={card} className={styles.card}>
+        <video
+          ref={video}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={reel.video.poster}
+          aria-label={reel.label}
+          className={styles.video}
+        >
+          <source src={reel.video.phone.webm} type="video/webm" media={PHONE} />
+          <source src={reel.video.phone.mp4} type="video/mp4" media={PHONE} />
+          <source src={reel.video.webm} type="video/webm" />
+          <source src={reel.video.mp4} type="video/mp4" />
+        </video>
 
-          {/* The whole card opens the player; the corner button is its visible, focusable handle. */}
-          <div aria-hidden="true" className={styles.hit} onClick={open} />
-          <div aria-hidden="true" className={styles.shade} />
-          <button type="button" onClick={open} className={styles.play}>
-            <span aria-hidden="true" className={styles.icon} />
-            {reel.play}
-          </button>
-        </div>
+        {/* The whole card opens the player; the corner button is its visible, focusable handle. */}
+        <div aria-hidden="true" className={styles.hit} onClick={open} />
+        <div aria-hidden="true" className={styles.shade} />
+        <button type="button" onClick={open} className={styles.play}>
+          <span aria-hidden="true" className={styles.icon} />
+          {reel.play}
+        </button>
       </div>
 
       {box && <Showreel box={box} src={reel.sound} poster={reel.video.poster} onClose={close} />}

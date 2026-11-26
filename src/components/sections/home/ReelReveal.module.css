@@ -118,27 +118,16 @@
 }
 
 /*
- * Wide screens with motion: the reel opens out under a held screen. The section
- * is tall, the stage sticks for its length, and the card is laid out at full
- * bleed (scaled down at the start by the scroll timeline).
+ * Wide screens with motion: no hold. The card is laid out at full bleed and
+ * the scroll grows it into that size as it rises from the hero (it starts at
+ * about half size, lower down, and lands full width as it reaches the middle).
  */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .root {
-    height: 260svh;
-    padding: 0;
-  }
-  .stick {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
+    padding: var(--fold) 0;
   }
   .card {
     width: 100vw;
-    height: 100svh;
-    aspect-ratio: auto;
-    border-radius: var(--r-card);
+    max-height: 100svh;
   }
 }
