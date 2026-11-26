@@ -52,14 +52,48 @@ export const whatWeDo = {
   capabilities: [
     {
       name: "Strategy & Consulting",
-      items: ["Process mapping", "ERP and IT consultancy", "Product strategy", "AI strategy"],
+      items: [
+        {
+          t: "Process mapping",
+          d: "We sit with your team and map how work actually moves today, before anything is built.",
+        },
+        {
+          t: "ERP and IT consultancy",
+          d: "Which systems fit, what to replace, what to keep, and in what order.",
+        },
+        {
+          t: "Product strategy",
+          d: "What to build first, for whom, and how you will know it is working.",
+        },
+        {
+          t: "AI strategy",
+          d: "Where AI saves real hours in your operations, and where it does not.",
+        },
+      ],
       image: "/images/home/capabilities/strategy.webp",
       w: 1800,
       h: 1012,
     },
     {
       name: "Design",
-      items: ["Experience design", "Design systems", "Interface and interaction", "Prototyping"],
+      items: [
+        {
+          t: "Experience design",
+          d: "Flows shaped around the people who use them every day, on site and in the office.",
+        },
+        {
+          t: "Design systems",
+          d: "One set of components and rules, so every screen feels part of the same product.",
+        },
+        {
+          t: "Interface and interaction",
+          d: "Clear screens and small, honest details that make daily work faster.",
+        },
+        {
+          t: "Prototyping",
+          d: "Clickable versions your team can try before a line of production code.",
+        },
+      ],
       image: "/images/home/capabilities/design.webp",
       w: 1800,
       h: 1125,
@@ -67,10 +101,22 @@ export const whatWeDo = {
     {
       name: "Engineering",
       items: [
-        "Web and mobile apps",
-        "ERP and custom platforms",
-        "AI and LLM integration",
-        "Integrations and data",
+        {
+          t: "Web and mobile apps",
+          d: "Fast, dependable apps for the office, the field and your customers.",
+        },
+        {
+          t: "ERP and custom platforms",
+          d: "Systems built around your processes, not the other way round.",
+        },
+        {
+          t: "AI and LLM integration",
+          d: "Assistants and automation wired into the tools your team already uses.",
+        },
+        {
+          t: "Integrations and data",
+          d: "Your systems talking to each other, with data you can trust.",
+        },
       ],
       image: "/images/home/capabilities/engineering.webp",
       w: 1800,

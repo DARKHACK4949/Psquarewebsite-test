@@ -15,6 +15,8 @@ import styles from "./CapabilityIndex.module.css";
 export function CapabilityIndex({ what }: { what: typeof whatWeDo }) {
   const caps = what.capabilities;
   const [active, setActive] = useState(0);
+  // One point open at a time, keyed "capability-point".
+  const [open, setOpen] = useState<string | null>(null);
   const list = useRef<HTMLOListElement>(null);
 
   // The discipline crossing the middle of the viewport is the active one.
@@ -72,9 +74,29 @@ export function CapabilityIndex({ what }: { what: typeof whatWeDo }) {
               <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
               <h3 className={styles.name}>{c.name}</h3>
               <ul className={styles.items}>
-                {c.items.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
+                {c.items.map((it, j) => {
+                  const key = `${i}-${j}`;
+                  const on = open === key;
+                  return (
+                    <li key={it.t} className={styles.item} data-open={on || undefined}>
+                      <button
+                        type="button"
+                        className={styles.toggle}
+                        aria-expanded={on}
+                        aria-controls={`cap-${key}`}
+                        onClick={() => setOpen(on ? null : key)}
+                      >
+                        <span aria-hidden="true" className={styles.marker} />
+                        {it.t}
+                      </button>
+                      <div id={`cap-${key}`} role="region" className={styles.more} inert={!on}>
+                        <div>
+                          <p>{it.d}</p>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </li>
           ))}

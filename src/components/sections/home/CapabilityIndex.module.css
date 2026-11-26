@@ -69,20 +69,88 @@
   line-height: 1.4;
   color: var(--night-body);
 }
-.items li {
+.item {
+  display: flex;
+  flex-direction: column;
+}
+.toggle {
   display: flex;
   align-items: baseline;
   gap: 12px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--t-color) var(--ease);
 }
-/* A small solid triangle marker, as an index tab. */
-.items li::before {
-  content: "";
+.toggle:focus-visible {
+  outline: 2px solid var(--night-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.item[data-open] .toggle {
+  color: var(--night-text);
+  font-weight: 600;
+}
+@media (hover: hover) and (pointer: fine) {
+  .toggle:hover {
+    color: var(--night-text);
+  }
+}
+/* A small solid triangle that turns down as its point opens. */
+.marker {
   flex: none;
   width: 6px;
   height: 7px;
   background: var(--night-muted);
   clip-path: polygon(0 0, 100% 50%, 0 100%);
   transform: translateY(-1px);
+  transition:
+    transform var(--t-move) var(--ease),
+    background-color var(--t-color) var(--ease);
+}
+.item[data-open] .marker {
+  transform: translateY(-1px) rotate(90deg);
+  background: var(--night-accent);
+}
+.more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.item[data-open] .more {
+  grid-template-rows: 1fr;
+}
+.more > div {
+  overflow: hidden;
+}
+.more p {
+  margin: 4px 0 12px 2px;
+  padding: 2px 0 2px 16px;
+  border-left: 1px solid var(--night-border);
+  max-width: 44ch;
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--night-body);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.4s var(--ease);
+}
+.item[data-open] .more p {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .more,
+  .more p,
+  .marker {
+    transition: none;
+  }
 }
 
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
