@@ -138,7 +138,7 @@ type Project = Omit<WorkItem, "href"> & { anchor: string };
 
 const project = (r: Routes, { anchor, ...p }: Project): WorkItem => ({
   ...p,
-  href: `${r.caseStudy}#${anchor}`,
+  href: `${r.work}/${anchor}`,
 });
 
 const projects = {

@@ -1,0 +1,449 @@
+/*
+ * A case study, set in the project's own colour (the page background comes
+ * from the project's theme token). Every module sits on the same container and
+ * gutter; type comes only from the system's tokens.
+ */
+.page {
+  color: var(--night-text);
+}
+.held {
+  opacity: 0.5;
+}
+.num {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--night-muted);
+  font-variant-numeric: tabular-nums;
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.05;
+  letter-spacing: var(--ls-h2);
+  text-wrap: balance;
+}
+.h3 {
+  margin: 0 0 clamp(24px, 3vw, 40px);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-title);
+}
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Screens: desktop views as a rounded plate, phone views slim and tall. */
+.screen {
+  border-radius: var(--r-media);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--night) 80%, transparent);
+}
+.phone {
+  width: min(100%, 360px);
+  margin: 0 auto;
+  border-radius: 36px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--night) 70%, transparent),
+    0 40px 80px -40px color-mix(in srgb, var(--night) 80%, transparent);
+}
+
+/* Hero: the film fills the screen, the name very large at the bottom left. */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+}
+.heroFilm {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.heroVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heroFilm::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, color-mix(in srgb, var(--night) 70%, transparent) 0%, transparent 55%),
+    linear-gradient(to right, color-mix(in srgb, var(--night) 45%, transparent), transparent 55%);
+}
+.heroInner {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--hero-top) var(--gutter) clamp(40px, 6vw, 88px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.crumb {
+  align-self: flex-start;
+  font-size: var(--fs-small);
+  color: var(--night-body);
+  text-decoration: none;
+  transition: color var(--t-color) var(--ease);
+}
+.crumb:hover {
+  color: var(--night-text);
+}
+.heroTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(64px, 11vw, 180px);
+  line-height: 0.9;
+  letter-spacing: var(--ls-display);
+}
+
+/* What we did: the statement, the facts beside it. */
+.intro {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) clamp(56px, 7vw, 104px);
+  display: grid;
+  gap: 40px var(--hero-gap);
+}
+@media (min-width: 900px) {
+  .intro {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+    align-items: end;
+  }
+}
+.statement {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-size: var(--fs-statement);
+  line-height: 1.08;
+  letter-spacing: var(--ls-h2);
+  text-wrap: balance;
+}
+.facts {
+  margin: 0;
+  display: grid;
+  gap: 18px;
+}
+.facts div {
+  display: grid;
+  gap: 4px;
+  padding-top: 14px;
+  border-top: 1px solid var(--night-line);
+}
+.facts dt {
+  font-size: var(--fs-caption);
+  color: var(--night-muted);
+}
+.facts dd {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--night-text);
+}
+
+.wide {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* The story: heading on the left, the words on the right. */
+.overview {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+  display: grid;
+  gap: 28px var(--hero-gap);
+}
+@media (min-width: 900px) {
+  .overview {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+.body {
+  display: grid;
+  gap: 18px;
+  max-width: 56ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+}
+.body p {
+  margin: 0;
+}
+
+/* Two views: a narrow one beside a wide one, offset so they never read as a grid. */
+.pair {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  gap: clamp(20px, 3vw, 40px);
+}
+.pair figure {
+  margin: 0;
+}
+@media (min-width: 900px) {
+  .pair {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 8fr);
+    align-items: start;
+  }
+  .pair .pairLarge {
+    margin-top: clamp(80px, 10vw, 160px);
+  }
+}
+
+/* Objectives: a numbered list, because it is a sequence of aims. */
+.objectives {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) 0;
+}
+.oList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.oList li {
+  display: grid;
+  grid-template-columns: clamp(48px, 8vw, 120px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding: clamp(20px, 2.4vw, 32px) 0;
+  border-top: 1px solid var(--night-line);
+}
+.oList p {
+  margin: 0;
+  max-width: 34ch;
+  font-family: var(--font-display);
+  font-size: var(--fs-item);
+  line-height: 1.25;
+  letter-spacing: var(--ls-title);
+}
+
+/* Features held on scroll. */
+.features {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) 0;
+}
+.fStage {
+  display: none;
+}
+.fList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(64px, 10vw, 112px);
+}
+.fItem {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.fStill {
+  margin-bottom: 10px;
+}
+.fTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-title);
+}
+.fBody {
+  margin: 0;
+  max-width: 40ch;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--night-body);
+}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .features {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    column-gap: var(--hero-gap);
+  }
+  .fStage {
+    display: flex;
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    align-self: start;
+    align-items: center;
+  }
+  .fFrame {
+    position: relative;
+    width: 100%;
+    height: 78svh;
+  }
+  .fShot {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transform: scale(0.97);
+    transition:
+      opacity 0.8s var(--ease),
+      transform 0.8s var(--ease);
+  }
+  .fShot[data-on] {
+    opacity: 1;
+    transform: none;
+  }
+  .fShot .screen {
+    max-height: 78svh;
+  }
+  .fShot .phone {
+    width: auto;
+    height: 74svh;
+    aspect-ratio: 900 / 1951;
+  }
+  .fShot .phone .img {
+    height: 100%;
+    object-fit: cover;
+  }
+  .fList {
+    gap: 0;
+    padding: 30svh 0;
+  }
+  .fItem {
+    min-height: 60svh;
+    justify-content: center;
+    opacity: 0.2;
+    transition: opacity var(--t-reveal) var(--ease);
+  }
+  .fItem[data-on] {
+    opacity: 1;
+  }
+  .fStill {
+    display: none;
+  }
+}
+
+/* The client's words. */
+.quote {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+}
+.quote blockquote {
+  margin: 0;
+}
+.quote p {
+  margin: 0 0 20px;
+  max-width: 24ch;
+  text-wrap: balance;
+  font-family: var(--font-display);
+  font-size: var(--fs-statement);
+  line-height: 1.1;
+  letter-spacing: var(--ls-h2);
+}
+.quote p::before {
+  content: "\201C";
+}
+.quote p::after {
+  content: "\201D";
+}
+.quote footer {
+  font-size: var(--fs-lead);
+  color: var(--night-muted);
+}
+
+/* Results: three measured outcomes. */
+.results {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--section);
+}
+.rList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(12px, 1.6vw, 20px);
+}
+@media (min-width: 900px) {
+  .rList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.rList li {
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(240px, 24vw, 340px);
+  padding: clamp(22px, 2.4vw, 32px);
+  border-radius: var(--r-card);
+  background: color-mix(in oklab, var(--night-text) 7%, transparent);
+}
+.rValue {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  line-height: 1;
+  letter-spacing: var(--ls-display);
+}
+.rLabel {
+  margin-top: auto;
+  padding-top: 32px;
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+.rList p {
+  margin: 8px 0 0;
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--night-body);
+}
+
+/* The next project, as one large link. */
+.next {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--section);
+}
+.nextLink {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: clamp(28px, 3vw, 40px);
+  border-top: 1px solid var(--night-line);
+  color: var(--night-text);
+  text-decoration: none;
+}
+.nextLabel {
+  font-size: var(--fs-small);
+  color: var(--night-muted);
+}
+.nextName {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  transition: transform var(--t-move) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .nextLink:hover .nextName {
+    transform: translateX(clamp(8px, 1vw, 16px));
+  }
+}
+.nextLink:focus-visible {
+  outline: 2px solid var(--night-accent);
+  outline-offset: 6px;
+  border-radius: var(--r-item);
+}
