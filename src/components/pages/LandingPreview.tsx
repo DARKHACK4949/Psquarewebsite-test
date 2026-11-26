@@ -42,7 +42,7 @@ export function LandingPreview({ region }: { region: Region }) {
         <DeviceWall wall={studioWall} enter="dark" exit="dark" studio />
         <WorkFolds work={c.work} intro={workIntro} themes={workThemes} exit="dark" />
         <ScrollStatement text={whatWeDo.statement} label="05a What we do" />
-        <CapabilityIndex what={whatWeDo} work={c.work.items} all={c.what.all} />
+        <CapabilityIndex what={whatWeDo} work={c.work.items} />
         <ScrollStatement text={c.trusted.title} label="06 Trusted by">
           <LogoMoment logos={c.trusted.logos} />
         </ScrollStatement>

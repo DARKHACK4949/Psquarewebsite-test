@@ -116,3 +116,29 @@
     gap: 8px;
   }
 }
+
+/*
+ * Wide screens with motion: the reel opens out under a held screen. The section
+ * is tall, the stage sticks for its length, and the card is laid out at full
+ * bleed (scaled down at the start by the scroll timeline).
+ */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .root {
+    height: 260svh;
+    padding: 0;
+  }
+  .stick {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .card {
+    width: 100vw;
+    height: 100svh;
+    aspect-ratio: auto;
+    border-radius: var(--r-card);
+  }
+}

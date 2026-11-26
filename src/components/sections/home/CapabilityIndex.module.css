@@ -31,14 +31,11 @@
 }
 .still {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 1 / 1;
   margin-bottom: 12px;
   border-radius: var(--r-media);
   overflow: hidden;
   background: var(--video-black);
-}
-.still img {
-  object-fit: cover;
 }
 .num {
   font-size: var(--fs-caption);
@@ -97,12 +94,6 @@
     transform: translateX(4px);
   }
 }
-.foot {
-  max-width: var(--container);
-  margin: clamp(64px, 8vw, 120px) auto 0;
-  display: flex;
-  justify-content: flex-start;
-}
 
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .grid {
@@ -122,26 +113,11 @@
   .frame {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 1 / 1;
+    max-height: 84svh;
     border-radius: var(--r-media);
     overflow: hidden;
     background: var(--video-black);
-  }
-  .film {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transform: scale(1.06);
-    transition:
-      opacity var(--t-reveal) var(--ease),
-      transform 1.2s var(--ease);
-  }
-  .film[data-on] {
-    opacity: 1;
-    transform: scale(1);
   }
   .list {
     gap: 0;
@@ -159,8 +135,31 @@
   .still {
     display: none;
   }
-  .foot {
-    margin-top: 0;
-    justify-content: flex-end;
+}
+
+/* The capability films: square loops of each project's screen wall. */
+.filmStill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .film {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.05);
+    transition:
+      opacity var(--t-reveal) var(--ease),
+      transform 1.2s var(--ease);
+  }
+  .film[data-on] {
+    opacity: 1;
+    transform: scale(1);
   }
 }
