@@ -12,8 +12,8 @@ const PAN = "(min-width: 900px) and (prefers-reduced-motion: no-preference)";
 
 /**
  * The journey, 2022 to 2026. On wide screens the chapter pins and the years
- * travel sideways with the scroll: each year a huge numeral, a photo from
- * that time and a short line. A rule along the bottom fills as you go.
+ * travel sideways with the scroll: each year a tall photo, and beside it the
+ * year set large with a short line. A rule along the bottom fills as you go.
  * Phones and reduced motion read it as a simple vertical list.
  */
 export function JourneyPan() {
@@ -125,29 +125,31 @@ export function JourneyPan() {
             const photo = journeyPhotos[i];
             return (
               <li key={m.year} data-j="year" className={styles.year}>
-                <p data-j="rise" aria-hidden="true" className={styles.numeral}>
-                  {m.year}
-                </p>
                 <div className={styles.frame}>
                   <div data-j="img" className={styles.imgWrap}>
                     <Image
                       src={photo.src}
                       alt={photo.alt}
                       fill
-                      sizes="(min-width: 900px) 40vw, 100vw"
+                      sizes="(min-width: 900px) 30vw, 90vw"
                       className={styles.img}
                       style={{ objectPosition: photo.pos }}
                     />
                   </div>
                 </div>
                 <div className={styles.text}>
-                  <h3 data-j="rise" className={styles.h3}>
-                    <span className={styles.sr}>{m.year}: </span>
-                    {m.title}
-                  </h3>
-                  <p data-j="rise" className={styles.copy}>
-                    {m.copy}
+                  <p data-j="rise" aria-hidden="true" className={styles.numeral}>
+                    {m.year}
                   </p>
+                  <div className={styles.words}>
+                    <h3 data-j="rise" className={styles.h3}>
+                      <span className={styles.sr}>{m.year}: </span>
+                      {m.title}
+                    </h3>
+                    <p data-j="rise" className={styles.copy}>
+                      {m.copy}
+                    </p>
+                  </div>
                 </div>
               </li>
             );

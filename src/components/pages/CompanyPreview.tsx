@@ -1,7 +1,7 @@
 import { SiteNav } from "@/components/layout/SiteNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { PageReveal } from "@/components/providers/PageReveal";
-import { Culture } from "@/components/sections/about/Culture";
+import { CultureFold } from "@/components/sections/company/CultureFold";
 import { CompanyHero } from "@/components/sections/company/CompanyHero";
 import { CountStage } from "@/components/sections/company/CountStage";
 import { JourneyPan } from "@/components/sections/company/JourneyPan";
@@ -9,7 +9,6 @@ import { MindsetOrbit } from "@/components/sections/company/MindsetOrbit";
 import { Founders } from "@/components/sections/company/Founders";
 import { Leaders } from "@/components/sections/company/Leaders";
 import { CareersClose } from "@/components/sections/company/CareersClose";
-import culture from "@/components/sections/company/CultureNight.module.css";
 import { routesFor } from "@/lib/site";
 import type { Region } from "@/lib/region";
 
@@ -32,9 +31,7 @@ export function CompanyPreview({ region }: { region: Region }) {
         <MindsetOrbit />
         <Founders />
         <Leaders />
-        <div data-nav-dark="" data-noband="" className={culture.wrap}>
-          <Culture />
-        </div>
+        <CultureFold />
         <CareersClose href={routesFor(region).careers} />
       </main>
       <SiteFooter region={region} path="/about" tone="night" />

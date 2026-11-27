@@ -68,105 +68,169 @@
   color: var(--night-body);
 }
 
-/* The orbit: a square; every ring is centred in it and sized from it. */
-.orbit {
+/*
+ * The scene: a square. Each layer fills it and is moved up or down as a
+ * whole (2D); inside, each disc is a plane tilted back in its own perspective.
+ */
+.scene {
   position: relative;
   width: 100%;
-  max-width: 640px;
+  max-width: 620px;
   aspect-ratio: 1;
   margin: 0 auto;
 }
-.ring {
+.layer {
   position: absolute;
   inset: 0;
-  margin: auto;
+  display: grid;
+  place-items: center;
+  perspective: 1600px;
+}
+.lVision {
+  z-index: 1;
+}
+.lMission {
+  z-index: 2;
+}
+.lCore {
+  z-index: 3;
+}
+.plane {
+  position: relative;
+  aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid var(--night-border);
-  container-type: size;
+  transform: rotateX(64deg);
+  transform-style: preserve-3d;
 }
-.r3 {
+
+/* The vision disc: the widest, nearly clear glass with a ticked rim. */
+.vision {
   width: 100%;
-  height: 100%;
-  border-color: var(--night-line);
+  background: radial-gradient(
+    circle,
+    color-mix(in oklch, var(--aurora-b) 14%, transparent) 0%,
+    color-mix(in oklch, var(--aurora-b) 6%, transparent) 55%,
+    transparent 70%
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--night-text) 26%, transparent),
+    inset 0 0 60px color-mix(in oklch, var(--aurora-a) 16%, transparent);
 }
-.r2 {
-  width: 64%;
-  height: 64%;
-}
-.ringLabel {
+.vision::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 2px 12px;
-  border-radius: var(--r-pill);
-  background: var(--night);
-  font-size: var(--fs-caption);
-  color: var(--night-muted);
-  white-space: nowrap;
+  inset: 3%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    color-mix(in srgb, var(--night-text) 42%, transparent) 0deg 0.35deg,
+    transparent 0.35deg 4deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 66.5%, #000 67%);
+  mask: radial-gradient(circle, transparent 66.5%, #000 67%);
 }
+/* Light catching the far edge of each disc. */
+.vision::after,
+.mission::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from -40deg,
+    color-mix(in srgb, var(--night-text) 55%, transparent),
+    transparent 14%,
+    transparent 86%,
+    color-mix(in srgb, var(--night-text) 55%, transparent)
+  );
+  -webkit-mask: radial-gradient(circle, transparent 69%, #000 70%);
+  mask: radial-gradient(circle, transparent 69%, #000 70%);
+  opacity: 0.6;
+}
+
+/* The mission disc: thicker plum glass, lit from above by the sphere. */
+.mission {
+  width: 64%;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      color-mix(in oklch, var(--aurora-c) 42%, transparent) 0%,
+      color-mix(in oklch, var(--aurora-a) 22%, transparent) 34%,
+      color-mix(in oklch, var(--plum) 30%, transparent) 62%,
+      color-mix(in oklch, var(--plum) 12%, transparent) 71%
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--night-text) 34%, transparent),
+    inset 0 0 40px color-mix(in oklch, var(--aurora-c) 26%, transparent),
+    0 0 80px color-mix(in oklch, var(--aurora-a) 26%, transparent);
+}
+.mission::after {
+  opacity: 0.9;
+}
+
 .spin {
   position: absolute;
   inset: 0;
+  border-radius: 50%;
+  transform-style: preserve-3d;
 }
-/* A node sits on its ring at angle --a (0 is the top), and stays upright. */
+/* A point on the rim at angle --a (0 is the far side). */
 .node {
   position: absolute;
   left: 50%;
   top: 50%;
   width: 0;
   height: 0;
-  transform: rotate(var(--a)) translateY(-50cqh) rotate(calc(-1 * var(--a)));
+  transform-style: preserve-3d;
+  transform: rotate(var(--a)) translateY(-50cqw) rotate(calc(-1 * var(--a)));
 }
-.counter {
+.plane {
+  container-type: inline-size;
+}
+/* A label stands up off the disc, facing the viewer. */
+.tag {
   position: absolute;
   left: 0;
-  top: 0;
+  bottom: 0;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transform: translate(-50%, -50%);
-  padding: 6px 12px;
-  border-radius: var(--r-pill);
-  background: var(--night);
+  white-space: nowrap;
   font-size: var(--fs-small);
   color: var(--night-text);
-  white-space: nowrap;
+  transform-origin: 0 100%;
+  transform: rotateX(-64deg) translate(-50%, -6px);
 }
 .dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--night-text);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--night-text) 60%, transparent);
 }
-.node[data-kind="arm"] .dot {
+.tag[data-kind="arm"] {
+  color: var(--night-accent);
+}
+.tag[data-kind="arm"] .dot {
   background: var(--night-accent);
   box-shadow: 0 0 12px var(--night-accent);
 }
-.node[data-kind="arm"] .counter {
-  color: var(--night-accent);
-}
 .chip {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translate(-50%, -50%);
-  padding: 6px 12px;
+  padding: 5px 12px;
   border-radius: var(--r-pill);
   border: 1px solid var(--night-border);
-  background: var(--night-surface);
+  background: color-mix(in srgb, var(--night-surface) 82%, transparent);
   font-size: var(--fs-caption);
   color: var(--night-body);
-  white-space: nowrap;
 }
 
-/* The core: a plum light holding the values. */
-.core {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 34%;
-  height: 34%;
+/* The core: a lit sphere holding the values. */
+.lCore {
+  place-items: center;
+}
+.sphere {
+  position: relative;
+  width: 32%;
+  aspect-ratio: 1;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -175,49 +239,89 @@
   gap: 8px;
   text-align: center;
   background: radial-gradient(
-    circle at 50% 35%,
-    var(--aurora-c) 0%,
-    var(--aurora-a) 38%,
-    var(--plum) 100%
+    circle at 36% 28%,
+    color-mix(in oklch, var(--night-text) 70%, var(--aurora-c)) 0%,
+    var(--aurora-c) 16%,
+    var(--aurora-a) 42%,
+    var(--plum) 82%,
+    color-mix(in oklch, var(--plum) 70%, var(--night)) 100%
   );
   box-shadow:
-    0 0 80px color-mix(in oklch, var(--aurora-a) 55%, transparent),
-    0 0 220px color-mix(in oklch, var(--aurora-b) 40%, transparent);
+    inset -14px -22px 40px color-mix(in srgb, var(--night) 45%, transparent),
+    inset 6px 8px 20px color-mix(in srgb, var(--night-text) 12%, transparent),
+    0 30px 80px -10px color-mix(in oklch, var(--aurora-a) 60%, transparent),
+    0 0 160px color-mix(in oklch, var(--aurora-b) 40%, transparent);
 }
 .coreLabel {
   font-size: var(--fs-caption);
-  color: color-mix(in srgb, var(--night-text) 72%, transparent);
+  color: color-mix(in srgb, var(--night-text) 76%, transparent);
 }
 .values {
   list-style: none;
   margin: 0;
   padding: 0;
   font-family: var(--font-display);
-  font-size: clamp(13px, 1.15vw, 18px);
+  font-size: clamp(13px, 1.1vw, 17px);
   line-height: 1.3;
   letter-spacing: -0.01em;
+  text-shadow: 0 1px 12px color-mix(in srgb, var(--plum) 70%, transparent);
 }
 
-/* With motion the outer ring turns, very slowly; its labels turn back to stay level. */
+/* A faint pool of light under the stack. */
+.floor {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 72%;
+  height: 26%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    color-mix(in oklch, var(--aurora-b) 30%, transparent),
+    transparent 70%
+  );
+  filter: blur(18px);
+}
+
+/* With motion the discs turn, slowly and in opposite directions; labels turn back to stay facing you. */
 @media (prefers-reduced-motion: no-preference) {
-  .spin {
-    animation: orbit 180s linear infinite;
+  .spinSlow {
+    animation: turn 240s linear infinite;
   }
-  .spin .counter {
-    animation: orbit-back 180s linear infinite;
+  .spinBack {
+    animation: turn 200s linear infinite reverse;
+  }
+  .spinSlow .tag {
+    animation: face 240s linear infinite;
+  }
+  .spinBack .tag {
+    animation: face 200s linear infinite reverse;
   }
 }
-@keyframes orbit {
+@keyframes turn {
   to {
     transform: rotate(360deg);
   }
 }
-@keyframes orbit-back {
+@keyframes face {
   from {
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: rotate(0deg) rotateX(-64deg) translate(-50%, -6px);
   }
   to {
-    transform: translate(-50%, -50%) rotate(-360deg);
+    transform: rotate(-360deg) rotateX(-64deg) translate(-50%, -6px);
+  }
+}
+
+/* Reduced motion: the stack simply stands open. */
+@media (prefers-reduced-motion: reduce) {
+  .lCore {
+    transform: translateY(-21%);
+  }
+  .lMission {
+    transform: translateY(1%);
+  }
+  .lVision {
+    transform: translateY(21%);
   }
 }
 
@@ -227,8 +331,8 @@
     align-items: center;
     column-gap: var(--hero-gap);
   }
-  .orbit {
-    width: min(68svh, calc(100% - 140px));
+  .scene {
+    width: min(78svh, calc(100% - 80px));
     max-width: none;
   }
 }
@@ -252,18 +356,20 @@
   }
 }
 
-/* Phones: the orbit shrinks, so do its labels. */
+/* Phones: the scene shrinks, so do its labels. */
 @media (max-width: 639px) {
-  .orbit {
-    width: calc(100% - 48px);
+  .scene {
+    width: calc(100% - 40px);
   }
-  .counter,
-  .chip {
-    padding: 4px 8px;
+  .tag {
     font-size: 11px;
   }
+  .chip {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
   .values {
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 .section { overflow-x: clip; }

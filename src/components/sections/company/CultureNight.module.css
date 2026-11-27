@@ -1,6 +1,0 @@
-/* The culture chapter (shared with the Company page), on the night. */
-.wrap {
-  background: var(--night);
-  color: var(--night-text);
-  padding-bottom: var(--section);
-}

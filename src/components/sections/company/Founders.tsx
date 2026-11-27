@@ -1,19 +1,17 @@
 "use client";
 
-import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play, X } from "@phosphor-icons/react";
 import { team } from "@/content/about";
 import { companyPreview } from "@/content/company-preview";
-import { gsap, useGSAP, FULL } from "@/lib/motion";
+import { gsap, useGSAP, FULL, prefersReducedMotion } from "@/lib/motion";
 import { BlurWords, resolveWords } from "./BlurText";
 import styles from "./Founders.module.css";
 
 /**
- * The founders. A tall portrait on the left moves slowly between the two of
- * them (clean frames from their film); the quote resolves word by word beside
- * it as the page scrolls. "Watch the founders" plays the whole film, with
- * sound, in place.
+ * The founders. Their film loops silently as a tall portrait on the left;
+ * the quote resolves word by word beside it as the page scrolls. "Watch the
+ * founders" (or the film itself) restarts it from the beginning, with sound.
  */
 export function Founders() {
   const root = useRef<HTMLElement>(null);
@@ -41,11 +39,29 @@ export function Founders() {
     { scope: root },
   );
 
+  // On screen, the film loops silently; off screen it rests.
+  useEffect(() => {
+    const v = video.current;
+    if (!v || prefersReducedMotion()) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          v.preload = "auto";
+          v.play().catch(() => {});
+        } else v.pause();
+      },
+      { rootMargin: "160px 0px" },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+
   const play = () => {
     const v = video.current;
     if (!v) return;
     v.currentTime = 0;
-    v.preload = "auto";
+    v.loop = false;
+    v.muted = false;
     v.controls = true;
     v.play().catch(() => {});
     setPlaying(true);
@@ -53,8 +69,11 @@ export function Founders() {
   const stop = () => {
     const v = video.current;
     if (!v) return;
-    v.pause();
     v.controls = false;
+    v.muted = true;
+    v.loop = true;
+    if (prefersReducedMotion()) v.pause();
+    else v.play().catch(() => {});
     setPlaying(false);
   };
 
@@ -69,18 +88,17 @@ export function Founders() {
     >
       <div className={styles.inner}>
         <div data-f="card" className={styles.card} data-playing={playing || undefined}>
-          {companyPreview.founders.stills.map((st, i) => (
-            <div key={st.src} className={styles.still} data-i={i}>
-              <Image src={st.src} alt={st.alt} fill sizes="(min-width: 900px) 34vw, 90vw" className={styles.stillImg} />
-            </div>
-          ))}
           <video
             ref={video}
             className={styles.video}
+            poster={f.video.poster}
+            muted
+            loop
             playsInline
             preload="none"
             aria-label="Founders introduction film"
             onEnded={stop}
+            onClick={playing ? undefined : play}
           >
             <source src={f.video.webm} type="video/webm" />
             <source src={f.video.mp4} type="video/mp4" />
