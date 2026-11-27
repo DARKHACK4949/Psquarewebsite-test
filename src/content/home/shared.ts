@@ -212,9 +212,9 @@ const projects = {
     bg: "oklch(0.935 0.02 280)",
     ratio: "16/9",
     video: {
-      webm: "/media/work-sline-service.webm",
-      mp4: "/media/work-sline-service.mp4",
-      poster: "/media/work-sline-service-poster.jpg",
+      webm: "/media/work-sline-services-v3.webm",
+      mp4: "/media/work-sline-services-v3.mp4",
+      poster: "/media/work-sline-services-v3-poster.jpg",
     },
   },
 } satisfies Record<string, Project>;

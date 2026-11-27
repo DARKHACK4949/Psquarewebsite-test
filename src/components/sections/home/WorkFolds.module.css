@@ -51,7 +51,13 @@
       color-mix(in srgb, var(--night) 22%, transparent) 52%,
       transparent 70%
     ),
-    linear-gradient(to top, color-mix(in srgb, var(--night) 62%, transparent) 0%, transparent 36%);
+    linear-gradient(to top, color-mix(in srgb, var(--night) 62%, transparent) 0%, transparent 36%),
+    radial-gradient(
+      ellipse 72% 80% at 55% 50%,
+      transparent 52%,
+      color-mix(in srgb, var(--night) 42%, transparent) 78%,
+      color-mix(in srgb, var(--night) 82%, transparent) 100%
+    );
 }
 
 /* Words: a sharp copy over a blurred one; motion crossfades them. */
@@ -162,6 +168,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+/* A soft vignette pulls the corners of the film into the page. */
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    transparent 60%,
+    color-mix(in srgb, var(--night) 55%, transparent) 100%
+  );
 }
 
 /*
