@@ -1,0 +1,288 @@
+/*
+ * Mindset as a rise. Wide screens: a held screen (CSS sticky); the heading at
+ * the top, the stage filling the rest, columns along its foot and each step's
+ * card standing on its column. Phones: the cards in a column over the rise.
+ */
+.section {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+  overflow-x: clip;
+}
+.stick {
+  position: relative;
+}
+.inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.head {
+  display: grid;
+  gap: 16px;
+  align-items: end;
+}
+.h2 {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  letter-spacing: var(--ls-h2);
+}
+.lead {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+}
+
+/* The stage runs edge to edge, so the rise meets both sides of the screen. */
+.stage {
+  position: relative;
+  margin-left: calc(50% - 50vw);
+  width: 100vw;
+}
+/* The rise settles into the night at its very foot, so the next chapter follows without a cut. */
+.stage::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5%;
+  background: linear-gradient(to top, var(--night), transparent);
+  pointer-events: none;
+}
+
+/* The columns: no gaps; each is light at its foot, fading out towards its top. */
+.bars {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  align-items: end;
+  pointer-events: none;
+}
+.col {
+  height: var(--h);
+}
+.bar {
+  display: block;
+  height: 100%;
+  transform-origin: 50% 100%;
+  background: linear-gradient(
+    to top,
+    color-mix(in oklch, var(--aurora-c) 88%, transparent) 0%,
+    color-mix(in oklch, var(--aurora-a) 66%, transparent) 30%,
+    color-mix(in oklch, var(--aurora-b) 22%, transparent) 72%,
+    transparent 100%
+  );
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0 var(--gutter) 48px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.line {
+  display: none;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px 20px;
+  border-radius: var(--r-item);
+  border: 1px solid var(--night-line);
+  background: color-mix(in srgb, var(--night-surface) 88%, transparent);
+}
+.top {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: var(--fs-small);
+  color: var(--night-muted);
+}
+.meta {
+  color: var(--night-accent);
+}
+.h3 {
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-title);
+}
+.copy {
+  margin: 0;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+    column-gap: var(--hero-gap);
+  }
+  .inner {
+    height: 100svh;
+    min-height: 720px;
+    padding-top: calc(var(--nav-h) + clamp(24px, 5svh, 64px));
+    padding-bottom: 0;
+  }
+  .stage {
+    flex: 1;
+  }
+  .steps {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    display: block;
+  }
+  /* A step stands at the left edge of its column: line from the column's top, card on the line. */
+  .step {
+    position: absolute;
+    left: var(--x);
+    bottom: var(--h);
+  }
+  .line {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    height: clamp(56px, 9svh, 96px);
+    background: var(--night-accent);
+    transform-origin: 50% 100%;
+  }
+  .line::before,
+  .line::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--night-accent);
+  }
+  .line::before {
+    top: -2px;
+  }
+  .line::after {
+    bottom: -2px;
+  }
+  .card {
+    position: absolute;
+    right: -10px;
+    bottom: calc(clamp(56px, 9svh, 96px) + 8px);
+    width: clamp(280px, 21vw, 360px);
+  }
+}
+
+/* Wide screens with motion: the screen holds while the rise plays out. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .section {
+    height: 260svh;
+  }
+  .stick {
+    position: sticky;
+    top: 0;
+  }
+}
+
+/* Phones, reduced motion: the cards in a list, a shorter rise under them. */
+@media (max-width: 899px) {
+  .bars {
+    height: 70%;
+  }
+}
+
+/*
+ * Phones with motion: a held screen like the wide one. The heading at the
+ * top, the rise along the foot, and each card standing over its own column,
+ * kept inside the screen's gutters.
+ */
+@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+  .section {
+    height: 320svh;
+  }
+  .stick {
+    position: sticky;
+    top: 0;
+  }
+  .inner {
+    height: 100svh;
+    padding-top: calc(var(--nav-h) + 16px);
+    padding-bottom: 0;
+    gap: 16px;
+  }
+  .stage {
+    flex: 1;
+  }
+  .bars {
+    height: 100%;
+  }
+  .steps {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    display: block;
+  }
+  .step {
+    position: absolute;
+    left: var(--x);
+    bottom: var(--h);
+  }
+  .line {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    height: 56px;
+    background: var(--night-accent);
+    transform-origin: 50% 100%;
+  }
+  .line::before,
+  .line::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--night-accent);
+  }
+  .line::before {
+    top: -2px;
+  }
+  .line::after {
+    bottom: -2px;
+  }
+  /* Centred over its line where it can be, never past the gutters. */
+  .card {
+    --w: min(320px, calc(100vw - 2 * var(--gutter)));
+    position: absolute;
+    bottom: 64px;
+    width: var(--w);
+    left: calc(
+      clamp(var(--gutter), var(--xv) - var(--w) / 2, 100vw - var(--gutter) - var(--w)) - var(--xv)
+    );
+  }
+}
