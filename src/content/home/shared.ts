@@ -152,9 +152,9 @@ const projects = {
     bg: "oklch(0.95 0.018 75)",
     ratio: "16/9",
     video: {
-      webm: "/media/work-tathasthu.webm",
-      mp4: "/media/work-tathasthu-v2.mp4",
-      poster: "/media/work-tathasthu-poster.jpg",
+      webm: "/media/work-tathasthu-v3.webm",
+      mp4: "/media/work-tathasthu-v3.mp4",
+      poster: "/media/work-tathasthu-v3-poster.jpg",
     },
   },
   sline: {
@@ -167,9 +167,9 @@ const projects = {
     bg: "oklch(0.93 0.02 255)",
     ratio: "16/9",
     video: {
-      webm: "/media/work-sline-sales.webm",
-      mp4: "/media/work-sline-v5.mp4",
-      poster: "/media/work-sline-sales-poster.jpg",
+      webm: "/media/work-sline-sales-v3.webm",
+      mp4: "/media/work-sline-sales-v3.mp4",
+      poster: "/media/work-sline-sales-v3-poster.jpg",
     },
   },
   arcgrow: {
@@ -182,9 +182,9 @@ const projects = {
     bg: "oklch(0.935 0.006 285)",
     ratio: "16/10",
     video: {
-      webm: "/media/work-arcgrow.webm",
-      mp4: "/media/work-arcgrow-v2.mp4",
-      poster: "/media/work-arcgrow-poster.jpg",
+      webm: "/media/work-arcgrow-v3.webm",
+      mp4: "/media/work-arcgrow-v3.mp4",
+      poster: "/media/work-arcgrow-v3-poster.jpg",
     },
   },
   suryacon: {
@@ -197,9 +197,9 @@ const projects = {
     bg: "oklch(0.935 0.022 195)",
     ratio: "16/9",
     video: {
-      webm: "/media/work-suryacon.webm",
-      mp4: "/media/work-suryacon-v2.mp4",
-      poster: "/media/work-suryacon-poster.jpg",
+      webm: "/media/work-suryacon-v3.webm",
+      mp4: "/media/work-suryacon-v3.mp4",
+      poster: "/media/work-suryacon-v3-poster.jpg",
     },
   },
   slineServices: {
