@@ -1,0 +1,155 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Outfit;src:url(fonts/outfit.woff2) format("woff2");font-weight:100 900}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:390px;height:844px;overflow:hidden;background:#fff;font-family:Outfit,sans-serif;color:#000;-webkit-font-smoothing:antialiased}
+.nav{position:absolute;top:0;left:0;width:390px;height:60px;padding:16px 16px 12px;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.05);z-index:5}
+.nav .logo{width:32px;height:32px}
+.acts{display:flex;gap:8px;align-items:center}
+.ib{width:32px;height:32px;border:1px solid #e7e7e7;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 2.7px 5.3px rgba(0,0,0,.06);font-size:11.2px}
+.ib img{width:13px;height:13px}.ham{width:24px;height:24px}
+.scene{position:absolute;inset:0}
+.title{position:absolute;top:92px;left:16px;width:358px;text-align:center;font-size:26px;line-height:32px;font-weight:400;letter-spacing:-.2px}
+.sub{position:absolute;top:166px;left:16px;width:358px;text-align:center;font-size:15px;line-height:22px;color:#4f4f4f}
+.bar{position:absolute;left:16px;width:358px;border:1px solid #e7e7e7;border-radius:12px;background:#fff;padding:12px;display:flex;justify-content:space-between;gap:8px}
+.bar p{flex:1;font-size:14px;line-height:20px;color:#4f4f4f}.bar p.typed{color:#000}
+.caret{display:inline-block;width:1.5px;height:17px;background:#cc6104;vertical-align:-3px;margin-left:1px}
+.btns{display:flex;gap:4px;align-items:flex-start}
+.sb{width:32px;height:32px;border:1px solid #e7e7e7;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.06);position:relative}
+.sb img{width:16px;height:16px}
+.send{border:0;background:linear-gradient(162deg,#f4c430 14%,#cc6104 84%)}
+.send img{filter:brightness(0) invert(1)}
+.ring{position:absolute;inset:0;border-radius:10px;border:2px solid #f0a33a;opacity:0}
+.plancard{position:absolute;top:212px;left:16px;width:358px;height:236px;border:1px solid #e7e7e7;border-radius:12px;background:#fbf8f3;overflow:hidden}
+.plancard .tag{position:absolute;left:10px;top:10px;display:flex;gap:6px;align-items:center;font-size:12px;background:#fff;border:1px solid #e7e7e7;border-radius:8px;padding:4px 8px}
+.plancard .tag img{width:14px;height:14px}
+svg .w{fill:none;stroke:#3b3028;stroke-width:2.2;stroke-linecap:round}
+svg .d{fill:none;stroke:#3b3028;stroke-width:1;opacity:.7}
+svg text{font-family:Outfit;font-size:8.5px;fill:#6b5a4a;letter-spacing:.3px}
+.trend{position:absolute;top:585px;left:16px;width:358px;border:1px solid #e7e7e7;border-radius:12px;padding:12px;height:400px}
+.trend h4{font-size:16px;font-weight:400;line-height:32px;display:flex;justify-content:space-between}
+.trend h4 span{font-size:14px;color:#fff;background:linear-gradient(162deg,#f4c430 14%,#cc6104 84%);border-radius:8px;padding:0 12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.grid div{height:122px;border-radius:10px;background-size:cover;background-position:center}
+/* chat */
+.chat{position:absolute;top:76px;left:16px;width:358px;display:flex;flex-direction:column;gap:18px}
+.u{align-self:flex-end;max-width:300px;background:#f6f6f6;border:1px solid #e7e7e7;border-radius:12px;padding:10px 12px;font-size:14px;line-height:20px}
+.chip{align-self:flex-end;display:flex;gap:6px;align-items:center;background:#f6f6f6;border:1px solid #e7e7e7;border-radius:12px;padding:8px 10px;font-size:13px}
+.chip img{width:18px;height:18px}
+.ai{display:flex;gap:10px;align-items:center;font-size:14px;line-height:20px}
+.orb{width:30px;height:30px;border-radius:50%;position:relative;flex:none;
+ background:radial-gradient(circle at 35% 30%,#fff6d8 0%,#f9d26b 22%,#f0a33a 48%,#cc6104 78%,#8a3a02 100%);box-shadow:0 0 18px rgba(240,163,58,.6)}
+.orb::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid rgba(240,163,58,.45)}
+.dots span{display:inline-block;width:4px;height:4px;border-radius:50%;background:#cc6104;margin-left:3px}
+.card{width:358px;border-radius:12px;overflow:hidden;border:1px solid #e7e7e7;position:relative;background:#fbf8f3}
+.card.plan{height:210px}
+.card.render{height:236px}
+.card .img{position:absolute;inset:0;background-size:cover;background-position:center}
+.scan{position:absolute;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ffe29a,#fff,#ffe29a,transparent);box-shadow:0 0 18px 6px rgba(255,200,90,.65)}
+.label{position:absolute;padding:4px 8px;border-radius:8px;background:#fff;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.08);white-space:nowrap}
+.vars{display:flex;gap:6px;border:.4px solid #d1d1d1;border-radius:6px;padding:4.5px;width:358px}
+.vars div{width:112.3px;height:82.4px;border-radius:6px;background-size:cover;background-position:center}
+.spark{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px 3px rgba(255,210,120,.9)}
+.prompt{position:absolute;left:0;top:740px;width:390px;height:104px;background:#fff;box-shadow:0 2px 24px rgba(0,0,0,.1);z-index:4}
+</style></head><body>
+<div class="nav"><img class="logo" src="assets/logo_br.svg"><div class="acts"><div class="ib"><img src="assets/share.svg"></div><div class="ib">AC</div><img class="ham" src="assets/ham.svg"></div></div>
+<svg width="0" height="0" style="position:absolute"><defs>
+</defs></svg>
+<div id="home" class="scene">
+  <h1 class="title">Transform your Architectural Vision with Tathasthu</h1>
+  <p class="sub">Convert your design into stunning 3d models</p>
+  <div class="plancard" id="hplan"><svg viewBox="0 0 358 226" width="358" height="226" style="position:absolute;top:6px;left:0"><g class="planA">
+ <path class="w p" pathLength="1" d="M20 30 H338 V196 H20 Z"/>
+ <path class="w p" pathLength="1" d="M150 30 V120 M150 140 V196"/>
+ <path class="w p" pathLength="1" d="M150 110 H250 M270 110 H338"/>
+ <path class="w p" pathLength="1" d="M250 30 V92 M250 110 V196"/>
+ <path class="w p" pathLength="1" d="M20 120 H70 M92 120 H150"/>
+ <path class="d p" pathLength="1" d="M150 120 A20 20 0 0 1 170 140"/>
+ <path class="d p" pathLength="1" d="M70 120 A22 22 0 0 0 92 142"/>
+ <path class="d p" pathLength="1" d="M250 92 A18 18 0 0 1 268 110"/>
+ <path class="d p" pathLength="1" d="M168 42 H232 V100 H168 Z M168 56 H232"/>
+ <path class="d p" pathLength="1" d="M30 40 H70 V60 H30 Z M262 124 H326 V150 H262 Z"/>
+ <text x="176" y="78" class="t">MASTER BEDROOM</text><text x="44" y="90" class="t">BEDROOM 2</text>
+ <text x="272" y="62" class="t">BATH</text><text x="60" y="166" class="t">LIVING</text><text x="182" y="166" class="t">KITCHEN</text><text x="272" y="176" class="t">DINING</text>
+</g></svg><div class="tag" id="htag"><img src="assets/pdf.svg">Client Layout.pdf</div></div>
+  <div class="bar" style="top:465px;height:100px"><p id="ptext"></p><div class="btns"><div class="sb"><img src="assets/clip.svg"></div><div class="sb"><img src="assets/mic.svg"></div><div class="sb send" id="sendBtn"><img src="assets/send.svg"><div class="ring" id="ring"></div></div></div></div>
+  <div class="trend"><h4>Trending Designs <span>Browse more</span></h4><div class="grid"><div style="background-image:url(assets/room2.png)"></div><div style="background-image:url(assets/room3.png)"></div><div style="background-image:url(assets/room1.png)"></div><div style="background-image:url(assets/room2.png);background-position:right"></div></div></div>
+</div>
+<div id="chat" class="scene" style="opacity:0">
+  <div class="chat" id="col">
+    <div class="chip"><img src="assets/pdf.svg">Client Layout.pdf</div>
+    <div class="u">Make the master bedroom calm. Beige and white, warm lights.</div>
+    <div class="ai" id="a1"><div class="orb" id="orb"></div><span id="a1t">Reading your layout</span><span class="dots" id="dots"><span></span><span></span><span></span></span></div>
+    <div class="card plan" id="cplan"><svg viewBox="0 0 358 226" width="358" height="226" style="position:absolute;top:-8px;left:0"><g class="planB">
+ <path class="w p" pathLength="1" d="M20 30 H338 V196 H20 Z"/>
+ <path class="w p" pathLength="1" d="M150 30 V120 M150 140 V196"/>
+ <path class="w p" pathLength="1" d="M150 110 H250 M270 110 H338"/>
+ <path class="w p" pathLength="1" d="M250 30 V92 M250 110 V196"/>
+ <path class="w p" pathLength="1" d="M20 120 H70 M92 120 H150"/>
+ <path class="d p" pathLength="1" d="M150 120 A20 20 0 0 1 170 140"/>
+ <path class="d p" pathLength="1" d="M70 120 A22 22 0 0 0 92 142"/>
+ <path class="d p" pathLength="1" d="M250 92 A18 18 0 0 1 268 110"/>
+ <path class="d p" pathLength="1" d="M168 42 H232 V100 H168 Z M168 56 H232"/>
+ <path class="d p" pathLength="1" d="M30 40 H70 V60 H30 Z M262 124 H326 V150 H262 Z"/>
+ <text x="176" y="78" class="t">MASTER BEDROOM</text><text x="44" y="90" class="t">BEDROOM 2</text>
+ <text x="272" y="62" class="t">BATH</text><text x="60" y="166" class="t">LIVING</text><text x="182" y="166" class="t">KITCHEN</text><text x="272" y="176" class="t">DINING</text>
+</g></svg>
+      <div id="hi" style="position:absolute;left:151px;top:23px;width:98px;height:80px;border-radius:4px;background:rgba(240,163,58,.25);box-shadow:inset 0 0 0 2px #f0a33a"></div>
+      <div class="label" id="hilab" style="left:196px;top:108px">Master bedroom · 14' × 12'</div></div>
+    <div class="ai" id="a2"><div class="orb" style="width:20px;height:20px"></div><span>Designing your master bedroom</span></div>
+    <div class="card render" id="crender"><div class="img" style="background-image:url(assets/room1_sketch.jpg)"></div><div class="img" id="photo" style="background-image:url(assets/room1_card.jpg)"></div><div class="scan" id="scan"></div><div id="sparks"></div></div>
+    <div class="ai" id="a3"><img src="assets/spark.svg" style="width:20px;height:20px">Three takes are ready. Pick one to refine.</div>
+    <div class="vars" id="vars"><div id="v1" style="background-image:url(assets/room1_card.jpg)"></div><div id="v2" style="background-image:url(assets/room2.png)"></div><div id="v3" style="background-image:url(assets/room3.png)"></div></div>
+  </div>
+  <div class="prompt"><div class="bar" style="top:16px;height:72px"><p>Describe your design here and watch magic then</p><div class="btns"><div class="sb"><img src="assets/clip.svg"></div><div class="sb"><img src="assets/mic.svg"></div><div class="sb send"><img src="assets/send.svg"></div></div></div></div>
+</div>
+<script>
+const PROMPT="Make the master bedroom calm. Beige and white, warm lights.";
+const cl=(t)=>Math.max(0,Math.min(1,t)), eo=t=>1-Math.pow(1-cl(t),3), eio=t=>{t=cl(t);return t*t*(3-2*t)};
+const $=id=>document.getElementById(id);
+const show=(id,p,dy=10)=>{const e=$(id);e.style.opacity=p;e.style.transform=`translateY(${(1-p)*dy}px)`};
+const homePaths=[...document.querySelectorAll('#hplan .p')];
+// sparks
+const sp=$('sparks');for(let i=0;i<14;i++){const d=document.createElement('div');d.className='spark';sp.appendChild(d);}
+window.render=function(t){
+  // floor plan draws 0.3-2.6 (use element is a shadow tree: animate via stroke on defs paths)
+  const defsPaths=[...document.querySelectorAll('.planA .p')];
+  const draw=cl((t-0.3)/2.2);
+  defsPaths.forEach((p,i)=>{const s=i/defsPaths.length;const k=cl((draw-s*0.7)/0.3);p.style.strokeDasharray='1 1';p.style.strokeDashoffset=String(1-k);});
+  document.querySelectorAll('.planA text').forEach((tx,i)=>{tx.style.opacity=eo((t-2.0-i*0.08)/0.4)});
+  $('hplan').style.opacity=eo((t-0.1)/0.4); $('htag').style.opacity=eo((t-2.3)/0.4);
+  // typing 2.6-5.0
+  const pt=$('ptext'); const n=Math.max(0,Math.min(PROMPT.length,Math.floor((t-2.6)*26)));
+  if(t<2.6){pt.className='';pt.textContent='Describe your design here and watch magic then';}
+  else{pt.className='typed';const caret=(t<5.1&&(n<PROMPT.length||Math.floor(t*2.4)%2===0))?'<span class="caret"></span>':'';pt.innerHTML=PROMPT.slice(0,n)+caret;}
+  $('sendBtn').style.transform=`scale(${t>5.15&&t<5.4?0.88:1})`;
+  const r=cl((t-5.2)/0.6);$('ring').style.opacity=(1-r)*(r>0?1:0);$('ring').style.transform=`scale(${1+r*0.9})`;
+  const swap=t>=6.2;$('home').style.opacity=swap?0:1;$('chat').style.opacity=swap?1:0;
+  if(!swap) return;
+  // CHAT
+  const c=t-6.2;
+  // plan in chat fully drawn
+  if(swap){defsPaths.forEach(p=>{p.style.strokeDashoffset='0'});document.querySelectorAll('.planA text').forEach(tx=>tx.style.opacity=1);}
+  show('a1',eo((c-0.3)/0.5));
+  const o=$('orb');const pul=1+0.08*Math.sin(c*5);o.style.transform=`scale(${pul})`;o.style.filter=`hue-rotate(${Math.sin(c*1.7)*12}deg) brightness(${1+0.1*Math.sin(c*3)})`;
+  [...$('dots').children].forEach((d,i)=>d.style.opacity=0.3+0.7*Math.max(0,Math.sin(c*6-i*0.9)));
+  $('dots').style.display=c<2.8?'inline':'none'; $('a1t').textContent=c<2.8?'Reading your layout':'Layout read. 6 rooms found.';
+  show('cplan',eo((c-0.9)/0.6),14);
+  const hi=eo((c-1.7)/0.5);$('hi').style.opacity=hi*(0.75+0.25*Math.sin(c*4));$('hilab').style.opacity=eo((c-2.0)/0.4);
+  const vis=(id,on)=>$(id).style.display=on?'':'none';
+  vis('a2',c>2.9);vis('crender',c>3.2);vis('a3',c>6.0);vis('vars',c>6.3);
+  show('a2',eo((c-2.9)/0.5));show('crender',eo((c-3.2)/0.5),14);
+  // scan reveal 3.8-5.6
+  const s=eio((c-3.8)/1.8); const H=236;
+  $('photo').style.clipPath=`inset(0 0 ${(1-s)*100}% 0)`;
+  $('scan').style.top=(s*H-1)+'px'; $('scan').style.opacity=(s>0&&s<1)?1:0;
+  [...$('sparks').children].forEach((d,i)=>{const x=(i*53)%350, life=((c*1.3+i*0.37)%1); d.style.left=x+'px'; d.style.top=(s*H-4-life*26)+'px'; d.style.opacity=(s>0&&s<1)?(1-life)*0.9:0; d.style.transform=`scale(${0.5+0.6*(1-life)})`;});
+  show('a3',eo((c-6.0)/0.5));
+  ['v1','v2','v3'].forEach((id,i)=>{const p=eo((c-6.3-0.18*i)/0.5);const e=$(id);e.style.opacity=p;e.style.transform=`scale(${0.93+0.07*p})`;});
+  const sel=eo((c-7.3)/0.3);$('v1').style.outline=sel>0?`${2*sel}px solid #f0a33a`:'none';$('v1').style.outlineOffset='1px';
+  // scroll
+  const sc=eio((c-3.0)/1.0)*230 + eio((c-5.9)/1.0)*150;
+  $('col').style.transform=`translateY(${-sc}px)`;
+};
+render(0);
+</script></body></html>
