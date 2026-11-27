@@ -1,0 +1,269 @@
+.section {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+  scroll-margin-top: var(--nav-h);
+}
+.inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+  display: grid;
+  gap: 48px;
+}
+
+/* The portrait film. */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 9 / 16;
+  max-height: 86svh;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: var(--night-surface);
+  justify-self: center;
+}
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--t-reveal) var(--ease);
+}
+.card[data-playing] .video {
+  opacity: 1;
+}
+/*
+ * The two founders, one after the other: a slow push-in on each, crossfading
+ * through the change (12s for the pair).
+ */
+.still {
+  position: absolute;
+  inset: 0;
+}
+.stillImg {
+  object-fit: cover;
+}
+.still[data-i="1"] {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .still {
+    animation: founder-a 14s var(--ease) infinite;
+  }
+  .still[data-i="1"] {
+    animation-name: founder-b;
+  }
+}
+@keyframes founder-a {
+  0% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  55% {
+    opacity: 0;
+    transform: scale(1.09);
+  }
+  95% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+@keyframes founder-b {
+  0%,
+  45% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  95% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.09);
+  }
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, color-mix(in srgb, var(--night) 70%, transparent), transparent 40%);
+  transition: opacity var(--t-move) var(--ease);
+}
+.card[data-playing] .shade {
+  opacity: 0;
+}
+.play {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 22px 0 6px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--night-text) 14%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--night-text) 22%, transparent);
+  color: var(--night-text);
+  font: inherit;
+  font-size: var(--fs-small);
+  cursor: pointer;
+  transition: transform 160ms var(--ease);
+}
+.play:active {
+  transform: scale(0.97);
+}
+.playIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--night-text);
+  color: var(--night);
+  transition: transform var(--t-move) var(--ease);
+}
+@media (hover: hover) {
+  .play:hover .playIcon {
+    transform: scale(1.08);
+  }
+}
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--night) 60%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: var(--night-text);
+  cursor: pointer;
+  transition: transform 160ms var(--ease);
+}
+.close:active {
+  transform: scale(0.95);
+}
+.play:focus-visible,
+.close:focus-visible {
+  outline: 2px solid var(--night-accent);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .play {
+    background: var(--night-surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* The words. */
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3.4vw, 48px);
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: 1.15;
+  letter-spacing: var(--ls-title);
+  color: var(--night-muted);
+}
+.line {
+  display: block;
+}
+.quote {
+  margin: 0;
+}
+.quote p {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-statement);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-wrap: pretty;
+}
+.people {
+  list-style: none;
+  margin: 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--night-line);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 8px 56px;
+}
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.name {
+  font-size: var(--fs-item);
+  font-family: var(--font-display);
+  letter-spacing: var(--ls-title);
+}
+.role {
+  font-size: var(--fs-small);
+  color: var(--night-muted);
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    column-gap: var(--hero-gap);
+  }
+  .card {
+    justify-self: center;
+    width: auto;
+    height: min(86svh, 920px);
+    max-width: none;
+  }
+}
+@media (max-width: 639px) {
+  .card {
+    max-height: 72svh;
+    width: auto;
+    height: 72svh;
+  }
+  .people {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

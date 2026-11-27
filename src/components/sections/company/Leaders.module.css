@@ -1,0 +1,169 @@
+.section {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+}
+.inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--section);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 72px);
+}
+.head {
+  display: grid;
+  gap: 20px;
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) var(--aside-w);
+    column-gap: var(--hero-gap);
+  }
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  letter-spacing: var(--ls-h2);
+}
+.line {
+  display: block;
+}
+.line + .line {
+  color: var(--night-muted);
+}
+.lead {
+  margin: 0;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+}
+
+/*
+ * Exactly twelve cells on wide screens: the feature takes 2 x 2, the eight
+ * leads fill the other eight. Phones: two columns, the feature full width.
+ */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px 16px;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.feature {
+  grid-column: span 2;
+}
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 40px clamp(16px, 1.6vw, 24px);
+  }
+  .feature {
+    grid-row: span 2;
+  }
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 1;
+  margin-bottom: 12px;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  background: var(--night-surface);
+}
+.mono,
+.colour {
+  object-fit: cover;
+}
+.mono {
+  filter: grayscale(1) contrast(1.05) brightness(0.9);
+}
+.colour {
+  opacity: 0;
+  transition: opacity var(--t-reveal) var(--ease);
+}
+@media (hover: hover) {
+  .tile:hover .colour {
+    opacity: 1;
+  }
+}
+.name {
+  font-family: var(--font-display);
+  font-size: var(--fs-item);
+  letter-spacing: var(--ls-title);
+  line-height: 1.2;
+}
+.role {
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--night-muted);
+}
+
+/* The feature: Manisha's photo, her note over the lower part of it. */
+.featureFig {
+  position: relative;
+  margin: 0;
+  height: 100%;
+  min-height: 520px;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: var(--night-surface);
+}
+.featureImg {
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.featureFig::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--night) 0%,
+    color-mix(in srgb, var(--night) 70%, transparent) 30%,
+    transparent 60%
+  );
+}
+.note {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(24px, 2.6vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.noteQuote {
+  margin: 0 0 20px;
+}
+.noteQuote p {
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  line-height: 1.18;
+  letter-spacing: var(--ls-title);
+  text-wrap: pretty;
+}
+@media (max-width: 899px) {
+  .featureFig {
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+  }
+  .noteQuote p {
+    font-size: var(--fs-item);
+  }
+}

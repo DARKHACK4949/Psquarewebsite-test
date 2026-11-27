@@ -1,0 +1,189 @@
+/*
+ * The Company hero: a pinned screen (CSS sticky) over a drifting wall of team
+ * photos. The section is taller than the screen so the title change has room
+ * to play out with the scroll.
+ */
+.section {
+  position: relative;
+  height: 230svh;
+  background: var(--night);
+  color: var(--night-text);
+}
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+/* The wall: four columns, tilted a touch and oversized so no edge ever shows. */
+.wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.tilt {
+  position: absolute;
+  inset: -30% -12%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.2vw, 20px);
+  transform: rotate(-7deg);
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation: drift-up 120s linear infinite;
+}
+.col[data-dir="down"] {
+  animation-name: drift-down;
+  animation-duration: 140s;
+}
+.strip {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.2vw, 20px);
+  padding-bottom: clamp(10px, 1.2vw, 20px);
+}
+.photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  background: var(--night-surface);
+}
+.img {
+  object-fit: cover;
+  filter: saturate(0.55);
+}
+@keyframes drift-up {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+@keyframes drift-down {
+  from {
+    transform: translate3d(0, -50%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/*
+ * The night over the wall: a dark centre for the title, darker corners, and a
+ * solid edge at the bottom so the next chapter follows with no seam.
+ */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--night) 70%, transparent) 0%,
+      transparent 26%,
+      transparent 62%,
+      var(--night) 100%
+    ),
+    radial-gradient(
+      ellipse 62% 54% at 50% 50%,
+      color-mix(in srgb, var(--night) 84%, transparent) 0%,
+      color-mix(in srgb, var(--night) 66%, transparent) 55%,
+      color-mix(in srgb, var(--night) 80%, transparent) 100%
+    );
+}
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  background: color-mix(in srgb, var(--night) 62%, transparent);
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--container);
+  padding: var(--nav-h) var(--gutter) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(24px, 2.6vw, 36px);
+}
+.title {
+  margin: 0;
+  display: grid;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(48px, 7.6vw, 140px);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+.lineA,
+.lineB {
+  display: block;
+  text-wrap: balance;
+}
+.lead {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+.section .link {
+  --border: var(--night-border);
+  --plum: var(--night-accent);
+  color: var(--night-text);
+}
+
+/* With motion: the two lines share one place, and the second replaces the first. */
+@media (prefers-reduced-motion: no-preference) {
+  .lineA,
+  .lineB {
+    grid-area: 1 / 1;
+  }
+  .lineA {
+    max-width: 12ch;
+    justify-self: center;
+  }
+  .lineB {
+    align-self: center;
+  }
+}
+
+/* Phones: a narrower, taller wall and a shorter hold. */
+@media (max-width: 899px) {
+  .section {
+    height: 200svh;
+  }
+  .tilt {
+    inset: -24% -60%;
+  }
+}
+
+/* Reduced motion: the wall holds still and both lines simply sit together. */
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    height: auto;
+  }
+  .stage {
+    position: relative;
+    min-height: 100svh;
+    height: auto;
+    padding: 96px 0;
+  }
+  .col {
+    animation: none;
+  }
+}

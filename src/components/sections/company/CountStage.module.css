@@ -1,0 +1,166 @@
+/*
+ * The numbers: a pinned screen (CSS sticky). The title sits top left; the
+ * figure owns the rest of the screen, one at a time, set huge and light.
+ */
+.section {
+  position: relative;
+  height: 400svh;
+  background: var(--night);
+  color: var(--night-text);
+}
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+/* A low plum glow behind the figure, so the night has depth. */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: auto -10% -40% 20%;
+  height: 90%;
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    color-mix(in oklch, var(--aurora-b) 38%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+.inner {
+  position: relative;
+  height: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + clamp(24px, 4vw, 56px)) var(--gutter) clamp(32px, 4vw, 56px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 48px;
+}
+.h2 {
+  margin: 0;
+  max-width: 12ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  letter-spacing: var(--ls-h2);
+}
+.lead {
+  margin: 0;
+  max-width: 30ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+}
+
+.stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  align-items: end;
+}
+.stat {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.figure {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(160px, 30vw, 520px);
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+  font-variant-numeric: tabular-nums;
+}
+.num {
+  position: relative;
+  display: inline-block;
+}
+.sharp {
+  display: inline-block;
+}
+.soft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  filter: blur(22px);
+  pointer-events: none;
+}
+.suffix {
+  color: var(--night-accent);
+}
+.label {
+  margin: 0;
+  padding-left: 0.4em;
+  font-size: var(--fs-item);
+  letter-spacing: var(--ls-title);
+  color: var(--night-body);
+}
+
+.bars {
+  margin-top: clamp(24px, 3vw, 40px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 360px;
+}
+.track {
+  position: relative;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: var(--night-line);
+  overflow: hidden;
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--night-text);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+@media (max-width: 899px) {
+  .section {
+    height: 320svh;
+  }
+  .figure {
+    font-size: clamp(120px, 44vw, 260px);
+  }
+}
+
+/* Reduced motion: the three figures in a row, fully resolved. */
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    height: auto;
+  }
+  .stage {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+  }
+  .stats {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 48px;
+    padding-top: 64px;
+  }
+  .stat {
+    grid-area: auto;
+  }
+  .figure {
+    font-size: clamp(96px, 12vw, 200px);
+  }
+  .bars {
+    display: none;
+  }
+}

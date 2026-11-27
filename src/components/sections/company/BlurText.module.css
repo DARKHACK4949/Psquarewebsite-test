@@ -1,0 +1,13 @@
+/* A word is a sharp copy over a pre-blurred one; motion cross-fades the two (opacity only). */
+.word {
+  position: relative;
+  display: inline-block;
+}
+.soft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  filter: blur(14px);
+  pointer-events: none;
+}

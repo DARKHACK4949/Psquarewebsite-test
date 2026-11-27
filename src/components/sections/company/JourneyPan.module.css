@@ -1,0 +1,206 @@
+/*
+ * The journey. Default (phones, reduced motion): a vertical list. Wide
+ * screens with motion: one pinned screen with a sideways track.
+ */
+.section {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+}
+.viewport {
+  position: relative;
+}
+.track {
+  list-style: none;
+  margin: 0;
+  padding: var(--section) var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(72px, 12vw, 120px);
+}
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  letter-spacing: var(--ls-h2);
+}
+.line {
+  display: block;
+}
+.line + .line {
+  color: var(--night-muted);
+}
+.lead {
+  margin: 0;
+  max-width: 40ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+  text-wrap: pretty;
+}
+
+.year {
+  position: relative;
+  display: grid;
+  gap: 20px;
+}
+.numeral {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(96px, 26vw, 200px);
+  line-height: 0.8;
+  letter-spacing: -0.07em;
+  font-variant-numeric: tabular-nums;
+  color: var(--night-line);
+  user-select: none;
+}
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-media);
+  overflow: hidden;
+  background: var(--night-surface);
+}
+.imgWrap {
+  position: absolute;
+  inset: 0 -10%;
+}
+.img {
+  object-fit: cover;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-title);
+}
+.copy {
+  margin: 0;
+  max-width: 38ch;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--night-body);
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.rule {
+  display: none;
+}
+
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .viewport {
+    height: 100svh;
+    overflow: hidden;
+  }
+  .track {
+    height: 100%;
+    width: max-content;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    padding: var(--nav-h) 0 0;
+    will-change: transform;
+  }
+  .intro {
+    width: min(44vw, 640px);
+    padding: 0 clamp(48px, 6vw, 120px) 0 max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+    box-sizing: content-box;
+  }
+  .year {
+    width: clamp(640px, 60vw, 1040px);
+    height: min(66svh, 640px);
+    padding-right: clamp(64px, 7vw, 140px);
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(24px, 3vw, 48px);
+    row-gap: 0;
+    align-content: end;
+  }
+  .year:last-child {
+    padding-right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  }
+  /* The year sits huge behind the top of its photo. */
+  .numeral {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    font-size: clamp(160px, 15vw, 280px);
+    margin-bottom: -0.2em;
+    position: relative;
+    z-index: 0;
+  }
+  .frame {
+    grid-column: 1;
+    grid-row: 2;
+    aspect-ratio: auto;
+    z-index: 1;
+  }
+  .text {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    padding-bottom: 8px;
+  }
+  .rule {
+    display: block;
+    position: absolute;
+    left: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+    right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+    bottom: clamp(28px, 4svh, 48px);
+    height: 1px;
+    background: var(--night-line);
+  }
+  .fill {
+    position: absolute;
+    inset: 0;
+    background: var(--night-text);
+    transform-origin: left center;
+    transform: scaleX(0);
+  }
+}
+
+/* Tablets in the vertical list: the photo and the words side by side. */
+@media (min-width: 640px) and (max-width: 899px) {
+  .year {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 32px;
+  }
+  .numeral {
+    grid-column: 1 / -1;
+  }
+  .text {
+    align-self: end;
+  }
+}
+@media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+  .year {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 48px;
+    max-width: var(--container);
+  }
+  .numeral {
+    grid-column: 1 / -1;
+  }
+  .text {
+    align-self: end;
+  }
+}

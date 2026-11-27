@@ -1,0 +1,269 @@
+/*
+ * Mindset: the words on the left, the orbit on the right. Wide screens with
+ * motion hold the screen (CSS sticky) while the rings open with the scroll.
+ */
+.section {
+  position: relative;
+  background: var(--night);
+  color: var(--night-text);
+}
+.stage {
+  position: relative;
+}
+.inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--section) var(--gutter);
+  display: grid;
+  gap: 56px;
+}
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.h2 {
+  margin: 0;
+  max-width: 12ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.02;
+  letter-spacing: var(--ls-h2);
+}
+.lead {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--night-body);
+}
+.steps {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--night-line);
+}
+.step {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--night-line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.stepTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-item);
+  letter-spacing: var(--ls-title);
+}
+.stepBody {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--night-body);
+}
+
+/* The orbit: a square; every ring is centred in it and sized from it. */
+.orbit {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+.ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+  border: 1px solid var(--night-border);
+  container-type: size;
+}
+.r3 {
+  width: 100%;
+  height: 100%;
+  border-color: var(--night-line);
+}
+.r2 {
+  width: 64%;
+  height: 64%;
+}
+.ringLabel {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2px 12px;
+  border-radius: var(--r-pill);
+  background: var(--night);
+  font-size: var(--fs-caption);
+  color: var(--night-muted);
+  white-space: nowrap;
+}
+.spin {
+  position: absolute;
+  inset: 0;
+}
+/* A node sits on its ring at angle --a (0 is the top), and stays upright. */
+.node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--a)) translateY(-50cqh) rotate(calc(-1 * var(--a)));
+}
+.counter {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transform: translate(-50%, -50%);
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--night);
+  font-size: var(--fs-small);
+  color: var(--night-text);
+  white-space: nowrap;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--night-text);
+}
+.node[data-kind="arm"] .dot {
+  background: var(--night-accent);
+  box-shadow: 0 0 12px var(--night-accent);
+}
+.node[data-kind="arm"] .counter {
+  color: var(--night-accent);
+}
+.chip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--night-border);
+  background: var(--night-surface);
+  font-size: var(--fs-caption);
+  color: var(--night-body);
+  white-space: nowrap;
+}
+
+/* The core: a plum light holding the values. */
+.core {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 34%;
+  height: 34%;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  background: radial-gradient(
+    circle at 50% 35%,
+    var(--aurora-c) 0%,
+    var(--aurora-a) 38%,
+    var(--plum) 100%
+  );
+  box-shadow:
+    0 0 80px color-mix(in oklch, var(--aurora-a) 55%, transparent),
+    0 0 220px color-mix(in oklch, var(--aurora-b) 40%, transparent);
+}
+.coreLabel {
+  font-size: var(--fs-caption);
+  color: color-mix(in srgb, var(--night-text) 72%, transparent);
+}
+.values {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display);
+  font-size: clamp(13px, 1.15vw, 18px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* With motion the outer ring turns, very slowly; its labels turn back to stay level. */
+@media (prefers-reduced-motion: no-preference) {
+  .spin {
+    animation: orbit 180s linear infinite;
+  }
+  .spin .counter {
+    animation: orbit-back 180s linear infinite;
+  }
+}
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbit-back {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: center;
+    column-gap: var(--hero-gap);
+  }
+  .orbit {
+    width: min(68svh, calc(100% - 140px));
+    max-width: none;
+  }
+}
+
+/* Wide screens with motion: one held screen while the rings open. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .section {
+    height: 360svh;
+  }
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+  }
+  .inner {
+    width: 100%;
+    padding-top: var(--nav-h);
+    padding-bottom: 0;
+  }
+}
+
+/* Phones: the orbit shrinks, so do its labels. */
+@media (max-width: 639px) {
+  .orbit {
+    width: calc(100% - 48px);
+  }
+  .counter,
+  .chip {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  .values {
+    font-size: 12px;
+  }
+}
+.section { overflow-x: clip; }
