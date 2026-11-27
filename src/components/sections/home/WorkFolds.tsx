@@ -8,7 +8,7 @@ import { gsap, ScrollTrigger, useGSAP, FULL } from "@/lib/motion";
 import styles from "./WorkFolds.module.css";
 
 /** Wide screens with motion: each project fills the screen behind its copy. */
-const IMMERSIVE = "(min-width: 900px) and (prefers-reduced-motion: no-preference)";
+const IMMERSIVE = "(prefers-reduced-motion: no-preference)";
 
 /** A word as a sharp copy over a pre-blurred one; the reveal crossfades them (opacity only). */
 function BlurWords({ text }: { text: string }) {
@@ -121,22 +121,7 @@ export function WorkFolds({
         );
       });
 
-      // Phones, tablets: each project's colour crossfades in over the last.
-      mm.add("(max-width: 899px) and (prefers-reduced-motion: no-preference)", () => {
-        folds.forEach((fold, i) => {
-          gsap.fromTo(
-            layers[i],
-            { opacity: 0 },
-            {
-              opacity: 1,
-              ease: "none",
-              scrollTrigger: { trigger: fold, start: "top 75%", end: "top 25%", scrub: true },
-            },
-          );
-        });
-      });
-
-      // Wide screens: the scenes.
+      // Every screen: the scenes (film behind, copy over it).
       mm.add(IMMERSIVE, () => {
         folds.forEach((fold, i) => {
           const layer = layers[i];

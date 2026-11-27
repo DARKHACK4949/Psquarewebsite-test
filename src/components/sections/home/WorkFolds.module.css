@@ -196,7 +196,7 @@
  * copy is held for the extra half-screen with CSS sticky while the film (in
  * the fixed layer) plays, then scrolls away as the next name rises.
  */
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .media,
   .scrim {
     display: block;
@@ -220,7 +220,7 @@
   }
 }
 
-/* Phones and narrow tablets: name, film, then the line. */
+/* Phones and narrow tablets: a shorter intro hold and a smaller line. */
 @media (max-width: 899px) {
   .intro {
     height: 160svh;
@@ -230,6 +230,53 @@
     letter-spacing: var(--ls-h2);
     line-height: 1.05;
   }
+}
+
+/*
+ * Phones with motion: the same scene as wide screens, the film behind the
+ * whole screen and the copy over it. The wide film is cropped to portrait
+ * around the device, which sits right of centre in every film, and the dark
+ * falls from the top and rises from the bottom so the name and line read.
+ */
+@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+  .film {
+    object-position: 70% 50%;
+  }
+  .scrim {
+    background:
+      linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--night) 78%, transparent) 0%,
+        color-mix(in srgb, var(--night) 52%, transparent) 26%,
+        transparent 50%
+      ),
+      linear-gradient(
+        to top,
+        color-mix(in srgb, var(--night) 88%, transparent) 0%,
+        color-mix(in srgb, var(--night) 55%, transparent) 26%,
+        transparent 52%
+      ),
+      radial-gradient(
+        ellipse 90% 70% at 60% 50%,
+        transparent 55%,
+        color-mix(in srgb, var(--night) 60%, transparent) 100%
+      ),
+      color-mix(in srgb, var(--night) 22%, transparent);
+  }
+  .copy {
+    max-width: none;
+    padding-top: calc(var(--nav-h) + 40px);
+    padding-bottom: 56px;
+  }
+  .name {
+    text-shadow:
+      0 1px 2px color-mix(in srgb, var(--night) 45%, transparent),
+      0 4px 28px color-mix(in srgb, var(--night) 75%, transparent);
+  }
+}
+
+/* Phones without motion: name, film, then the line, stacked. */
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
   .fold {
     min-height: auto;
     padding-bottom: var(--section);
